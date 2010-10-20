@@ -40,7 +40,17 @@ GLfloat bicepMatriz [4][3];
 GLfloat codoMatriz [4][3];
 GLfloat antebrazoMatriz [4][3];
 
-
+//Declaracion 
+#define VISTA 1 
+#define HOMBRO_DERECHO 2
+#define CODO_DERECHO 3
+#define HOMBRO_IZQUIERDO 4
+#define CODO_IZQUIERDO 5
+#define CADERA_DERECHA 6
+#define RODILLA_DERECHA 7
+#define CADERA_IZQUIERDA 8
+#define RODILLA_IZQUIERDA 9
+    
 typedef struct nodo
 { float m[16];          // para guardar la matriz de transformación local
 	void (*f)();          // para guardar el apuntador a la función que dibuja
@@ -60,8 +70,64 @@ const float DELTA = 5;    // Valor para el incremento/decremento del ángulo
 float anguloX = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en X;
 float anguloY = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en Y;
 nodo elementos[24];
+int vista = 1;
+int hombro_derecho = 0;
+int codo_derecho = 0;
+int hombro_izquierdo = 0;
+int codo_izquierdo = 0;
+int cadera_derecha = 0;
+int rodilla_derecha = 0;
+int cadera_izquierda = 0;
+int rodilla_izquierda = 0;
 
 // Empieza la declaración de métodos y funciones
+
+void processMenuEvents(int opcion){
+	switch (opcion){
+		case 1:
+			vista = 1;
+			hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			break;
+		case 2:
+			hombro_derecho = 1;
+			vista = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			break;
+		case 3:
+			codo_derecho = 1;
+			hombro_derecho = vista = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			break;
+			
+		case 4:
+		    hombro_izquierdo = 1;
+		    hombro_derecho = codo_derecho = vista = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+		break;
+		
+		case 5:
+		    codo_izquierdo = 1;
+		    hombro_derecho = codo_derecho = hombro_izquierdo = vista = cadera_derecha = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+		break;
+		
+		case 6:
+		    cadera_derecha = 1;
+		    hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = vista = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+		break;
+		
+		case 7:
+		    rodilla_derecha = 1;
+		    hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = vista = cadera_izquierda = rodilla_izquierda = 0;
+		break;
+		
+		case 8:
+		    cadera_izquierda = 1;
+		    hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = vista = rodilla_izquierda = 0;
+		break;
+		
+		case 9:
+		    rodilla_izquierda = 1;
+		    hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = vista = 0;
+		break;
+	}
+}
 
 //Metodo para leer archivo
 void leerarch(){
@@ -556,6 +622,17 @@ void indicaMetodos()
 	glutDisplayFunc(myDisplay);
 	glutReshapeFunc(reshape);
 	glutSpecialFunc(flechas);
+	glutCreateMenu(processMenuEvents);
+	glutAddMenuEntry("Todo",VISTA);
+	glutAddMenuEntry("Hombro Derecho",HOMBRO_DERECHO);
+	glutAddMenuEntry("Codo Derecho",CODO_DERECHO);
+	glutAddMenuEntry("Hombro Izquierdo",HOMBRO_IZQUIERDO);
+	glutAddMenuEntry("Codo Izquierdo",CODO_IZQUIERDO);
+	glutAddMenuEntry("Pierna Derecha",CADERA_DERECHA);
+	glutAddMenuEntry("Rodilla Derecha",RODILLA_DERECHA);
+	glutAddMenuEntry("Pierna Izquierdo",CADERA_IZQUIERDA);
+	glutAddMenuEntry("Rodilla Izquierda",RODILLA_IZQUIERDA);	
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
 // Método de inicialización de las características de la ventana, del cursor y de OPENGL
