@@ -24,7 +24,7 @@
 using namespace std;
 
 // Sección de inclusión de librerías
-#include <GLUT/glut.h>
+#include <GL/glut.h>
 #include <stdlib.h>       // Librería necesaria para usar la función exit() que termina la ejecución del programa
 #include <time.h>
 #include <stdio.h>
@@ -264,6 +264,10 @@ void myDisplay()
 	glTranslatef(0, 0, -8);
 	glRotatef(anguloY, 0, 1, 0);
 	glRotatef(anguloX, 1, 0, 0);
+<<<<<<< HEAD
+=======
+	
+>>>>>>> 00dc316db98553950474ab9aa633431b306ad990
     traverse(elementos);
 	glFlush();
 	glutSwapBuffers();
@@ -612,23 +616,58 @@ void flechas(int key, int x, int y)
 				anguloX += DELTA;
 			}else if(hombro_derecho){
 				elementos[1].rotZ += DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
+				
 			}else if(codo_derecho){
 				elementos[3].rotZ += DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
+				
 			}else if(hombro_izquierdo){
 				elementos[6].rotZ += DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
+				
 			}else if(codo_izquierdo){
 				elementos[8].rotZ -= DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
+				
 			}else if(cadera_derecha){
 				elementos[11].rotX += DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
+				
 			}else if(rodilla_derecha){
 				elementos[13].rotX += DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
+				
 			}else if(cadera_izquierda){
 				elementos[16].rotX += DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
+				
 			}else if(rodilla_izquierda){
 				elementos[18].rotX += DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
+				
 			}
-		case GLUT_KEY_DOWN: elementos[22].rotX -= DELTA;     // Si se presiona la flecha hacia abajo, disminuye el ángulo de
-			break;											// rotación en X
+			break;
+		case GLUT_KEY_DOWN: 
+		    if (vista){
+		        anguloX -= DELTA;		        
+		    }else if(hombro_derecho){
+		        elementos[1].rotZ -= DELTA; 
+		
+		    }else if(codo_derecho){
+		        elementos[3].rotZ -= DELTA;
+		    
+		    }else if(hombro_izquierdo){
+		        elementos[6].rotZ -= DELTA;
+		    
+		    }else if(codo_izquierdo){
+		        elementos[8].rotZ -= DELTA;
+		        
+		    }else if(cadera_derecha){
+		        elementos[11].rotX -= DELTA;
+		            
+		    }else if(rodilla_derecha){
+		        elementos[13].rotX -=DELTA;
+		        
+		    }else if(cadera_izquierda){
+		        elementos[16].rotX -= DELTA;
+		        
+		    }else if(rodilla_izquierda){
+		        elementos[18].rotX -= DELTA;
+		    }
+			break;
 		case GLUT_KEY_LEFT: elementos[22].rotY += DELTA;       // Si se presiona la flecha hacia la izquierda, aumenta el ángulo de
 			break;											  // rotación en Y
 		case GLUT_KEY_RIGHT: elementos[22].rotY -= DELTA;     // Si se presiona la flecha hacia la derecha, disminuye el ángulo de
