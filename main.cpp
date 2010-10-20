@@ -678,30 +678,18 @@ typedef struct nodo
 			break;
 			case GLUT_KEY_LEFT:
 				if(vista){
-					anguloX += DELTA;
+					anguloY -= DELTA;
 				}else if(hombro_derecho){
-					elementos[1].rotZ += DELTA;       
+					elementos[1].rotY -= DELTA;       
 
 				}else if(codo_derecho){             
-					elementos[3].rotZ += DELTA;       
+					elementos[3].rotY -= DELTA;       
 
 				}else if(hombro_izquierdo){         
-					elementos[6].rotZ -= DELTA;       
+					elementos[6].rotY += DELTA;       
 
 				}else if(codo_izquierdo){           
-					elementos[8].rotZ -= DELTA;       
-
-				}else if(cadera_derecha){           
-					elementos[11].rotX -= DELTA;      
-
-				}else if(rodilla_derecha){          
-					elementos[13].rotX -= DELTA;      
-
-				}else if(cadera_izquierda){         
-					elementos[16].rotX -= DELTA;      
-
-				}else if(rodilla_izquierda){        
-					elementos[18].rotX -= DELTA;      
+					elementos[8].rotY += DELTA;       
 
 				}else{
 
