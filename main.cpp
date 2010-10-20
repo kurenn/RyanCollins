@@ -8,7 +8,7 @@
  *  Selecciona el cursor con figura de reloj                                                           *
  *  Termina el programa si se presiona la tecla F1                                                     *
  *  Rota el cubo en cuatro direcciones diferentes, dependiendo si se presiona la tecla de flecha       *
- *  hacia arriba o flecha hacia abajo o flecha izquierda o flecha derecha                                                                 *
+ *  hacia arriba o flecha hacia abajo o flecha izquierda o flecha derecha                              *
  *  No incluye comentarios de las funciones, métodos y constantes de OPENGL y GLUT                     *
  *  pues se espera que los alumnos analicen su funcionamiento consultando los APIs correspondientes    *
  *  API OPENGL : http://www.opengl.org/sdk/docs/man/                                                   *
@@ -24,15 +24,12 @@
 using namespace std;
 
 // Sección de inclusión de librerías
-
-#ifndef __LINUX__
+#ifdef __APPLE__ 
+#include <GLUT/glut.h>
+#else
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
-#endif
-
-#ifdef __LINUX__
-#include <GLUT/glut.h>
 #endif
 
 #include <stdlib.h>       // Librería necesaria para usar la función exit() que termina la ejecución del programa
