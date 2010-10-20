@@ -22,7 +22,7 @@
  *******************************************************************************************************/
 
 // Sección de inclusión de librerías
-#include <GL/glut.h>
+#include <GLUT/glut.h>
 #include <stdlib.h>       // Librería necesaria para usar la función exit() que termina la ejecución del programa
 
 
