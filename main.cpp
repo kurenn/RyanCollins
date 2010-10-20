@@ -304,7 +304,7 @@ void inicializaElementos()
 	elementos[2].rotY = 0;
 	elementos[2].rotZ = 0;
 	elementos[2].f = bicep;
-	elementos[2].sibling = &elementos[7];
+	elementos[2].sibling = NULL;
 	elementos[2].child = &elementos[3];
 
 	//Codo derecho
@@ -318,7 +318,7 @@ void inicializaElementos()
 	elementos[3].rotY = 0;
 	elementos[3].rotZ = 0;
 	elementos[3].f = codo;
-	elementos[3].sibling = &elementos[8];
+	elementos[3].sibling = NULL;
 	elementos[3].child = &elementos[4];
 
 	//Antebrazo derecho
@@ -332,7 +332,7 @@ void inicializaElementos()
 	elementos[4].rotY = 0;
 	elementos[4].rotZ = 0;
 	elementos[4].f = antebrazo;
-	elementos[4].sibling = &elementos[9];
+	elementos[4].sibling = NULL;
 	elementos[4].child = &elementos[5];
 
 	//Mano derecho
@@ -346,7 +346,7 @@ void inicializaElementos()
 	elementos[5].rotY = 0;
 	elementos[5].rotZ = 0;
 	elementos[5].f = mano;
-	elementos[5].sibling = &elementos[10];
+	elementos[5].sibling = NULL;
 	elementos[5].child = NULL;
 
     //hombro izquierdo
@@ -390,8 +390,8 @@ void inicializaElementos()
 	elementos[8].f = codo;
 	elementos[8].sibling = NULL;
 	elementos[8].child = &elementos[9];
-//
-//    //Antebrazo izquierdo
+
+	//Antebrazo izquierdo
 	glLoadIdentity();
     glTranslatef(elementos[9].x, elementos[9].y, elementos[9].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[9].m);
@@ -405,7 +405,7 @@ void inicializaElementos()
 	elementos[9].sibling = NULL;
 	elementos[9].child = &elementos[10];
 
-//	//Mano izquierda
+	//Mano izquierda
 	glLoadIdentity();
     glTranslatef(elementos[10].x, elementos[10].y, elementos[10].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[10].m);
@@ -445,7 +445,7 @@ void inicializaElementos()
 	elementos[12].rotY = 0;
 	elementos[12].rotZ = 0;
 	elementos[12].f = quadricep;
-	elementos[12].sibling = &elementos[17];
+	elementos[12].sibling = NULL;
 	elementos[12].child = &elementos[13];
 
 	//rodilla derecha
@@ -459,7 +459,7 @@ void inicializaElementos()
 	elementos[13].rotY = 0;
 	elementos[13].rotZ = 0;
 	elementos[13].f = rodilla;
-	elementos[13].sibling = &elementos[18];
+	elementos[13].sibling = NULL;
 	elementos[13].child = &elementos[14];
 
 	//chamorro derecho
@@ -473,7 +473,7 @@ void inicializaElementos()
 	elementos[14].rotY = 0;
 	elementos[14].rotZ = 0;
 	elementos[14].f = chamorro;
-	elementos[14].sibling = &elementos[19];
+	elementos[14].sibling = NULL;
 	elementos[14].child = &elementos[15];
 
 	//pie derecho
@@ -617,22 +617,24 @@ void flechas(int key, int x, int y)
 				elementos[3].rotZ += DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
 				
 			}else if(hombro_izquierdo){
-				elementos[6].rotZ += DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
+				elementos[6].rotZ -= DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
 				
 			}else if(codo_izquierdo){
 				elementos[8].rotZ -= DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
 				
 			}else if(cadera_derecha){
-				elementos[11].rotX += DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
+				elementos[11].rotX -= DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
 				
 			}else if(rodilla_derecha){
-				elementos[13].rotX += DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
+				elementos[13].rotX -= DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
 				
 			}else if(cadera_izquierda){
-				elementos[16].rotX += DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
+				elementos[16].rotX -= DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
 				
 			}else if(rodilla_izquierda){
-				elementos[18].rotX += DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
+				elementos[18].rotX -= DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de rotación en X
+				
+			}else{
 				
 			}
 			break;
@@ -646,24 +648,27 @@ void flechas(int key, int x, int y)
 		        elementos[3].rotZ -= DELTA;
 		    
 		    }else if(hombro_izquierdo){
-		        elementos[6].rotZ -= DELTA;
+		        elementos[6].rotZ += DELTA;
 		    
 		    }else if(codo_izquierdo){
-		        elementos[8].rotZ -= DELTA;
+		        elementos[8].rotZ += DELTA;
 		        
 		    }else if(cadera_derecha){
-		        elementos[11].rotX -= DELTA;
+		        elementos[11].rotX += DELTA;
 		            
 		    }else if(rodilla_derecha){
-		        elementos[13].rotX -=DELTA;
+		        elementos[13].rotX +=DELTA;
 		        
 		    }else if(cadera_izquierda){
-		        elementos[16].rotX -= DELTA;
+		        elementos[16].rotX += DELTA;
 		        
 		    }else if(rodilla_izquierda){
-		        elementos[18].rotX -= DELTA;
-		    }
-			break;
+		        elementos[18].rotX += DELTA;
+		
+		    }else{
+			
+				}
+				break;
 		case GLUT_KEY_LEFT: elementos[22].rotY += DELTA;       // Si se presiona la flecha hacia la izquierda, aumenta el ángulo de
 			break;											  // rotación en Y
 		case GLUT_KEY_RIGHT: elementos[22].rotY -= DELTA;     // Si se presiona la flecha hacia la derecha, disminuye el ángulo de
