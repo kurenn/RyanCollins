@@ -48,6 +48,7 @@ typedef struct nodo
 	struct nodo *sibling;  // para guardar el apuntador al primer hermano
 	struct nodo *child;    // para guardar el apuntador al primer hijo
 	float x, y, z;
+	float rotX, rotY, rotZ; 
 } nodo;
 
 
@@ -167,6 +168,7 @@ void traverse (nodo *node)
 
 	glColor3f(node->r, node->g, node->b);
 
+	glRotatef(node->rotX, 1, 0, 0);
 	// dibujar el nodo
 	node->f();
 
@@ -192,8 +194,7 @@ void myDisplay()
     glEnable( GL_DEPTH_TEST ); // Importante para que se vean bien las caras, probar que pasa si lo quito
 	glLoadIdentity();
 	glTranslatef(0, 0, -8);
-	glRotatef(anguloX, 1, 0, 0);
-	glRotatef(anguloY, 0, 1, 0);
+	//glRotatef(anguloY, 0, 1, 0);
     traverse(elementos);
 	glFlush();
 	glutSwapBuffers();
@@ -216,6 +217,9 @@ void inicializaElementos()
 	elementos[1].r = 252.0/255.0;
 	elementos[1].g = 128.0/255.0;
 	elementos[1].b = 0.0/255.0;
+	elementos[1].rotX = 0;
+	elementos[1].rotY = 0;
+	elementos[1].rotZ = 0;
 	elementos[1].f = hombro;
 	elementos[1].sibling = &elementos[6];
 	elementos[1].child = &elementos[2];
@@ -227,6 +231,9 @@ void inicializaElementos()
 	elementos[2].r = 252.0/255.0;
 	elementos[2].g = 128.0/255.0;
 	elementos[2].b = 0.0/255.0;
+	elementos[2].rotX = 0;
+	elementos[2].rotY = 0;
+	elementos[2].rotZ = 0;
 	elementos[2].f = bicep;
 	elementos[2].sibling = &elementos[7];
 	elementos[2].child = &elementos[3];
@@ -238,6 +245,9 @@ void inicializaElementos()
 	elementos[3].r = 252.0/255.0;
 	elementos[3].g = 128.0/255.0;
 	elementos[3].b = 0.0/255.0;
+	elementos[3].rotX = 0;
+	elementos[3].rotY = 0;
+	elementos[3].rotZ = 0;
 	elementos[3].f = codo;
 	elementos[3].sibling = &elementos[8];
 	elementos[3].child = &elementos[4];
@@ -249,6 +259,9 @@ void inicializaElementos()
 	elementos[4].r = 252.0/255.0;
 	elementos[4].g = 128.0/255.0;
 	elementos[4].b = 0.0/255.0;
+	elementos[4].rotX = 0;
+	elementos[4].rotY = 0;
+	elementos[4].rotZ = 0;
 	elementos[4].f = antebrazo;
 	elementos[4].sibling = &elementos[9];
 	elementos[4].child = &elementos[5];
@@ -260,6 +273,9 @@ void inicializaElementos()
 	elementos[5].r = 252.0/255.0;
 	elementos[5].g = 128.0/255.0;
 	elementos[5].b = 0.0/255.0;
+	elementos[5].rotX = 0;
+	elementos[5].rotY = 0;
+	elementos[5].rotZ = 0;
 	elementos[5].f = mano;
 	elementos[5].sibling = &elementos[10];
 	elementos[5].child = NULL;
@@ -271,6 +287,9 @@ void inicializaElementos()
 	elementos[6].r = 1;
 	elementos[6].g = 0;
 	elementos[6].b = 0;
+	elementos[6].rotX = 0;
+	elementos[6].rotY = 0;
+	elementos[6].rotZ = 0;
 	elementos[6].f = hombro;
 	elementos[6].sibling = &elementos[11];
 	elementos[6].child = &elementos[7];
@@ -282,6 +301,9 @@ void inicializaElementos()
 	elementos[7].r = 252.0/255.0;
 	elementos[7].g = 128.0/255.0;
 	elementos[7].b = 0.0/255.0;
+	elementos[7].rotX = 0;
+	elementos[7].rotY = 0;
+	elementos[7].rotZ = 0;
 	elementos[7].f = bicep;
 	elementos[7].sibling = NULL;
 	elementos[7].child = &elementos[8];
@@ -293,6 +315,9 @@ void inicializaElementos()
 	elementos[8].r = 252.0/255.0;
 	elementos[8].g = 128.0/255.0;
 	elementos[8].b = 0.0/255.0;
+	elementos[8].rotX = 0;
+	elementos[8].rotY = 0;
+	elementos[8].rotZ = 0;
 	elementos[8].f = codo;
 	elementos[8].sibling = NULL;
 	elementos[8].child = &elementos[9];
@@ -304,6 +329,9 @@ void inicializaElementos()
 	elementos[9].r = 252.0/255.0;
 	elementos[9].g = 128.0/255.0;
 	elementos[9].b = 0.0/255.0;
+	elementos[9].rotX = 0;
+	elementos[9].rotY = 0;
+	elementos[9].rotZ = 0;
 	elementos[9].f = antebrazo;
 	elementos[9].sibling = NULL;
 	elementos[9].child = &elementos[10];
@@ -315,6 +343,9 @@ void inicializaElementos()
 	elementos[10].r = 252.0/255.0;
 	elementos[10].g = 128.0/255.0;
 	elementos[10].b = 0.0/255.0;
+	elementos[10].rotX = 0;
+	elementos[10].rotY = 0;
+	elementos[10].rotZ = 0;
 	elementos[10].f = mano;
 	elementos[10].sibling = NULL;
 	elementos[10].child = NULL;
@@ -327,6 +358,9 @@ void inicializaElementos()
 	elementos[11].r = 1;
 	elementos[11].g = 0;
 	elementos[11].b = 0;
+	elementos[11].rotX = 0;
+	elementos[11].rotY = 0;
+	elementos[11].rotZ = 0;
 	elementos[11].f = cadera;
 	elementos[11].sibling = &elementos[16];
 	elementos[11].child = &elementos[12];
@@ -338,6 +372,9 @@ void inicializaElementos()
 	elementos[12].r = 1;
 	elementos[12].g = 0;
 	elementos[12].b = 0;
+	elementos[12].rotX = 0;
+	elementos[12].rotY = 0;
+	elementos[12].rotZ = 0;
 	elementos[12].f = quadricep;
 	elementos[12].sibling = &elementos[17];
 	elementos[12].child = &elementos[13];
@@ -349,6 +386,9 @@ void inicializaElementos()
 	elementos[13].r = 0;
 	elementos[13].g = 1;
 	elementos[13].b = 0;
+	elementos[13].rotX = 0;
+	elementos[13].rotY = 0;
+	elementos[13].rotZ = 0;
 	elementos[13].f = rodilla;
 	elementos[13].sibling = &elementos[18];
 	elementos[13].child = &elementos[14];
@@ -360,6 +400,9 @@ void inicializaElementos()
 	elementos[14].r = 0;
 	elementos[14].g = 1;
 	elementos[14].b = 0;
+	elementos[14].rotX = 0;
+	elementos[14].rotY = 0;
+	elementos[14].rotZ = 0;
 	elementos[14].f = chamorro;
 	elementos[14].sibling = &elementos[19];
 	elementos[14].child = &elementos[15];
@@ -371,6 +414,9 @@ void inicializaElementos()
 	elementos[15].r = 1;
 	elementos[15].g = 0;
 	elementos[15].b = 0;
+	elementos[15].rotX = 0;
+	elementos[15].rotY = 0;
+	elementos[15].rotZ = 0;;
 	elementos[15].f = pie;
 	elementos[15].sibling = NULL;
 	elementos[15].child = NULL;
@@ -382,6 +428,9 @@ void inicializaElementos()
 	elementos[16].r = 1;
 	elementos[16].g = 0;
 	elementos[16].b = 0;
+	elementos[16].rotX = 0;
+	elementos[16].rotY = 0;
+	elementos[16].rotZ = 0;;
 	elementos[16].f = cadera;
 	elementos[16].sibling = &elementos[21];
 	elementos[16].child = &elementos[17];
@@ -393,6 +442,9 @@ void inicializaElementos()
 	elementos[17].r = 1;
 	elementos[17].g = 0;
 	elementos[17].b = 0;
+	elementos[17].rotX = 0;
+	elementos[17].rotY = 0;
+	elementos[17].rotZ = 0;;
 	elementos[17].f = quadricep;
 	elementos[17].sibling = NULL;
 	elementos[17].child = &elementos[18];
@@ -404,6 +456,9 @@ void inicializaElementos()
 	elementos[18].r = 0;
 	elementos[18].g = 1;
 	elementos[18].b = 0;
+	elementos[18].rotX = 0;
+	elementos[18].rotY = 0;
+	elementos[18].rotZ = 0;;
 	elementos[18].f = rodilla;
 	elementos[18].sibling = NULL;
 	elementos[18].child = &elementos[19];
@@ -415,6 +470,9 @@ void inicializaElementos()
 	elementos[19].r = 0;
 	elementos[19].g = 1;
 	elementos[19].b = 0;
+	elementos[19].rotX = 0;
+	elementos[19].rotY = 0;
+	elementos[19].rotZ = 0;;
 	elementos[19].f = chamorro;
 	elementos[19].sibling = NULL;
 	elementos[19].child = &elementos[20];
@@ -426,6 +484,9 @@ void inicializaElementos()
 	elementos[20].r = 1;
 	elementos[20].g = 0;
 	elementos[20].b = 0;
+	elementos[20].rotX = 0;
+	elementos[20].rotY = 0;
+	elementos[20].rotZ = 0;;
 	elementos[20].f = pie;
 	elementos[20].sibling = NULL;
 	elementos[20].child = NULL;
@@ -437,6 +498,9 @@ void inicializaElementos()
 	elementos[21].r = 1;
 	elementos[21].g = 0;
 	elementos[21].b = 0;
+	elementos[21].rotX = 0;
+	elementos[21].rotY = 0;
+	elementos[21].rotZ = 0;;
 	elementos[21].f = cuello;
 	elementos[21].sibling = NULL;
 	elementos[21].child = &elementos[22];
@@ -448,6 +512,9 @@ void inicializaElementos()
 	elementos[22].r = 1;
 	elementos[22].g = 0;
 	elementos[22].b = 0;
+	elementos[22].rotX = 0;
+	elementos[22].rotY = 0;
+	elementos[22].rotZ = 0;;
 	elementos[22].f = cabeza;
 	elementos[22].sibling = NULL;
 	elementos[22].child = NULL;
@@ -471,9 +538,9 @@ void flechas(int key, int x, int y)
 	switch (key)
 	{ case GLUT_KEY_F1: exit(0);               // Cuando se presiona F1, termina el programa
 			break;
-		case GLUT_KEY_UP: anguloX += DELTA+1;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de
+		case GLUT_KEY_UP: elementos[22].rotX += DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de
 			break;                 // rotación en X
-		case GLUT_KEY_DOWN: anguloX -= DELTA;     // Si se presiona la flecha hacia abajo, disminuye el ángulo de
+		case GLUT_KEY_DOWN: elementos[22].rotX -= DELTA;     // Si se presiona la flecha hacia abajo, disminuye el ángulo de
 			break;               // rotación en X
 		case GLUT_KEY_LEFT: anguloY += DELTA;       // Si se presiona la flecha hacia la izquierda, aumenta el ángulo de
 			break;                 // rotación en Y
