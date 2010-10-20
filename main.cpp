@@ -21,9 +21,24 @@
  *                                                                                                     *
  *******************************************************************************************************/
 
+using namespace std;
+
 // Sección de inclusión de librerías
 #include <GLUT/glut.h>
 #include <stdlib.h>       // Librería necesaria para usar la función exit() que termina la ejecución del programa
+#include <time.h>
+#include <stdio.h>
+#include <math.h>
+#include <fstream>  // libreria para el manejo de archivos
+#include <assert.h> // libreria para verificar la existencia de un archivo
+#include <iostream> // libreria para el manejo de cin y cout
+
+//Matrices para almacenar datos de las partes del cuerpo
+GLfloat troncoMatriz [4][3];
+GLfloat hombroMatriz [4][3];
+GLfloat bicepMatriz [4][3];
+GLfloat codoMatriz [4][3];
+GLfloat antebrazoMatriz [4][3];
 
 
 typedef struct nodo
@@ -32,6 +47,7 @@ typedef struct nodo
 	float r, g, b;       // para guardar color
 	struct nodo *sibling;  // para guardar el apuntador al primer hermano
 	struct nodo *child;    // para guardar el apuntador al primer hijo
+	float x, y, z;
 } nodo;
 
 
@@ -45,6 +61,30 @@ float anguloY = 0.0;        // Variable para manejar el ángulo de rotación a a
 nodo elementos[24];
 
 // Empieza la declaración de métodos y funciones
+
+//Metodo para leer archivo
+void leerarch(){
+    ifstream entrada;
+
+    entrada.open("datos.txt");
+    assert(entrada);
+    double valor;     // Auxiliar para ir leyendo los valores de las coordenadas x, y, z
+
+    //Triple for para vaciar en las matrices los valores de traslacion, color, escalaIni y escalaFin
+    //i = nombreMatriz, j = renglonMatriz, k = columnaMatriz
+    //El orden de las líneas en el archivo a leer son: tronco, hombro, bicep, codo, antebrazo
+    for (int i=0; i<23; i++){
+        for(int j=0; j<3; j++){
+            entrada >> valor;
+            switch (j) {
+                case 0: elementos[i].x = valor;
+                case 1: elementos[i].y = valor;
+                case 2: elementos[i].z = valor;
+            }
+        }
+    }
+    entrada.close();
+}
 
 
 
@@ -171,7 +211,7 @@ void inicializaElementos()
 
 	//hombro derecho
 	glLoadIdentity();
-    glTranslatef(0.6,0.75,0);
+    glTranslatef(elementos[1].x, elementos[1].y, elementos[1].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[1].m);
 	elementos[1].r = 252.0/255.0;
 	elementos[1].g = 128.0/255.0;
@@ -182,7 +222,7 @@ void inicializaElementos()
 
 	//bicep derecho
 	glLoadIdentity();
-	glTranslatef(0.2,0.0,0);
+    glTranslatef(elementos[2].x, elementos[2].y, elementos[2].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[2].m);
 	elementos[2].r = 252.0/255.0;
 	elementos[2].g = 128.0/255.0;
@@ -193,7 +233,7 @@ void inicializaElementos()
 
 	//Codo derecho
 	glLoadIdentity();
-	glTranslatef(0.25,0.0,0);
+    glTranslatef(elementos[3].x, elementos[3].y, elementos[3].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[3].m);
 	elementos[3].r = 252.0/255.0;
 	elementos[3].g = 128.0/255.0;
@@ -204,7 +244,7 @@ void inicializaElementos()
 
 	//Antebrazo derecho
 	glLoadIdentity();
-	glTranslatef(0.2,0.0,0);
+    glTranslatef(elementos[4].x, elementos[4].y, elementos[4].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[4].m);
 	elementos[4].r = 252.0/255.0;
 	elementos[4].g = 128.0/255.0;
@@ -215,7 +255,7 @@ void inicializaElementos()
 
 	//Mano derecho
 	glLoadIdentity();
-	glTranslatef(0.25,0.0,0);
+    glTranslatef(elementos[5].x, elementos[5].y, elementos[5].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[5].m);
 	elementos[5].r = 252.0/255.0;
 	elementos[5].g = 128.0/255.0;
@@ -226,7 +266,7 @@ void inicializaElementos()
 
     //hombro izquierdo
 	glLoadIdentity();
-    glTranslatef(-0.6,0.75,0);
+    glTranslatef(elementos[6].x, elementos[6].y, elementos[6].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[6].m);
 	elementos[6].r = 1;
 	elementos[6].g = 0;
@@ -237,7 +277,7 @@ void inicializaElementos()
 
     //bicep izquierdo
 	glLoadIdentity();
-	glTranslatef(-0.2,0.0,0);
+    glTranslatef(elementos[7].x, elementos[7].y, elementos[7].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[7].m);
 	elementos[7].r = 252.0/255.0;
 	elementos[7].g = 128.0/255.0;
@@ -248,7 +288,7 @@ void inicializaElementos()
 
 //	//Codo izquierdo
 	glLoadIdentity();
-	glTranslatef(-0.25,0.0,0);
+    glTranslatef(elementos[8].x, elementos[8].y, elementos[8].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[8].m);
 	elementos[8].r = 252.0/255.0;
 	elementos[8].g = 128.0/255.0;
@@ -259,7 +299,7 @@ void inicializaElementos()
 //
 //    //Antebrazo izquierdo
 	glLoadIdentity();
-	glTranslatef(-0.2,0.0,0);
+    glTranslatef(elementos[9].x, elementos[9].y, elementos[9].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[9].m);
 	elementos[9].r = 252.0/255.0;
 	elementos[9].g = 128.0/255.0;
@@ -270,7 +310,7 @@ void inicializaElementos()
 
 //	//Mano izquierda
 	glLoadIdentity();
-	glTranslatef(-0.25,0.0,0);
+    glTranslatef(elementos[10].x, elementos[10].y, elementos[10].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[10].m);
 	elementos[10].r = 252.0/255.0;
 	elementos[10].g = 128.0/255.0;
@@ -282,7 +322,7 @@ void inicializaElementos()
 
 	//cadera derecha
 	glLoadIdentity();
-    glTranslatef(0.25,-1.0,0);
+    glTranslatef(elementos[11].x, elementos[11].y, elementos[11].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[11].m);
 	elementos[11].r = 1;
 	elementos[11].g = 0;
@@ -293,7 +333,7 @@ void inicializaElementos()
 
 	//quadricep derecho
 	glLoadIdentity();
-    glTranslatef(0.0,-0.2,0);
+    glTranslatef(elementos[12].x, elementos[12].y, elementos[12].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[12].m);
 	elementos[12].r = 1;
 	elementos[12].g = 0;
@@ -304,7 +344,7 @@ void inicializaElementos()
 
 	//rodilla derecha
 	glLoadIdentity();
-    glTranslatef(0.0,-0.5,0);
+    glTranslatef(elementos[13].x, elementos[13].y, elementos[13].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[13].m);
 	elementos[13].r = 0;
 	elementos[13].g = 1;
@@ -315,7 +355,7 @@ void inicializaElementos()
 
 	//chamorro derecho
 	glLoadIdentity();
-    glTranslatef(0.0,-0.3,0);
+    glTranslatef(elementos[14].x, elementos[14].y, elementos[14].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[14].m);
 	elementos[14].r = 0;
 	elementos[14].g = 1;
@@ -326,7 +366,7 @@ void inicializaElementos()
 
 	//pie derecho
 	glLoadIdentity();
-    glTranslatef(0.0,-0.45, 0.2);
+    glTranslatef(elementos[15].x, elementos[15].y, elementos[15].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[15].m);
 	elementos[15].r = 1;
 	elementos[15].g = 0;
@@ -337,7 +377,7 @@ void inicializaElementos()
 
 	//cadera izquierda
 	glLoadIdentity();
-    glTranslatef(-0.25,-1.0,0);
+    glTranslatef(elementos[16].x, elementos[16].y, elementos[16].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[16].m);
 	elementos[16].r = 1;
 	elementos[16].g = 0;
@@ -348,7 +388,7 @@ void inicializaElementos()
 
 	//quadricep izquierdo
 	glLoadIdentity();
-    glTranslatef(0.0,-0.2,0);
+    glTranslatef(elementos[17].x, elementos[17].y, elementos[17].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[17].m);
 	elementos[17].r = 1;
 	elementos[17].g = 0;
@@ -359,7 +399,7 @@ void inicializaElementos()
 
 //	//rodilla izquierda
 	glLoadIdentity();
-    glTranslatef(0.0,-0.5,0);
+    glTranslatef(elementos[18].x, elementos[18].y, elementos[18].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[18].m);
 	elementos[18].r = 0;
 	elementos[18].g = 1;
@@ -370,7 +410,7 @@ void inicializaElementos()
 
 	//chamorro izquierdo
 	glLoadIdentity();
-    glTranslatef(0.0,-0.3,0);
+    glTranslatef(elementos[19].x, elementos[19].y, elementos[19].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[19].m);
 	elementos[19].r = 0;
 	elementos[19].g = 1;
@@ -381,7 +421,7 @@ void inicializaElementos()
 
 	//pie izquierdo
 	glLoadIdentity();
-    glTranslatef(0.0,-0.45, 0.2);
+    glTranslatef(elementos[20].x, elementos[20].y, elementos[20].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[20].m);
 	elementos[20].r = 1;
 	elementos[20].g = 0;
@@ -392,7 +432,7 @@ void inicializaElementos()
 
     //cuello
     glLoadIdentity();
-    glTranslatef(0.0,1.0, 0.0);
+    glTranslatef(elementos[21].x, elementos[21].y, elementos[21].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[21].m);
 	elementos[21].r = 1;
 	elementos[21].g = 0;
@@ -403,7 +443,7 @@ void inicializaElementos()
 
 	//cabeza
     glLoadIdentity();
-    glTranslatef(0.0,0.3, 0.25);
+    glTranslatef(elementos[22].x, elementos[22].y, elementos[22].z);
     glGetFloatv(GL_MODELVIEW_MATRIX, elementos[22].m);
 	elementos[22].r = 1;
 	elementos[22].g = 0;
@@ -467,8 +507,10 @@ int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
 	inicializa();
+	leerarch();
     indicaMetodos();
 	inicializaElementos();
 	glutMainLoop();
 	return 0;
 }
+
