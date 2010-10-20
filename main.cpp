@@ -235,6 +235,8 @@ void traverse (nodo *node)
 	glColor3f(node->r, node->g, node->b);
 
 	glRotatef(node->rotX, 1, 0, 0);
+	glRotatef(node->rotY, 0, 1, 0);
+	glRotatef(node->rotZ, 0, 0, 1);
 	// dibujar el nodo
 	node->f();
 
@@ -601,18 +603,18 @@ void reshape(GLsizei width, GLsizei height)
 // Método para el procesamiento de las teclas especiales
 void flechas(int key, int x, int y)
 {
-	switch (key)
-	{ case GLUT_KEY_F1: exit(0);               // Cuando se presiona F1, termina el programa
+	switch (key){
+		case GLUT_KEY_F1: exit(0);               // Cuando se presiona F1, termina el programa
 			break;
 		case GLUT_KEY_UP: elementos[22].rotX += DELTA;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de
-			break;                 // rotación en X
+			break;											// rotación en X
 		case GLUT_KEY_DOWN: elementos[22].rotX -= DELTA;     // Si se presiona la flecha hacia abajo, disminuye el ángulo de
-			break;               // rotación en X
-		case GLUT_KEY_LEFT: anguloY += DELTA;       // Si se presiona la flecha hacia la izquierda, aumenta el ángulo de
-			break;                 // rotación en Y
-		case GLUT_KEY_RIGHT: anguloY -= DELTA;     // Si se presiona la flecha hacia la derecha, disminuye el ángulo de
-			break;               // rotación en Y
-	}
+			break;											// rotación en X
+		case GLUT_KEY_LEFT: elementos[22].rotY += DELTA;       // Si se presiona la flecha hacia la izquierda, aumenta el ángulo de
+			break;											  // rotación en Y
+		case GLUT_KEY_RIGHT: elementos[22].rotY -= DELTA;     // Si se presiona la flecha hacia la derecha, disminuye el ángulo de
+			break;											 // rotación en Y
+		}
 	glutPostRedisplay();
 }
 
