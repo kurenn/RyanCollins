@@ -57,6 +57,7 @@ GLfloat antebrazoMatriz [4][3];
 #define RODILLA_DERECHA 7
 #define CADERA_IZQUIERDA 8
 #define RODILLA_IZQUIERDA 9
+#define CABEZA 10
 
 typedef struct nodo
 { float m[16];          // para guardar la matriz de transformación local
@@ -86,6 +87,7 @@ typedef struct nodo
 	int rodilla_derecha = 0;
 	int cadera_izquierda = 0;
 	int rodilla_izquierda = 0;
+	int cabeza_rot = 0;
 
 // Empieza la declaración de métodos y funciones
 
@@ -93,45 +95,50 @@ typedef struct nodo
 		switch (opcion){
 			case 1:
 			vista = 1;
-			hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
 			break;
 			case 2:
 			hombro_derecho = 1;
-			vista = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			vista = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cabeza_rot = cadera_izquierda = rodilla_izquierda = 0;
 			break;
 			case 3:
 			codo_derecho = 1;
-			hombro_derecho = vista = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			hombro_derecho = vista = hombro_izquierdo = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
 			break;
 
 			case 4:
 			hombro_izquierdo = 1;
-			hombro_derecho = codo_derecho = vista = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			hombro_derecho = codo_derecho = vista = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
 			break;
 
 			case 5:
 			codo_izquierdo = 1;
-			hombro_derecho = codo_derecho = hombro_izquierdo = vista = cadera_derecha = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			hombro_derecho = codo_derecho = hombro_izquierdo = vista = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
 			break;
 
 			case 6:
 			cadera_derecha = 1;
-			hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = vista = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = vista = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
 			break;
 
 			case 7:
 			rodilla_derecha = 1;
-			hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = vista = cadera_izquierda = rodilla_izquierda = 0;
+			hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cabeza_rot = cadera_derecha = vista = cadera_izquierda = rodilla_izquierda = 0;
 			break;
 
 			case 8:
 			cadera_izquierda = 1;
-			hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = vista = rodilla_izquierda = 0;
+			hombro_derecho = codo_derecho = hombro_izquierdo = cabeza_rot = codo_izquierdo = cadera_derecha = rodilla_derecha = vista = rodilla_izquierda = 0;
 			break;
 
 			case 9:
 			rodilla_izquierda = 1;
-			hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = vista = 0;
+			hombro_derecho = codo_derecho = hombro_izquierdo = cabeza_rot = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = vista = 0;
+			break;
+			
+			case 10:
+			cabeza_rot = 1;
+			hombro_derecho = codo_derecho = rodilla_izquierda = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = vista = 0;
 			break;
 		}
 	}
@@ -642,6 +649,7 @@ typedef struct nodo
 					elementos[18].rotX -= DELTA;      
 
 				}else{
+					elementos[22].rotX -= DELTA;      
 
 				}
 			break;
@@ -673,6 +681,7 @@ typedef struct nodo
 					elementos[18].rotX += DELTA;
 
 				}else{
+					elementos[22].rotX += DELTA;      
 
 				}
 			break;
@@ -692,11 +701,12 @@ typedef struct nodo
 					elementos[8].rotY += DELTA;       
 
 				}else{
+					elementos[22].rotY -= DELTA;      
 
 				}
 				break;
-											  // rotación en Y
-		case GLUT_KEY_RIGHT:      // Si se presiona la flecha hacia la derecha, disminuye el ángulo de
+
+		case GLUT_KEY_RIGHT:     
 		    if (vista){
 		        anguloY += DELTA;		        
 		    }else if(hombro_derecho){
@@ -710,22 +720,10 @@ typedef struct nodo
 		    
 		    }else if(codo_izquierdo){
 		        elementos[8].rotY -= DELTA;
-		        
-		    }else if(cadera_derecha){
-		        //elementos[11].rotX += DELTA;
-		            
-		    }else if(rodilla_derecha){
-		        //elementos[13].rotX +=DELTA;
-		        
-		    }else if(cadera_izquierda){
-		        //elementos[16].rotX += DELTA;
-		        
-		    }else if(rodilla_izquierda){
-		        //elementos[18].rotX += DELTA;
-		
+		        		
 		    }else{
-			
-			}
+						elementos[22].rotY += DELTA;      
+				}
 			break;
 		}
 		glutPostRedisplay();
@@ -747,6 +745,7 @@ typedef struct nodo
 		glutAddMenuEntry("Rodilla Derecha",RODILLA_DERECHA);
 		glutAddMenuEntry("Pierna Izquierdo",CADERA_IZQUIERDA);
 		glutAddMenuEntry("Rodilla Izquierda",RODILLA_IZQUIERDA);	
+		glutAddMenuEntry("Cabeza",CABEZA);	
 		glutAttachMenu(GLUT_RIGHT_BUTTON);
 	}
 
