@@ -25,11 +25,11 @@ using namespace std;
 
 // Sección de inclusión de librerías
 #ifdef __APPLE__ 
-#include <GLUT/glut.h>
+    #include <GLUT/glut.h>
 #else
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
+    #include <GL/gl.h>
+    #include <GL/glu.h>
+    #include <GL/glut.h>
 #endif
 
 #include <stdlib.h>       // Librería necesaria para usar la función exit() que termina la ejecución del programa
@@ -678,7 +678,37 @@ void flechas(int key, int x, int y)
 				break;
 		case GLUT_KEY_LEFT: elementos[22].rotY += DELTA;       // Si se presiona la flecha hacia la izquierda, aumenta el ángulo de
 			break;											  // rotación en Y
-		case GLUT_KEY_RIGHT: elementos[22].rotY -= DELTA;     // Si se presiona la flecha hacia la derecha, disminuye el ángulo de
+		case GLUT_KEY_RIGHT:      // Si se presiona la flecha hacia la derecha, disminuye el ángulo de
+		    if (vista){
+		        anguloY += DELTA;		        
+		    }else if(hombro_derecho){
+		        elementos[1].rotY += DELTA; 
+		
+		    }else if(codo_derecho){
+		        elementos[3].rotY += DELTA;
+		    
+		    }else if(hombro_izquierdo){
+		        elementos[6].rotY -= DELTA;
+		    
+		    }else if(codo_izquierdo){
+		        elementos[8].rotY -= DELTA;
+		        
+		    }else if(cadera_derecha){
+		        //elementos[11].rotX += DELTA;
+		            
+		    }else if(rodilla_derecha){
+		        //elementos[13].rotX +=DELTA;
+		        
+		    }else if(cadera_izquierda){
+		        //elementos[16].rotX += DELTA;
+		        
+		    }else if(rodilla_izquierda){
+		        //elementos[18].rotX += DELTA;
+		
+		    }else{
+			
+				}
+				break;
 			break;											 // rotación en Y
 		}
 	glutPostRedisplay();
