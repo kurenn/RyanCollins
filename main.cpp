@@ -613,102 +613,102 @@ typedef struct nodo
 	{
 		switch (key){
 			case GLUT_KEY_F1: exit(0);               // Cuando se presiona F1, termina el programa
-			break;
+				break;
 			case GLUT_KEY_UP: 
-			if(vista){
-				anguloX += DELTA;
-			}else if(hombro_derecho){
-				elementos[1].rotZ += DELTA;       
+				if(vista){
+					anguloX += DELTA;
+				}else if(hombro_derecho){
+					elementos[1].rotZ += DELTA;       
 
-			}else if(codo_derecho){             
-				elementos[3].rotZ += DELTA;       
+				}else if(codo_derecho){             
+					elementos[3].rotZ += DELTA;       
 
-			}else if(hombro_izquierdo){         
-				elementos[6].rotZ -= DELTA;       
+				}else if(hombro_izquierdo){         
+					elementos[6].rotZ -= DELTA;       
 
-			}else if(codo_izquierdo){           
-				elementos[8].rotZ -= DELTA;       
+				}else if(codo_izquierdo){           
+					elementos[8].rotZ -= DELTA;       
 
-			}else if(cadera_derecha){           
-				elementos[11].rotX -= DELTA;      
+				}else if(cadera_derecha){           
+					elementos[11].rotX -= DELTA;      
 
-			}else if(rodilla_derecha){          
-				elementos[13].rotX -= DELTA;      
+				}else if(rodilla_derecha){          
+					elementos[13].rotX -= DELTA;      
 
-			}else if(cadera_izquierda){         
-				elementos[16].rotX -= DELTA;      
+				}else if(cadera_izquierda){         
+					elementos[16].rotX -= DELTA;      
 
-			}else if(rodilla_izquierda){        
-				elementos[18].rotX -= DELTA;      
+				}else if(rodilla_izquierda){        
+					elementos[18].rotX -= DELTA;      
 
-			}else{
+				}else{
 
-			}
+				}
 			break;
-			case GLUT_KEY_DOWN: 
-			if (vista){
-				anguloX -= DELTA;		        
-			}else if(hombro_derecho){
-				elementos[1].rotZ -= DELTA; 
+				case GLUT_KEY_DOWN: 
+				if (vista){
+					anguloX -= DELTA;		        
+				}else if(hombro_derecho){
+					elementos[1].rotZ -= DELTA; 
 
-			}else if(codo_derecho){
-				elementos[3].rotZ -= DELTA;
+				}else if(codo_derecho){
+					elementos[3].rotZ -= DELTA;
 
-			}else if(hombro_izquierdo){
-				elementos[6].rotZ += DELTA;
+				}else if(hombro_izquierdo){
+					elementos[6].rotZ += DELTA;
 
-			}else if(codo_izquierdo){
-				elementos[8].rotZ += DELTA;
+				}else if(codo_izquierdo){
+					elementos[8].rotZ += DELTA;
 
-			}else if(cadera_derecha){
-				elementos[11].rotX += DELTA;
+				}else if(cadera_derecha){
+					elementos[11].rotX += DELTA;
 
-			}else if(rodilla_derecha){
-				elementos[13].rotX +=DELTA;
+				}else if(rodilla_derecha){
+					elementos[13].rotX +=DELTA;
 
-			}else if(cadera_izquierda){
-				elementos[16].rotX += DELTA;
+				}else if(cadera_izquierda){
+					elementos[16].rotX += DELTA;
 
-			}else if(rodilla_izquierda){
-				elementos[18].rotX += DELTA;
+				}else if(rodilla_izquierda){
+					elementos[18].rotX += DELTA;
 
-			}else{
+				}else{
 
-			}
+				}
 			break;
 			case GLUT_KEY_LEFT:
-			if (vista){
-				anguloX -= DELTA;		        
-			}else if(hombro_derecho){
-				elementos[1].rotZ -= DELTA; 
+				if(vista){
+					anguloX += DELTA;
+				}else if(hombro_derecho){
+					elementos[1].rotZ += DELTA;       
 
-			}else if(codo_derecho){
-				elementos[3].rotZ -= DELTA;
+				}else if(codo_derecho){             
+					elementos[3].rotZ += DELTA;       
 
-			}else if(hombro_izquierdo){
-				elementos[6].rotZ += DELTA;
+				}else if(hombro_izquierdo){         
+					elementos[6].rotZ -= DELTA;       
 
-			}else if(codo_izquierdo){
-				elementos[8].rotZ += DELTA;
+				}else if(codo_izquierdo){           
+					elementos[8].rotZ -= DELTA;       
 
-			}else if(cadera_derecha){
-				elementos[11].rotX += DELTA;
+				}else if(cadera_derecha){           
+					elementos[11].rotX -= DELTA;      
 
-			}else if(rodilla_derecha){
-				elementos[13].rotX +=DELTA;
+				}else if(rodilla_derecha){          
+					elementos[13].rotX -= DELTA;      
 
-			}else if(cadera_izquierda){
-				elementos[16].rotX += DELTA;
+				}else if(cadera_izquierda){         
+					elementos[16].rotX -= DELTA;      
 
-			}else if(rodilla_izquierda){
-				elementos[18].rotX += DELTA;
+				}else if(rodilla_izquierda){        
+					elementos[18].rotX -= DELTA;      
 
-			}else{
+				}else{
 
-			}
-			break;
+				}
+				break;
 			case GLUT_KEY_RIGHT: elementos[22].rotY -= DELTA;     // Si se presiona la flecha hacia la derecha, disminuye el ángulo de
-			break;											 // rotación en Y
+				break;											 // rotación en Y
 		}
 		glutPostRedisplay();
 	}
