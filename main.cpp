@@ -24,7 +24,7 @@
 using namespace std;
 
 // Sección de inclusión de librerías
-#include <GL/glut.h>
+#include <GLUT/glut.h>
 #include <stdlib.h>       // Librería necesaria para usar la función exit() que termina la ejecución del programa
 #include <time.h>
 #include <stdio.h>
@@ -264,10 +264,6 @@ void myDisplay()
 	glTranslatef(0, 0, -8);
 	glRotatef(anguloY, 0, 1, 0);
 	glRotatef(anguloX, 1, 0, 0);
-<<<<<<< HEAD
-=======
-	
->>>>>>> 00dc316db98553950474ab9aa633431b306ad990
     traverse(elementos);
 	glFlush();
 	glutSwapBuffers();
