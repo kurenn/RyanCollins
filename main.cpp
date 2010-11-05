@@ -24,7 +24,7 @@
 using namespace std;
 
 // Sección de inclusión de librerías
-#ifdef __APPLE__ 
+#ifdef __APPLE__
     #include <GLUT/glut.h>
 #else
     #include <GL/gl.h>
@@ -39,16 +39,10 @@ using namespace std;
 #include <fstream>  // libreria para el manejo de archivos
 #include <assert.h> // libreria para verificar la existencia de un archivo
 #include <iostream> // libreria para el manejo de cin y cout
+#include <string.h> // libreria para el manejo de strcmp
 
-//Matrices para almacenar datos de las partes del cuerpo
-GLfloat troncoMatriz [4][3];
-GLfloat hombroMatriz [4][3];
-GLfloat bicepMatriz [4][3];
-GLfloat codoMatriz [4][3];
-GLfloat antebrazoMatriz [4][3];
-
-//Declaracion 
-#define VISTA 1 
+//Declaracion
+#define VISTA 1
 #define HOMBRO_DERECHO 2
 #define CODO_DERECHO 3
 #define HOMBRO_IZQUIERDO 4
@@ -58,6 +52,8 @@ GLfloat antebrazoMatriz [4][3];
 #define CADERA_IZQUIERDA 8
 #define RODILLA_IZQUIERDA 9
 #define CABEZA 10
+#define PARTES 23 //constante para partes del cuerpo
+#define DATOS 6 //constante para partes del cuerpo
 
 typedef struct nodo
 { float m[16];          // para guardar la matriz de transformación local
@@ -65,11 +61,9 @@ typedef struct nodo
 	float r, g, b;       // para guardar color
 	struct nodo *sibling;  // para guardar el apuntador al primer hermano
 	struct nodo *child;    // para guardar el apuntador al primer hijo
-	float x, y, z;
-	float rotX, rotY, rotZ; 
+	float x, y, z;         //para guardar los valores de la traslacion
+	float rotX, rotY, rotZ;  //para guardar los valores de la rotacion
 	} nodo;
-
-
 
 // Sección de declaración de constantes globales
 	const float DELTA = 5;    // Valor para el incremento/decremento del ángulo
@@ -135,13 +129,14 @@ typedef struct nodo
 			rodilla_izquierda = 1;
 			hombro_derecho = codo_derecho = hombro_izquierdo = cabeza_rot = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = vista = 0;
 			break;
-			
+
 			case 10:
 			cabeza_rot = 1;
 			hombro_derecho = codo_derecho = rodilla_izquierda = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = vista = 0;
 			break;
 		}
 	}
+
 
 //Metodo para leer archivo
 	void leerarch(){
@@ -166,7 +161,6 @@ typedef struct nodo
 	    }
 		entrada.close();
 	}
-
 
 
 	void tronco(){
@@ -288,321 +282,56 @@ typedef struct nodo
 
 	void inicializaElementos()
 	{
-	//tronco
-		glLoadIdentity();
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[0].m);
-		elementos[0].f = tronco;
-		elementos[0].sibling = NULL;
-		elementos[0].child = &elementos[1];
+        ifstream entrada;
 
-	//hombro derecho
-		glLoadIdentity();
-		glTranslatef(elementos[1].x, elementos[1].y, elementos[1].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[1].m);
-		elementos[1].r = 252.0/255.0;
-		elementos[1].g = 128.0/255.0;
-		elementos[1].b = 0.0/255.0;
-		elementos[1].rotX = 0;
-		elementos[1].rotY = 0;
-		elementos[1].rotZ = 0;
-		elementos[1].f = hombro;
-		elementos[1].sibling = &elementos[6];
-		elementos[1].child = &elementos[2];
+		entrada.open("datos.txt");
+		assert(entrada);
 
-	//bicep derecho
-		glLoadIdentity();
-		glTranslatef(elementos[2].x, elementos[2].y, elementos[2].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[2].m);
-		elementos[2].r = 252.0/255.0;
-		elementos[2].g = 128.0/255.0;
-		elementos[2].b = 0.0/255.0;
-		elementos[2].rotX = 0;
-		elementos[2].rotY = 0;
-		elementos[2].rotZ = 0;
-		elementos[2].f = bicep;
-		elementos[2].sibling = NULL;
-		elementos[2].child = &elementos[3];
+		char *nombre;
+		double valor;
 
-	//Codo derecho
 		glLoadIdentity();
-		glTranslatef(elementos[3].x, elementos[3].y, elementos[3].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[3].m);
-		elementos[3].r = 252.0/255.0;
-		elementos[3].g = 128.0/255.0;
-		elementos[3].b = 0.0/255.0;
-		elementos[3].rotX = 0;
-		elementos[3].rotY = 0;
-		elementos[3].rotZ = 0;
-		elementos[3].f = codo;
-		elementos[3].sibling = NULL;
-		elementos[3].child = &elementos[4];
+		for (int i = 0; i < PARTES; i++) {
+		    entrada >> nombre;
+		    printf("%s",nombre);
+		    //asignar funcion
+		    if (strcmp(nombre, "tronco") == 0) elementos[i].f = tronco;
+		    else if (strcmp(nombre, "hombro") == 0) elementos[i].f = hombro;
+		    else if (strcmp(nombre, "bicep") == 0) elementos[i].f = bicep;
+		    else if (strcmp(nombre, "codo") == 0) elementos[i].f = codo;
+		    else if (strcmp(nombre, "antebrazo") == 0) elementos[i].f = antebrazo;
+		    else if (strcmp(nombre, "mano") == 0) elementos[i].f = mano;
+		    else if (strcmp(nombre, "cadera") == 0) elementos[i].f = cadera;
+		    else if (strcmp(nombre, "quadricep") == 0) elementos[i].f = quadricep;
+		    else if (strcmp(nombre, "rodilla") == 0) elementos[i].f = rodilla;
+		    else if (strcmp(nombre, "chamorro") == 0) elementos[i].f = chamorro;
+		    else if (strcmp(nombre, "pie") == 0) elementos[i].f = pie;
+		    else if (strcmp(nombre, "cuello") == 0) elementos[i].f = cuello;
+		    else if (strcmp(nombre, "cabeza") == 0) elementos[i].f = cabeza;
 
-	//Antebrazo derecho
-		glLoadIdentity();
-		glTranslatef(elementos[4].x, elementos[4].y, elementos[4].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[4].m);
-		elementos[4].r = 252.0/255.0;
-		elementos[4].g = 128.0/255.0;
-		elementos[4].b = 0.0/255.0;
-		elementos[4].rotX = 0;
-		elementos[4].rotY = 0;
-		elementos[4].rotZ = 0;
-		elementos[4].f = antebrazo;
-		elementos[4].sibling = NULL;
-		elementos[4].child = &elementos[5];
+            for (int j = 0; j < DATOS; j++) {
+                entrada >> valor;
+		        switch (j) {
+					case 0: elementos[i].x = valor;
+					case 1: elementos[i].y = valor;
+					case 2: elementos[i].z = valor;
+					case 3: elementos[i].r = valor;
+					case 4: elementos[i].g = valor;
+					case 5: elementos[i].b = valor;
+				}
 
-	//Mano derecho
-		glLoadIdentity();
-		glTranslatef(elementos[5].x, elementos[5].y, elementos[5].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[5].m);
-		elementos[5].r = 252.0/255.0;
-		elementos[5].g = 128.0/255.0;
-		elementos[5].b = 0.0/255.0;
-		elementos[5].rotX = 0;
-		elementos[5].rotY = 0;
-		elementos[5].rotZ = 0;
-		elementos[5].f = mano;
-		elementos[5].sibling = NULL;
-		elementos[5].child = NULL;
-
-		//hombro izquierdo
-		glLoadIdentity();
-		glTranslatef(elementos[6].x, elementos[6].y, elementos[6].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[6].m);
-		elementos[6].r = 1;
-		elementos[6].g = 0;
-		elementos[6].b = 0;
-		elementos[6].rotX = 0;
-		elementos[6].rotY = 0;
-		elementos[6].rotZ = 0;
-		elementos[6].f = hombro;
-		elementos[6].sibling = &elementos[11];
-		elementos[6].child = &elementos[7];
-
-		//bicep izquierdo
-		glLoadIdentity();
-		glTranslatef(elementos[7].x, elementos[7].y, elementos[7].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[7].m);
-		elementos[7].r = 252.0/255.0;
-		elementos[7].g = 128.0/255.0;
-		elementos[7].b = 0.0/255.0;
-		elementos[7].rotX = 0;
-		elementos[7].rotY = 0;
-		elementos[7].rotZ = 0;
-		elementos[7].f = bicep;
-		elementos[7].sibling = NULL;
-		elementos[7].child = &elementos[8];
-
-//	//Codo izquierdo
-		glLoadIdentity();
-		glTranslatef(elementos[8].x, elementos[8].y, elementos[8].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[8].m);
-		elementos[8].r = 252.0/255.0;
-		elementos[8].g = 128.0/255.0;
-		elementos[8].b = 0.0/255.0;
-		elementos[8].rotX = 0;
-		elementos[8].rotY = 0;
-		elementos[8].rotZ = 0;
-		elementos[8].f = codo;
-		elementos[8].sibling = NULL;
-		elementos[8].child = &elementos[9];
-
-	//Antebrazo izquierdo
-		glLoadIdentity();
-		glTranslatef(elementos[9].x, elementos[9].y, elementos[9].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[9].m);
-		elementos[9].r = 252.0/255.0;
-		elementos[9].g = 128.0/255.0;
-		elementos[9].b = 0.0/255.0;
-		elementos[9].rotX = 0;
-		elementos[9].rotY = 0;
-		elementos[9].rotZ = 0;
-		elementos[9].f = antebrazo;
-		elementos[9].sibling = NULL;
-		elementos[9].child = &elementos[10];
-
-	//Mano izquierda
-		glLoadIdentity();
-		glTranslatef(elementos[10].x, elementos[10].y, elementos[10].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[10].m);
-		elementos[10].r = 252.0/255.0;
-		elementos[10].g = 128.0/255.0;
-		elementos[10].b = 0.0/255.0;
-		elementos[10].rotX = 0;
-		elementos[10].rotY = 0;
-		elementos[10].rotZ = 0;
-		elementos[10].f = mano;
-		elementos[10].sibling = NULL;
-		elementos[10].child = NULL;
-
-
-	//cadera derecha
-		glLoadIdentity();
-		glTranslatef(elementos[11].x, elementos[11].y, elementos[11].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[11].m);
-		elementos[11].r = 1;
-		elementos[11].g = 0;
-		elementos[11].b = 0;
-		elementos[11].rotX = 0;
-		elementos[11].rotY = 0;
-		elementos[11].rotZ = 0;
-		elementos[11].f = cadera;
-		elementos[11].sibling = &elementos[16];
-		elementos[11].child = &elementos[12];
-
-	//quadricep derecho
-		glLoadIdentity();
-		glTranslatef(elementos[12].x, elementos[12].y, elementos[12].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[12].m);
-		elementos[12].r = 1;
-		elementos[12].g = 0;
-		elementos[12].b = 0;
-		elementos[12].rotX = 0;
-		elementos[12].rotY = 0;
-		elementos[12].rotZ = 0;
-		elementos[12].f = quadricep;
-		elementos[12].sibling = NULL;
-		elementos[12].child = &elementos[13];
-
-	//rodilla derecha
-		glLoadIdentity();
-		glTranslatef(elementos[13].x, elementos[13].y, elementos[13].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[13].m);
-		elementos[13].r = 0;
-		elementos[13].g = 1;
-		elementos[13].b = 0;
-		elementos[13].rotX = 0;
-		elementos[13].rotY = 0;
-		elementos[13].rotZ = 0;
-		elementos[13].f = rodilla;
-		elementos[13].sibling = NULL;
-		elementos[13].child = &elementos[14];
-
-	//chamorro derecho
-		glLoadIdentity();
-		glTranslatef(elementos[14].x, elementos[14].y, elementos[14].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[14].m);
-		elementos[14].r = 0;
-		elementos[14].g = 1;
-		elementos[14].b = 0;
-		elementos[14].rotX = 0;
-		elementos[14].rotY = 0;
-		elementos[14].rotZ = 0;
-		elementos[14].f = chamorro;
-		elementos[14].sibling = NULL;
-		elementos[14].child = &elementos[15];
-
-	//pie derecho
-		glLoadIdentity();
-		glTranslatef(elementos[15].x, elementos[15].y, elementos[15].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[15].m);
-		elementos[15].r = 1;
-		elementos[15].g = 0;
-		elementos[15].b = 0;
-		elementos[15].rotX = 0;
-		elementos[15].rotY = 0;
-		elementos[15].rotZ = 0;;
-		elementos[15].f = pie;
-		elementos[15].sibling = NULL;
-		elementos[15].child = NULL;
-
-	//cadera izquierda
-		glLoadIdentity();
-		glTranslatef(elementos[16].x, elementos[16].y, elementos[16].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[16].m);
-		elementos[16].r = 1;
-		elementos[16].g = 0;
-		elementos[16].b = 0;
-		elementos[16].rotX = 0;
-		elementos[16].rotY = 0;
-		elementos[16].rotZ = 0;;
-		elementos[16].f = cadera;
-		elementos[16].sibling = &elementos[21];
-		elementos[16].child = &elementos[17];
-
-	//quadricep izquierdo
-		glLoadIdentity();
-		glTranslatef(elementos[17].x, elementos[17].y, elementos[17].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[17].m);
-		elementos[17].r = 1;
-		elementos[17].g = 0;
-		elementos[17].b = 0;
-		elementos[17].rotX = 0;
-		elementos[17].rotY = 0;
-		elementos[17].rotZ = 0;;
-		elementos[17].f = quadricep;
-		elementos[17].sibling = NULL;
-		elementos[17].child = &elementos[18];
-
-//	//rodilla izquierda
-		glLoadIdentity();
-		glTranslatef(elementos[18].x, elementos[18].y, elementos[18].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[18].m);
-		elementos[18].r = 0;
-		elementos[18].g = 1;
-		elementos[18].b = 0;
-		elementos[18].rotX = 0;
-		elementos[18].rotY = 0;
-		elementos[18].rotZ = 0;;
-		elementos[18].f = rodilla;
-		elementos[18].sibling = NULL;
-		elementos[18].child = &elementos[19];
-
-	//chamorro izquierdo
-		glLoadIdentity();
-		glTranslatef(elementos[19].x, elementos[19].y, elementos[19].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[19].m);
-		elementos[19].r = 0;
-		elementos[19].g = 1;
-		elementos[19].b = 0;
-		elementos[19].rotX = 0;
-		elementos[19].rotY = 0;
-		elementos[19].rotZ = 0;;
-		elementos[19].f = chamorro;
-		elementos[19].sibling = NULL;
-		elementos[19].child = &elementos[20];
-
-	//pie izquierdo
-		glLoadIdentity();
-		glTranslatef(elementos[20].x, elementos[20].y, elementos[20].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[20].m);
-		elementos[20].r = 1;
-		elementos[20].g = 0;
-		elementos[20].b = 0;
-		elementos[20].rotX = 0;
-		elementos[20].rotY = 0;
-		elementos[20].rotZ = 0;;
-		elementos[20].f = pie;
-		elementos[20].sibling = NULL;
-		elementos[20].child = NULL;
-
-		//cuello
-		glLoadIdentity();
-		glTranslatef(elementos[21].x, elementos[21].y, elementos[21].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[21].m);
-		elementos[21].r = 1;
-		elementos[21].g = 0;
-		elementos[21].b = 0;
-		elementos[21].rotX = 0;
-		elementos[21].rotY = 0;
-		elementos[21].rotZ = 0;;
-		elementos[21].f = cuello;
-		elementos[21].sibling = NULL;
-		elementos[21].child = &elementos[22];
-
-	//cabeza
-		glLoadIdentity();
-		glTranslatef(elementos[22].x, elementos[22].y, elementos[22].z);
-		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[22].m);
-		elementos[22].r = 1;
-		elementos[22].g = 0;
-		elementos[22].b = 0;
-		elementos[22].rotX = 0;
-		elementos[22].rotY = 0;
-		elementos[22].rotZ = 0;;
-		elementos[22].f = cabeza;
-		elementos[22].sibling = NULL;
-		elementos[22].child = NULL;
+		    }
+		    glTranslatef(elementos[i].x, elementos[i].y, elementos[i].z);
+	        glGetFloatv(GL_MODELVIEW_MATRIX, elementos[i].m);
+	        if (i == 1 || i == 6 || i == 11 || i == 16)
+	            elementos[i].sibling = &elementos[i+5];
+	        else
+	            elementos[i].sibling = NULL;
+	        if (i == 5 || i == 10 || i == 15 || i == 20)
+		        elementos[i].child = NULL;
+		    else
+		        elementos[i].child = &elementos[i+1];
+		}
 	}
 
 
@@ -623,43 +352,43 @@ typedef struct nodo
 		switch (key){
 			case GLUT_KEY_F1: exit(0);               // Cuando se presiona F1, termina el programa
 				break;
-			case GLUT_KEY_UP: 
+			case GLUT_KEY_UP:
 				if(vista){
 					anguloX += DELTA;
 				}else if(hombro_derecho){
-					elementos[1].rotZ += DELTA;       
+					elementos[1].rotZ += DELTA;
 
-				}else if(codo_derecho){             
-					elementos[3].rotZ += DELTA;       
+				}else if(codo_derecho){
+					elementos[3].rotZ += DELTA;
 
-				}else if(hombro_izquierdo){         
-					elementos[6].rotZ -= DELTA;       
+				}else if(hombro_izquierdo){
+					elementos[6].rotZ -= DELTA;
 
-				}else if(codo_izquierdo){           
-					elementos[8].rotZ -= DELTA;       
+				}else if(codo_izquierdo){
+					elementos[8].rotZ -= DELTA;
 
-				}else if(cadera_derecha){           
-					elementos[11].rotX -= DELTA;      
+				}else if(cadera_derecha){
+					elementos[11].rotX -= DELTA;
 
-				}else if(rodilla_derecha){          
-					elementos[13].rotX -= DELTA;      
+				}else if(rodilla_derecha){
+					elementos[13].rotX -= DELTA;
 
-				}else if(cadera_izquierda){         
-					elementos[16].rotX -= DELTA;      
+				}else if(cadera_izquierda){
+					elementos[16].rotX -= DELTA;
 
-				}else if(rodilla_izquierda){        
-					elementos[18].rotX -= DELTA;      
+				}else if(rodilla_izquierda){
+					elementos[18].rotX -= DELTA;
 
 				}else{
-					elementos[22].rotX -= DELTA;      
+					elementos[22].rotX -= DELTA;
 
 				}
 			break;
-				case GLUT_KEY_DOWN: 
+				case GLUT_KEY_DOWN:
 				if (vista){
-					anguloX -= DELTA;		        
+					anguloX -= DELTA;
 				}else if(hombro_derecho){
-					elementos[1].rotZ -= DELTA; 
+					elementos[1].rotZ -= DELTA;
 
 				}else if(codo_derecho){
 					elementos[3].rotZ -= DELTA;
@@ -683,7 +412,7 @@ typedef struct nodo
 					elementos[18].rotX += DELTA;
 
 				}else{
-					elementos[22].rotX += DELTA;      
+					elementos[22].rotX += DELTA;
 
 				}
 			break;
@@ -691,40 +420,40 @@ typedef struct nodo
 				if(vista){
 					anguloY -= DELTA;
 				}else if(hombro_derecho){
-					elementos[1].rotY -= DELTA;       
+					elementos[1].rotY -= DELTA;
 
-				}else if(codo_derecho){             
-					elementos[3].rotY -= DELTA;       
+				}else if(codo_derecho){
+					elementos[3].rotY -= DELTA;
 
-				}else if(hombro_izquierdo){         
-					elementos[6].rotY += DELTA;       
+				}else if(hombro_izquierdo){
+					elementos[6].rotY += DELTA;
 
-				}else if(codo_izquierdo){           
-					elementos[8].rotY += DELTA;       
+				}else if(codo_izquierdo){
+					elementos[8].rotY += DELTA;
 
 				}else{
-					elementos[22].rotY -= DELTA;      
+					elementos[22].rotY -= DELTA;
 
 				}
 				break;
 
-		case GLUT_KEY_RIGHT:     
+		case GLUT_KEY_RIGHT:
 		    if (vista){
-		        anguloY += DELTA;		        
+		        anguloY += DELTA;
 		    }else if(hombro_derecho){
-		        elementos[1].rotY += DELTA; 
-		
+		        elementos[1].rotY += DELTA;
+
 		    }else if(codo_derecho){
 		        elementos[3].rotY += DELTA;
-		    
+
 		    }else if(hombro_izquierdo){
 		        elementos[6].rotY -= DELTA;
-		    
+
 		    }else if(codo_izquierdo){
 		        elementos[8].rotY -= DELTA;
-		        		
+
 		    }else{
-						elementos[22].rotY += DELTA;      
+						elementos[22].rotY += DELTA;
 				}
 			break;
 		}
@@ -746,8 +475,8 @@ typedef struct nodo
 		glutAddMenuEntry("Pierna Derecha",CADERA_DERECHA);
 		glutAddMenuEntry("Rodilla Derecha",RODILLA_DERECHA);
 		glutAddMenuEntry("Pierna Izquierdo",CADERA_IZQUIERDA);
-		glutAddMenuEntry("Rodilla Izquierda",RODILLA_IZQUIERDA);	
-		glutAddMenuEntry("Cabeza",CABEZA);	
+		glutAddMenuEntry("Rodilla Izquierda",RODILLA_IZQUIERDA);
+		glutAddMenuEntry("Cabeza",CABEZA);
 		glutAttachMenu(GLUT_RIGHT_BUTTON);
 	}
 
@@ -773,7 +502,6 @@ typedef struct nodo
 	{
 		glutInit(&argc, argv);
 		inicializa();
-		leerarch();
 		indicaMetodos();
 		inicializaElementos();
 		glutMainLoop();
