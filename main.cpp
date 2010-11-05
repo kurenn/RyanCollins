@@ -88,7 +88,7 @@ typedef struct nodo
 	int cadera_izquierda = 0;
 	int rodilla_izquierda = 0;
 	int cabeza_rot = 0;
-
+    float mcolor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 // Empieza la declaración de métodos y funciones
 
 	void processMenuEvents(int opcion){
@@ -162,8 +162,8 @@ typedef struct nodo
 					case 1: elementos[i].y = valor;
 					case 2: elementos[i].z = valor;
 				}
-			}
-		}
+		    }
+	    }
 		entrada.close();
 	}
 
@@ -246,6 +246,8 @@ typedef struct nodo
 	// transformar relativo a su padre
 		glMultMatrixf(node->m);
 
+        //glLightfv(GL_LIGHT0, GL_DIFFUSE, specular);
+        glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mcolor);
 		glColor3f(node->r, node->g, node->b);
 
 		glRotatef(node->rotX, 1, 0, 0);
@@ -755,9 +757,15 @@ typedef struct nodo
 		glutInitWindowSize( 700, 700 );
 		glutInitWindowPosition( 100, 100 );
 		glutCreateWindow( "" );
-		glutSetWindowTitle( "Ejemplo 4" );
+		glutSetWindowTitle( "Practica 6" );
 		glutInitDisplayMode (GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 		glShadeModel(GL_FLAT);
+		glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mcolor);
+		glEnable(GL_LIGHTING);
+		glEnable(GL_LIGHT0);
+		glEnable(GL_COLOR_MATERIAL);
+		glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+		
 	}
 
 // Método inicial, aquí empieza la ejecución del programa
