@@ -265,7 +265,7 @@ typedef struct nodo
 		glLoadIdentity();
 		for (int i = 0; i < PARTES; i++) {
 		    entrada >> nombre;
-		    printf("%s",nombre);
+		    printf("%d",nombre);
 		    //asignar funcion
 		    if (strcmp(nombre, "tronco") == 0) elementos[i].f = tronco;
 		    else if (strcmp(nombre, "hombro") == 0) elementos[i].f = hombro;
