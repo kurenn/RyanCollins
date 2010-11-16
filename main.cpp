@@ -246,10 +246,10 @@ void leerarch(){
         }
 	    if (i == 5 || i == 10 || i == 15 || i == 20 || i == 22)
 		    elementos[i].child = NULL;
-		else
+			else
 		    elementos[i].child = &elementos[i+1];
-	    if (i == 1 || i == 2 || i == 3 || i == 4 || i == 5 ||
-	        i == 6 || i == 11 || i == 12 ||i == 13 || i == 14 || i == 16)
+		
+	    if (i == 1 || i == 6 || i == 11 || i == 16)
 	        elementos[i].sibling = &elementos[i+5];
 	    else
 	        elementos[i].sibling = NULL;
