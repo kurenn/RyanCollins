@@ -41,6 +41,17 @@ using namespace std;
 #include <iostream> // libreria para el manejo de cin y cout
 #include <string.h> // libreria para el manejo de strcmp
 
+//Declaracion
+#define VISTA 1
+#define HOMBRO_DERECHO 2
+#define CODO_DERECHO 3
+#define HOMBRO_IZQUIERDO 4
+#define CODO_IZQUIERDO 5
+#define CADERA_DERECHA 6
+#define RODILLA_DERECHA 7
+#define CADERA_IZQUIERDA 8
+#define RODILLA_IZQUIERDA 9
+#define CABEZA 10
 #define PARTES 23 //constante para partes del cuerpo
 #define DATOS 6 //constante para partes del cuerpo
 
@@ -50,10 +61,9 @@ typedef struct nodo
 	float r, g, b;       // para guardar color
 	struct nodo *sibling;  // para guardar el apuntador al primer hermano
 	struct nodo *child;    // para guardar el apuntador al primer hijo
-	float x, y, z;      //para guardar la traslacion de la parte del cuerpo
-} nodo;
-
-
+	float x, y, z;         //para guardar los valores de la traslacion
+	float rotX, rotY, rotZ;  //para guardar los valores de la rotacion
+	} nodo;
 
 // Sección de declaración de constantes globales
 const float DELTA = 5;    // Valor para el incremento/decremento del ángulo
@@ -62,8 +72,72 @@ const float DELTA = 5;    // Valor para el incremento/decremento del ángulo
 float anguloX = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en X;
 float anguloY = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en Y;
 nodo elementos[24];
+int vista = 1;
+int hombro_derecho = 0;
+int codo_derecho = 0;
+int hombro_izquierdo = 0;
+int codo_izquierdo = 0;
+int cadera_derecha = 0;
+int rodilla_derecha = 0;
+int cadera_izquierda = 0;
+int rodilla_izquierda = 0;
+int cabeza_rot = 0;
+float mcolor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 
 // Empieza la declaración de métodos y funciones
+
+void processMenuEvents(int opcion){
+	switch (opcion){
+		case 1:
+		vista = 1;
+		hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+		break;
+		case 2:
+		hombro_derecho = 1;
+		vista = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cabeza_rot = cadera_izquierda = rodilla_izquierda = 0;
+		break;
+		case 3:
+		codo_derecho = 1;
+		hombro_derecho = vista = hombro_izquierdo = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+		break;
+
+		case 4:
+		hombro_izquierdo = 1;
+		hombro_derecho = codo_derecho = vista = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+		break;
+
+		case 5:
+		codo_izquierdo = 1;
+		hombro_derecho = codo_derecho = hombro_izquierdo = vista = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+		break;
+
+		case 6:
+		cadera_derecha = 1;
+		hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = vista = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+		break;
+
+		case 7:
+		rodilla_derecha = 1;
+		hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cabeza_rot = cadera_derecha = vista = cadera_izquierda = rodilla_izquierda = 0;
+		break;
+
+		case 8:
+		cadera_izquierda = 1;
+		hombro_derecho = codo_derecho = hombro_izquierdo = cabeza_rot = codo_izquierdo = cadera_derecha = rodilla_derecha = vista = rodilla_izquierda = 0;
+		break;
+
+		case 9:
+		rodilla_izquierda = 1;
+		hombro_derecho = codo_derecho = hombro_izquierdo = cabeza_rot = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = vista = 0;
+		break;
+
+		case 10:
+		cabeza_rot = 1;
+		hombro_derecho = codo_derecho = rodilla_izquierda = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = vista = 0;
+		break;
+	}
+}
+
 
 void tronco(){
 	glScalef(1.0, 2.0, 0.5);
@@ -194,8 +268,14 @@ void traverse (nodo *node)
 	// transformar relativo a su padre
 	glMultMatrixf(node->m);
 
+	//glLightfv(GL_LIGHT0, GL_DIFFUSE, specular);
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mcolor);
 	glColor3f(node->r, node->g, node->b);
-
+	
+	glRotatef(node->rotX, 1, 0, 0);
+	glRotatef(node->rotY, 0, 1, 0);
+	glRotatef(node->rotZ, 0, 0, 1);
+	
 	// dibujar el nodo
 	node->f();
 
@@ -255,20 +335,117 @@ void reshape(GLsizei width, GLsizei height)
 // Método para el procesamiento de las teclas especiales
 void flechas(int key, int x, int y)
 {
-	switch (key)
-	{ case GLUT_KEY_F1: exit(0);               // Cuando se presiona F1, termina el programa
+	switch (key){
+		case GLUT_KEY_F1: exit(0);               // Cuando se presiona F1, termina el programa
 			break;
-		case GLUT_KEY_UP: anguloX += DELTA+1;       // Si se presiona la flecha hacia arriba, aumenta el ángulo de
-			break;                 // rotación en X
-		case GLUT_KEY_DOWN: anguloX -= DELTA;     // Si se presiona la flecha hacia abajo, disminuye el ángulo de
-			break;               // rotación en X
-		case GLUT_KEY_LEFT: anguloY += DELTA;       // Si se presiona la flecha hacia la izquierda, aumenta el ángulo de
-			break;                 // rotación en Y
-		case GLUT_KEY_RIGHT: anguloY -= DELTA;     // Si se presiona la flecha hacia la derecha, disminuye el ángulo de
-			break;               // rotación en Y
+		case GLUT_KEY_UP:
+			if(vista){
+				anguloX += DELTA;
+			}else if(hombro_derecho){
+				elementos[1].rotZ += DELTA;
+				
+			}else if(codo_derecho){
+				elementos[3].rotZ += DELTA;
+				
+			}else if(hombro_izquierdo){
+				elementos[6].rotZ -= DELTA;
+				
+			}else if(codo_izquierdo){
+				elementos[8].rotZ -= DELTA;
+				
+			}else if(cadera_derecha){
+				elementos[11].rotX -= DELTA;
+				
+			}else if(rodilla_derecha){
+				elementos[13].rotX -= DELTA;
+				
+			}else if(cadera_izquierda){
+				elementos[16].rotX -= DELTA;
+				
+			}else if(rodilla_izquierda){
+				elementos[18].rotX -= DELTA;
+				
+			}else{
+				elementos[22].rotX -= DELTA;
+				
+			}
+			break;
+		case GLUT_KEY_DOWN:
+			if (vista){
+				anguloX -= DELTA;
+			}else if(hombro_derecho){
+				elementos[1].rotZ -= DELTA;
+				
+			}else if(codo_derecho){
+				elementos[3].rotZ -= DELTA;
+				
+			}else if(hombro_izquierdo){
+				elementos[6].rotZ += DELTA;
+				
+			}else if(codo_izquierdo){
+				elementos[8].rotZ += DELTA;
+				
+			}else if(cadera_derecha){
+				elementos[11].rotX += DELTA;
+				
+			}else if(rodilla_derecha){
+				elementos[13].rotX +=DELTA;
+				
+			}else if(cadera_izquierda){
+				elementos[16].rotX += DELTA;
+				
+			}else if(rodilla_izquierda){
+				elementos[18].rotX += DELTA;
+				
+			}else{
+				elementos[22].rotX += DELTA;
+				
+			}
+			break;
+		case GLUT_KEY_LEFT:
+			if(vista){
+				anguloY -= DELTA;
+			}else if(hombro_derecho){
+				elementos[1].rotY -= DELTA;
+				
+			}else if(codo_derecho){
+				elementos[3].rotY -= DELTA;
+				
+			}else if(hombro_izquierdo){
+				elementos[6].rotY += DELTA;
+				
+			}else if(codo_izquierdo){
+				elementos[8].rotY += DELTA;
+				
+			}else{
+				elementos[22].rotY -= DELTA;
+				
+			}
+			break;
+			
+		case GLUT_KEY_RIGHT:
+		    if (vista){
+		        anguloY += DELTA;
+		    }else if(hombro_derecho){
+		        elementos[1].rotY += DELTA;
+				
+		    }else if(codo_derecho){
+		        elementos[3].rotY += DELTA;
+				
+		    }else if(hombro_izquierdo){
+		        elementos[6].rotY -= DELTA;
+				
+		    }else if(codo_izquierdo){
+		        elementos[8].rotY -= DELTA;
+				
+		    }else{
+				elementos[22].rotY += DELTA;
+			}
+			break;
 	}
 	glutPostRedisplay();
 }
+
 
 // Método de asignación de los callbacks
 void indicaMetodos()
@@ -276,6 +453,18 @@ void indicaMetodos()
 	glutDisplayFunc(myDisplay);
 	glutReshapeFunc(reshape);
 	glutSpecialFunc(flechas);
+	glutCreateMenu(processMenuEvents);
+	glutAddMenuEntry("Todo",VISTA);
+	glutAddMenuEntry("Hombro Derecho",HOMBRO_DERECHO);
+	glutAddMenuEntry("Codo Derecho",CODO_DERECHO);
+	glutAddMenuEntry("Hombro Izquierdo",HOMBRO_IZQUIERDO);
+	glutAddMenuEntry("Codo Izquierdo",CODO_IZQUIERDO);
+	glutAddMenuEntry("Pierna Derecha",CADERA_DERECHA);
+	glutAddMenuEntry("Rodilla Derecha",RODILLA_DERECHA);
+	glutAddMenuEntry("Pierna Izquierdo",CADERA_IZQUIERDA);
+	glutAddMenuEntry("Rodilla Izquierda",RODILLA_IZQUIERDA);
+	glutAddMenuEntry("Cabeza",CABEZA);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
 // Método de inicialización de las características de la ventana, del cursor y de OPENGL
@@ -283,10 +472,15 @@ void inicializa()
 {
 	glutInitWindowSize( 700, 700 );
 	glutInitWindowPosition( 100, 100 );
-    glutCreateWindow( "" );
-	glutSetWindowTitle( "Ejemplo 4" );
+  glutCreateWindow( "" );
+	glutSetWindowTitle( "" );
 	glutInitDisplayMode (GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	glShadeModel(GL_FLAT);
+	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mcolor);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 }
 
 // Método inicial, aquí empieza la ejecución del programa
@@ -295,7 +489,7 @@ int main(int argc, char **argv)
 	glutInit(&argc, argv);
 	inicializa();
 	leerarch();
-    indicaMetodos();
+  indicaMetodos();
 	inicializaElementos();
 	glutMainLoop();
 	return 0;
