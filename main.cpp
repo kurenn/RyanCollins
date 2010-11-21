@@ -82,13 +82,16 @@ int rodilla_derecha = 0;
 int cadera_izquierda = 0;
 int rodilla_izquierda = 0;
 int cabeza_rot = 0;
-float mcolor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 
 GLfloat pi180=3.14159265358979323846/180;
 GLdouble angulo = 1*pi180;
 GLfloat angx, angz, slice = 360;
 GLdouble x,z;                   
 
+float mcolor[] = { 1.0f, 0.0f, 0.0f, 1.0f };
+float light0[] = { 0.32f, 0.32f, 0.32f, 1.0f  };
+float light0_pos[] = { 100.0f, 100.0f,0.0f, 1.0f };
+static float ypoz = 0, zpoz = 0;
 
 // Empieza la declaración de métodos y funciones
 
@@ -163,10 +166,10 @@ void bicep(){
 	glRotatef(90,0,0,1);  
 	
 	GLdouble vertices1 [ ] [3]= {
-																{0.1,	-0.1,	0},
-																{0.1,	-0.1,	0},
-																{0.1,	0.1,	0},
-																{0.1,	0.1,	0}
+																{0.1,	-0.25,	0},
+																{0.1,	-0.25,	0},
+																{0.1,	 0.25,	0},
+																{0.1,	 0.25,	0}
 															};
 	
 	for (int i= 0; i<slice;i++)
@@ -204,10 +207,10 @@ void antebrazo(){
 	glRotatef(90,0,0,1);  
 
 	GLdouble vertices1 [ ] [3]= {
-																{0.1,	-0.1,	0},
-																{0.1,	-0.1,	0},
-																{0.1,	0.1,	0},
-																{0.1,	0.1,	0}
+																{0.1,	-0.25,	0},
+																{0.1,	-0.25,	0},
+																{0.1,	 0.25,	0},
+																{0.1,	 0.25,	0}
 															};
 	
 	for (int i= 0; i<slice;i++)
@@ -403,6 +406,18 @@ void leerarch(){
     entrada.close();
 }
 
+void animate()
+{
+
+    // We increment the rotation angle for the triangle, and if it went over 360 we wrap it back to 0
+    ypoz+=0.5;
+    if (ypoz>360) ypoz=0;
+
+    // Normally openGL doesn't continuously draw frames. It puts one in place and waits for you to tell him what to do next.
+    // Calling glutPostRedisplay() forces a redraw with the new angle
+    glutPostRedisplay();
+
+}
 
 // recorrido a profundidad: primero los hijos, luego los hermanos
 void traverse (nodo *node)
@@ -415,7 +430,7 @@ void traverse (nodo *node)
 	glMultMatrixf(node->m);
 
 	//glLightfv(GL_LIGHT0, GL_DIFFUSE, specular);
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mcolor);
+   //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mcolor);
 	glColor3f(node->r, node->g, node->b);
 	
 	glRotatef(node->rotX, 1, 0, 0);
@@ -436,10 +451,11 @@ void traverse (nodo *node)
 
 }
 
+
 // Método de desplegado
 void myDisplay()
 {
-    glClearColor(0.0, 0.0, 1.0, 1.0);
+    glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable( GL_DEPTH_TEST ); // Importante para que se vean bien las caras, probar que pasa si lo quito
 	glLoadIdentity();
@@ -453,6 +469,7 @@ void myDisplay()
 
 void inicializaElementos()
 {
+
 
 	//tronco
 	glLoadIdentity();
@@ -618,15 +635,17 @@ void inicializa()
 {
 	glutInitWindowSize( 700, 700 );
 	glutInitWindowPosition( 100, 100 );
-  glutCreateWindow( "" );
-	glutSetWindowTitle( "" );
+    glutCreateWindow( "" );
+	glutSetWindowTitle( "HorseMan" );
 	glutInitDisplayMode (GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-	glShadeModel(GL_FLAT);
-	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mcolor);
 	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
 	glEnable(GL_COLOR_MATERIAL);
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	glShadeModel(GL_SMOOTH);
+	glEnable(GL_LIGHT0);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light0 );
+	glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
+	
+	//glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 }
 
 // Método inicial, aquí empieza la ejecución del programa
@@ -635,8 +654,9 @@ int main(int argc, char **argv)
 	glutInit(&argc, argv);
 	inicializa();
 	leerarch();
-  indicaMetodos();
+  	indicaMetodos();
 	inicializaElementos();
+	glutIdleFunc(animate);
 	glutMainLoop();
 	return 0;
 }
