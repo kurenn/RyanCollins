@@ -8,7 +8,7 @@
  *  Selecciona el cursor con figura de reloj                                                           *
  *  Termina el programa si se presiona la tecla F1                                                     *
  *  Rota el cubo en cuatro direcciones diferentes, dependiendo si se presiona la tecla de flecha       *
- *  hacia arriba o flecha hacia abajo o flecha izquierda o flecha derecha                                                                 *
+ *  hacia arriba o flecha hacia abajo o flecha izquierda o flecha derecha                              *
  *  No incluye comentarios de las funciones, métodos y constantes de OPENGL y GLUT                     *
  *  pues se espera que los alumnos analicen su funcionamiento consultando los APIs correspondientes    *
  *  API OPENGL : http://www.opengl.org/sdk/docs/man/                                                   *
@@ -25,11 +25,11 @@ using namespace std;
 
 // Sección de inclusión de librerías
 #ifdef __APPLE__ 
-#include <GLUT/glut.h>
+	#include <GLUT/glut.h>
 #else
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
+	#include <GL/gl.h>
+	#include <GL/glu.h>
+	#include <GL/glut.h>
 #endif
 
 #include <stdlib.h>       // Librería necesaria para usar la función exit() que termina la ejecución del programa
@@ -83,6 +83,12 @@ int cadera_izquierda = 0;
 int rodilla_izquierda = 0;
 int cabeza_rot = 0;
 float mcolor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+
+GLfloat pi180=3.14159265358979323846/180;
+GLdouble angulo = 1*pi180;
+GLfloat angx, angz, slice = 360;
+GLdouble x,z;                   
+
 
 // Empieza la declaración de métodos y funciones
 
@@ -154,15 +160,85 @@ void cadera(){
 }
 
 void bicep(){
-	glScalef(2.0, 1.0, 1.0);
-	glutSolidCube(0.25);
-	glScalef(0.5, 1.0, 1.0);
+	glRotatef(90,0,0,1);  
+	
+	GLdouble vertices1 [ ] [3]= {
+																{0.1,	-0.1,	0},
+																{0.1,	-0.1,	0},
+																{0.1,	0.1,	0},
+																{0.1,	0.1,	0}
+															};
+	
+	for (int i= 0; i<slice;i++)
+	{
+		glBegin(GL_POLYGON);
+		for (int j= 1; j<3;j++)
+		{
+			x = vertices1[j][0]*cos(angulo)+vertices1[j][2]*sin(angulo);
+			z =  vertices1[j][0]*sin(angulo)*-1.0+vertices1[j][2]*cos(angulo);
+			if (j%2 == 0)
+			{
+				glVertex3d(x,vertices1[j][1],z);
+				glVertex3d(vertices1[j][0],vertices1[j][1],vertices1[j][2]);
+			}
+			else
+			{
+				glVertex3d(vertices1[j][0],vertices1[j][1],vertices1[j][2]);
+				glVertex3d(x,vertices1[j][1],z);
+			}
+		}
+		glEnd();	
+
+		for (int j= 1; j<3;j++)
+		{   // Primer poligono
+			x = vertices1[j][0];
+			z=vertices1[j][2];
+			vertices1[j][0] = x*cos(angulo)+z*sin(angulo);
+			vertices1[j][2] = x*sin(angulo)*-1.0+z*cos(angulo);
+		}
+	}
+	glRotatef(-90,0,0,1);
 }
 
 void antebrazo(){
-	glScalef(2.0, 1.0, 1.0);
-	glutSolidCube(0.25);
-	glScalef(0.5, 1.0, 1.0);
+	glRotatef(90,0,0,1);  
+
+	GLdouble vertices1 [ ] [3]= {
+																{0.1,	-0.1,	0},
+																{0.1,	-0.1,	0},
+																{0.1,	0.1,	0},
+																{0.1,	0.1,	0}
+															};
+	
+	for (int i= 0; i<slice;i++)
+	{
+		glBegin(GL_POLYGON);
+		for (int j= 1; j<3;j++)
+		{
+			x = vertices1[j][0]*cos(angulo)+vertices1[j][2]*sin(angulo);
+			z =  vertices1[j][0]*sin(angulo)*-1.0+vertices1[j][2]*cos(angulo);
+			if (j%2 == 0)
+			{
+				glVertex3d(x,vertices1[j][1],z);
+				glVertex3d(vertices1[j][0],vertices1[j][1],vertices1[j][2]);
+			}
+			else
+			{
+				glVertex3d(vertices1[j][0],vertices1[j][1],vertices1[j][2]);
+				glVertex3d(x,vertices1[j][1],z);
+			}
+		}
+		glEnd();	
+
+		for (int j= 1; j<3;j++)
+		{   // Primer poligono
+			x = vertices1[j][0];
+			z=vertices1[j][2];
+			vertices1[j][0] = x*cos(angulo)+z*sin(angulo);
+			vertices1[j][2] = x*sin(angulo)*-1.0+z*cos(angulo);
+		}
+	}
+	glRotatef(-90,0,0,1);
 }
 
 void codo(){
@@ -174,9 +250,42 @@ void mano(){
 }
 
 void quadricep(){
-	glScalef(1.0, 3.0, 1.0);
-	glutSolidCube(0.25);
-	glScalef(1.0, 0.3333, 1.0);
+
+	GLdouble vertices1 [ ] [3]= {
+																{0.12,	-0.4,	0},
+																{0.12,	-0.4,	0},
+																{0.12,	 0.4,	0},
+																{0.12,	 0.4,	0}
+															};
+	
+	for (int i= 0; i<slice;i++)
+	{
+		glBegin(GL_POLYGON);
+		for (int j= 1; j<3;j++)
+		{
+			x = vertices1[j][0]*cos(angulo)+vertices1[j][2]*sin(angulo);
+			z =  vertices1[j][0]*sin(angulo)*-1.0+vertices1[j][2]*cos(angulo);
+			if (j%2 == 0)
+			{
+				glVertex3d(x,vertices1[j][1],z);
+				glVertex3d(vertices1[j][0],vertices1[j][1],vertices1[j][2]);
+			}
+			else
+			{
+				glVertex3d(vertices1[j][0],vertices1[j][1],vertices1[j][2]);
+				glVertex3d(x,vertices1[j][1],z);
+			}
+		}
+		glEnd();	
+
+		for (int j= 1; j<3;j++)
+		{   // Primer poligono
+			x = vertices1[j][0];
+			z=vertices1[j][2];
+			vertices1[j][0] = x*cos(angulo)+z*sin(angulo);
+			vertices1[j][2] = x*sin(angulo)*-1.0+z*cos(angulo);
+		}
+	}
 }
 
 void rodilla(){
@@ -184,9 +293,46 @@ void rodilla(){
 }
 
 void chamorro(){
-	glScalef(1.0, 2.0, 1.0);
-	glutSolidCube(0.25);
-	glScalef(1.0, 0.3333, 1.0);
+	GLfloat pi180=3.14159265358979323846/180;                  // Factor de conversión de grados a radianes
+	GLdouble angulo = 1*pi180;
+	GLfloat angx, angz, slice = 360;               // Variables para manejo de rotaciones y cantidad de "rebanadas" de la copa
+	GLdouble x,z;                              // Variables auxiliares para la generación de las x's y z's 
+																							// Las y's permanecen constantes puesto que el eje de rotación es y
+	GLdouble vertices1 [ ] [3]= {
+																{0.12,	-0.4,	0},
+																{0.12,	-0.4,	0},
+																{0.12,	 0.4,	0},
+																{0.12,	 0.4,	0}
+															};	
+	
+	for (int i= 0; i<slice;i++)
+	{
+		glBegin(GL_POLYGON);
+		for (int j= 1; j<3;j++)
+		{
+			x = vertices1[j][0]*cos(angulo)+vertices1[j][2]*sin(angulo);
+			z =  vertices1[j][0]*sin(angulo)*-1.0+vertices1[j][2]*cos(angulo);
+			if (j%2 == 0)
+			{
+				glVertex3d(x,vertices1[j][1],z);
+				glVertex3d(vertices1[j][0],vertices1[j][1],vertices1[j][2]);
+			}
+			else
+			{
+				glVertex3d(vertices1[j][0],vertices1[j][1],vertices1[j][2]);
+				glVertex3d(x,vertices1[j][1],z);
+			}
+		}
+		glEnd();	
+
+		for (int j= 1; j<3;j++)
+		{   // Primer poligono
+			x = vertices1[j][0];
+			z=vertices1[j][2];
+			vertices1[j][0] = x*cos(angulo)+z*sin(angulo);
+			vertices1[j][2] = x*sin(angulo)*-1.0+z*cos(angulo);
+		}
+	}
 }
 
 void cuello(){
