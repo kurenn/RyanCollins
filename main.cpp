@@ -364,63 +364,60 @@ void pie(){
 }
 
 void cabeza(){
+	glColor3f(0.54f,0.27f, 0.074f);
   glRotatef(15,1,0,0);
   glScalef(1.0, 1.0, 2.5);
 	glTranslatef(-0.25, -0.2, -0.25);
 
-	// glutSolidCube(0.5);
 	//Perfil derecho
-    glBindTexture(GL_TEXTURE_2D,texture[0]);
-	glBegin( GL_QUADS ); // frontal
-	glTexCoord2f(1.0f,1.0f); glVertex3f( 0.5, 0, 0)    ;
-	glTexCoord2f(1.0f,0.0f); glVertex3f( 0.5, 0.5, 0)  ;
+	glBindTexture(GL_TEXTURE_2D,texture[0]);
+	glBegin( GL_QUADS );
+	glTexCoord2f(0.8f,1.0f); glVertex3f( 0.5, 0, 0);
+	glTexCoord2f(1.0f,0.0f); glVertex3f( 0.5, 0.5, 0);
 	glTexCoord2f(0.0f,0.0f); glVertex3f( 0.5, 0.5, 0.5);
-	glTexCoord2f(0.0f,1.0f); glVertex3f( 0.5, 0, 0.5)  ;
+	glTexCoord2f(-0.15f,0.9f); glVertex3f( 0.5, 0, 0.5);
 	glEnd();
 
-    //Cara de arriba
-	glBindTexture(GL_TEXTURE_2D,NULL); // Se mapea la textura actual
+	    //Cara de arriba
 	glBegin( GL_QUADS ); // lateral derecha
-	glTexCoord2f(1.0f,1.0f); glVertex3f( 0.5, 0.5, 0)  ;
-	glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 0.5, 0)    ;
-	glTexCoord2f(0.0f,0.0f); glVertex3f( 0, 0.5, 0.5)  ;
-	glTexCoord2f(0.0f,1.0f); glVertex3f( 0.5, 0.5, 0.5);
+	glVertex3f( 0.5, 0.5, 0);
+	glVertex3f( 0, 0.5, 0);
+	glVertex3f( 0, 0.5, 0.5);
+	glVertex3f( 0.5, 0.5, 0.5);
 	glEnd();
-
-    //Cara frontal
-    //glBindTexture(GL_TEXTURE_2D,NULL); // Se mapea la textura actual
+	
+	    //Cara frontal
 	glBegin( GL_QUADS ); // superior
-	glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 0.5)    ;
-	glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 0.5, 0.5)  ;
-	glTexCoord2f(0.0f,0.0f); glVertex3f( 0.5, 0.5, 0.5);
-	glTexCoord2f(0.0f,1.0f); glVertex3f( 0.5, 0, 0.5)  ;
+	glVertex3f( 0, 0, 0.5);
+	glVertex3f( 0, 0.5, 0.5);
+	glVertex3f( 0.5, 0.5, 0.5);
+	glVertex3f( 0.5, 0, 0.5);
 	glEnd();
-
-    //Perfil izquierdo
-    glBindTexture(GL_TEXTURE_2D,texture[1]); // Se mapea la textura actual
-	glBegin( GL_QUADS ); // trasera
-	glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 0.5)    ;
-	glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 0.5, 0.5)  ;
-	glTexCoord2f(0.0f,0.0f); glVertex3f( 0, 0.5, 0)    ;
-	glTexCoord2f(0.0f,1.0f); glVertex3f( 0, 0, 0)      ;
+	  
+	  //Perfil izquierdo
+	  glBindTexture(GL_TEXTURE_2D,texture[1]); // Se mapea la textura actual
+	glBegin( GL_QUADS );
+	glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 0.5);
+	glTexCoord2f(0.9f,0.0f); glVertex3f( 0, 0.5, 0.5);
+	glTexCoord2f(0.0f,0.0f); glVertex3f( 0, 0.5, 0);
+	glTexCoord2f(0.0f,1.0f); glVertex3f( 0, 0, 0);
 	glEnd();
-
-    //Cara de abajo
-	glBindTexture(GL_TEXTURE_2D,NULL); // Se mapea la textura actual
+	  
+	  //Cara de abajo
 	glBegin( GL_QUADS ); // lateral izquiera
-	glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 0.5)    ;
-	glTexCoord2f(1.0f,0.0f); glVertex3f( 0.5, 0, 0.5)  ;
-	glTexCoord2f(0.0f,0.0f); glVertex3f( 0.5, 0, 0)    ;
-	glTexCoord2f(0.0f,1.0f); glVertex3f( 0, 0, 0)      ;
+	glVertex3f( 0, 0, 0.5);
+	glVertex3f( 0.5, 0, 0.5);
+	glVertex3f( 0.5, 0, 0);
+	glVertex3f( 0, 0, 0);
 	glEnd();
-
-    //Cara trasera
-  glBindTexture(GL_TEXTURE_2D,NULL); // Se mapea la textura actual
+	
+	    //Cara trasera
 	glBegin( GL_QUADS ); // inferior
-	glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 0)      ;
-	glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 0.5, 0)    ;
-	glTexCoord2f(0.0f,0.0f); glVertex3f( 0.5, 0.5, 0)  ;
-	glTexCoord2f(0.0f,1.0f); glVertex3f( 0.5, 0, 0)    ;
+	glVertex3f( 0, 0, 0);
+	glVertex3f( 0, 0.5, 0);
+	glVertex3f( 0.5, 0.5, 0);
+	glVertex3f( 0.5, 0, 0);
+	
 	glEnd();
 
 	glRotatef(-15,1,0,0);
