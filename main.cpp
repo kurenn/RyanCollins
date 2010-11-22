@@ -86,15 +86,25 @@ int rodilla_izquierda = 0;
 int cabeza_rot = 0;
 
 //Limites para los movimientos (grados de libertad)
-int limite_hombro_derecho = 0;
-int limite_codo_derecho = 0;
-int limite_hombro_izquierdo = 0;
-int limite_codo_izquierdo = 0;
-int limite_cadera_derecha = 0;
-int limite_rodilla_derecha = 0;
-int limite_cadera_izquierda = 0;
-int limite_rodilla_izquierda = 0;
-int limite_cabeza = 0;
+int limiteUpDo_hombro_derecho = 0;
+int limiteUpDo_codo_derecho = 0;
+int limiteUpDo_hombro_izquierdo = 0;
+int limiteUpDo_codo_izquierdo = 0;
+int limiteUpDo_cadera_derecha = 0;
+int limiteUpDo_rodilla_derecha = 0;
+int limiteUpDo_cadera_izquierda = 0;
+int limiteUpDo_rodilla_izquierda = 0;
+int limiteUpDo_cabeza = 0;
+
+int limiteLeRi_hombro_derecho = 0;
+int limiteLeRi_codo_derecho = 0;
+int limiteLeRi_hombro_izquierdo = 0;
+int limiteLeRi_codo_izquierdo = 0;
+int limiteLeRi_cadera_derecha = 0;
+int limiteLeRi_rodilla_derecha = 0;
+int limiteLeRi_cadera_izquierda = 0;
+int limiteLeRi_rodilla_izquierda = 0;
+int limiteLeRi_cabeza = 0;
 
 GLfloat pi180=3.14159265358979323846/180;
 GLdouble angulo = 1*pi180;
@@ -385,7 +395,7 @@ void cabeza(){
 	glVertex3f( 0, 0.5, 0.5);
 	glVertex3f( 0.5, 0.5, 0.5);
 	glEnd();
-	
+
 	    //Cara frontal
 	glBegin( GL_QUADS ); // superior
 	glVertex3f( 0, 0, 0.5);
@@ -393,7 +403,7 @@ void cabeza(){
 	glVertex3f( 0.5, 0.5, 0.5);
 	glVertex3f( 0.5, 0, 0.5);
 	glEnd();
-	  
+
 	  //Perfil izquierdo
 	  glBindTexture(GL_TEXTURE_2D,texture[1]); // Se mapea la textura actual
 	glBegin( GL_QUADS );
@@ -402,7 +412,7 @@ void cabeza(){
 	glTexCoord2f(0.0f,0.0f); glVertex3f( 0, 0.5, 0);
 	glTexCoord2f(0.0f,1.0f); glVertex3f( 0, 0, 0);
 	glEnd();
-	  
+
 	  //Cara de abajo
 	glBegin( GL_QUADS ); // lateral izquiera
 	glVertex3f( 0, 0, 0.5);
@@ -410,14 +420,14 @@ void cabeza(){
 	glVertex3f( 0.5, 0, 0);
 	glVertex3f( 0, 0, 0);
 	glEnd();
-	
+
 	    //Cara trasera
 	glBegin( GL_QUADS ); // inferior
 	glVertex3f( 0, 0, 0);
 	glVertex3f( 0, 0.5, 0);
 	glVertex3f( 0.5, 0.5, 0);
 	glVertex3f( 0.5, 0, 0);
-	
+
 	glEnd();
 
 	glRotatef(-15,1,0,0);
@@ -572,102 +582,108 @@ void flechas(int key, int x, int y)
 		case GLUT_KEY_UP:
 			if(vista){
 				anguloX += DELTA;
-			}else if(hombro_derecho && limite_hombro_derecho < LIMITE){
+			}else if(hombro_derecho && limiteUpDo_hombro_derecho < LIMITE){
 				elementos[1].rotZ += DELTA;
-				limite_hombro_derecho++;
+				limiteUpDo_hombro_derecho++;
 
-			}else if(codo_derecho && limite_codo_derecho < (LIMITE-LIMITE)){
-				elementos[3].rotZ += DELTA;
-				limite_codo_derecho++;
+//			}else if(codo_derecho && limiteUpDo_codo_derecho < (LIMITE-LIMITE)){
+//				elementos[3].rotZ += DELTA;
+//				limiteUpDo_codo_derecho++;
 
-			}else if(hombro_izquierdo && limite_hombro_izquierdo < LIMITE){
+			}else if(hombro_izquierdo && limiteUpDo_hombro_izquierdo < LIMITE){
 				elementos[6].rotZ -= DELTA;
-				limite_hombro_izquierdo++;
+				limiteUpDo_hombro_izquierdo++;
 
-			}else if(codo_izquierdo && limite_codo_izquierdo < (LIMITE-LIMITE)){
-				elementos[8].rotZ -= DELTA;
-				limite_codo_izquierdo++;
+//			}else if(codo_izquierdo && limiteUpDo_codo_izquierdo < (LIMITE-LIMITE)){
+//				elementos[8].rotZ -= DELTA;
+//				limiteUpDo_codo_izquierdo++;
 
-			}else if(cadera_derecha && limite_cadera_derecha < LIMITE){
+			}else if(cadera_derecha && limiteUpDo_cadera_derecha < LIMITE){
 				elementos[11].rotX -= DELTA;
-				limite_cadera_derecha++;
+				limiteUpDo_cadera_derecha++;
 
-			}else if(rodilla_derecha && limite_rodilla_derecha < (LIMITE-LIMITE)) {
+			}else if(rodilla_derecha && limiteUpDo_rodilla_derecha < (LIMITE-LIMITE)) {
 				elementos[13].rotX -= DELTA;
-				limite_rodilla_derecha++;
+				limiteUpDo_rodilla_derecha++;
 
-			}else if(cadera_izquierda && limite_cadera_izquierda < LIMITE){
+			}else if(cadera_izquierda && limiteUpDo_cadera_izquierda < LIMITE){
 				elementos[16].rotX -= DELTA;
-				limite_cadera_izquierda++;
+				limiteUpDo_cadera_izquierda++;
 
-			}else if(rodilla_izquierda && limite_rodilla_izquierda < (LIMITE-LIMITE)){
+			}else if(rodilla_izquierda && limiteUpDo_rodilla_izquierda < (LIMITE-LIMITE)){
 				elementos[18].rotX -= DELTA;
-				limite_rodilla_izquierda++;
+				limiteUpDo_rodilla_izquierda++;
             //Cabeza
-			}else if(cabeza_rot && limite_cabeza < LIMITE){
+			}else if(cabeza_rot && limiteUpDo_cabeza < LIMITE){
 				elementos[22].rotX -= DELTA;
-				limite_cabeza++;
+				limiteUpDo_cabeza++;
 
 			}
 			break;
 		case GLUT_KEY_DOWN:
 			if (vista){
 				anguloX -= DELTA;
-			}else if(hombro_derecho && limite_hombro_derecho > -LIMITE){
+			}else if(hombro_derecho && limiteUpDo_hombro_derecho > -LIMITE){
 				elementos[1].rotZ -= DELTA;
-				limite_hombro_derecho--;
+				limiteUpDo_hombro_derecho--;
 
-			}else if(codo_derecho && limite_codo_derecho > -(LIMITE+10)){
-				elementos[3].rotZ -= DELTA;
-				limite_codo_derecho--;
+//			}else if(codo_derecho && limiteUpDo_codo_derecho > -(LIMITE+10)){
+//				elementos[3].rotZ -= DELTA;
+//				limiteUpDo_codo_derecho--;
 
-			}else if(hombro_izquierdo && limite_hombro_izquierdo > -LIMITE){
+			}else if(hombro_izquierdo && limiteUpDo_hombro_izquierdo > -LIMITE){
 				elementos[6].rotZ += DELTA;
-				limite_hombro_izquierdo--;
+				limiteUpDo_hombro_izquierdo--;
 
-			}else if(codo_izquierdo && limite_codo_izquierdo > -(LIMITE+10)){
-				elementos[8].rotZ += DELTA;
-				limite_codo_izquierdo--;
+//			}else if(codo_izquierdo && limiteUpDo_codo_izquierdo > -(LIMITE+10)){
+//				elementos[8].rotZ += DELTA;
+//				limiteUpDo_codo_izquierdo--;
 
-			}else if(cadera_derecha && limite_cadera_derecha > -LIMITE){
+			}else if(cadera_derecha && limiteUpDo_cadera_derecha > -LIMITE){
 				elementos[11].rotX += DELTA;
-				limite_cadera_derecha--;
+				limiteUpDo_cadera_derecha--;
 
-			}else if(rodilla_derecha && limite_rodilla_derecha > -(LIMITE+10)){
+			}else if(rodilla_derecha && limiteUpDo_rodilla_derecha > -(LIMITE+10)){
 				elementos[13].rotX +=DELTA;
-				limite_rodilla_derecha--;
+				limiteUpDo_rodilla_derecha--;
 
-			}else if(cadera_izquierda && limite_cadera_izquierda >-LIMITE){
+			}else if(cadera_izquierda && limiteUpDo_cadera_izquierda >-LIMITE){
 				elementos[16].rotX += DELTA;
-				limite_cadera_izquierda--;
+				limiteUpDo_cadera_izquierda--;
 
-			}else if(rodilla_izquierda && limite_rodilla_izquierda > -(LIMITE+10)){
+			}else if(rodilla_izquierda && limiteUpDo_rodilla_izquierda > -(LIMITE+10)){
 				elementos[18].rotX += DELTA;
-				limite_rodilla_izquierda--;
+				limiteUpDo_rodilla_izquierda--;
 
-			}else if(cabeza_rot && limite_cabeza > -LIMITE){
+			}else if(cabeza_rot && limiteUpDo_cabeza > -LIMITE){
 				elementos[22].rotX += DELTA;
-				limite_cabeza--;
+				limiteUpDo_cabeza--;
 
 			}
 			break;
 		case GLUT_KEY_LEFT:
 			if(vista){
 				anguloY -= DELTA;
-			}else if(hombro_derecho){
+			}else if(hombro_derecho && limiteLeRi_hombro_derecho < LIMITE){
 				elementos[1].rotY -= DELTA;
+				limiteLeRi_hombro_derecho++;
 
-			}else if(codo_derecho){
+			}else if(codo_derecho && limiteLeRi_codo_derecho > -(LIMITE+10)){
 				elementos[3].rotY -= DELTA;
+				limiteLeRi_codo_derecho--;
 
-			}else if(hombro_izquierdo){
+			}else if(hombro_izquierdo && limiteLeRi_hombro_izquierdo < LIMITE){
 				elementos[6].rotY += DELTA;
+				limiteLeRi_hombro_izquierdo++;
 
-			}else if(codo_izquierdo){
-				elementos[8].rotY += DELTA;
+			}else if(codo_izquierdo && limiteLeRi_codo_izquierdo < (LIMITE-LIMITE)){
+		        elementos[8].rotY -= DELTA;
+		        limiteLeRi_codo_izquierdo++;
 
-			}else{
+
+			}else if (cabeza_rot && limiteLeRi_cabeza < LIMITE){
 				elementos[22].rotY -= DELTA;
+				limiteLeRi_cabeza++;
 
 			}
 			break;
@@ -675,20 +691,25 @@ void flechas(int key, int x, int y)
 		case GLUT_KEY_RIGHT:
 		    if (vista){
 		        anguloY += DELTA;
-		    }else if(hombro_derecho){
+		    }else if(hombro_derecho && limiteLeRi_hombro_derecho > -(LIMITE-10)){
 		        elementos[1].rotY += DELTA;
+		        limiteLeRi_hombro_derecho--;
 
-		    }else if(codo_derecho){
+		    }else if(codo_derecho && limiteLeRi_codo_derecho < (LIMITE-LIMITE)){
 		        elementos[3].rotY += DELTA;
+		        limiteLeRi_codo_derecho++;
 
-		    }else if(hombro_izquierdo){
+		    }else if(hombro_izquierdo && limiteLeRi_hombro_izquierdo > -(LIMITE-10)){
 		        elementos[6].rotY -= DELTA;
+		        limiteLeRi_hombro_izquierdo--;
 
-		    }else if(codo_izquierdo){
-		        elementos[8].rotY -= DELTA;
+			}else if(codo_izquierdo && limiteLeRi_codo_izquierdo > -(LIMITE+10)){
+				elementos[8].rotY += DELTA;
+				limiteLeRi_codo_izquierdo--;
 
-		    }else{
+		    }else if (cabeza_rot && limiteLeRi_cabeza > -LIMITE){
 				elementos[22].rotY += DELTA;
+				limiteLeRi_cabeza--;
 			}
 			break;
 	}
