@@ -24,7 +24,7 @@
 using namespace std;
 
 // Sección de inclusión de librerías
-#ifdef __APPLE__ 
+#ifdef __APPLE__
 	#include <GLUT/glut.h>
 #else
 	#include <GL/gl.h>
@@ -87,7 +87,7 @@ int cabeza_rot = 0;
 GLfloat pi180=3.14159265358979323846/180;
 GLdouble angulo = 1*pi180;
 GLfloat angx, angz, slice = 360;
-GLdouble x,z;                   
+GLdouble x,z;
 
 GLuint	texture[6];
 
@@ -166,15 +166,15 @@ void cadera(){
 }
 
 void bicep(){
-	glRotatef(90,0,0,1);  
-	
+	glRotatef(90,0,0,1);
+
 	GLdouble vertices1 [ ] [3]= {
 																{0.1,	-0.25,	0},
 																{0.1,	-0.25,	0},
 																{0.1,	 0.25,	0},
 																{0.1,	 0.25,	0}
 															};
-	
+
 	for (int i= 0; i<slice;i++)
 	{
 		glBegin(GL_POLYGON);
@@ -193,7 +193,7 @@ void bicep(){
 				glVertex3d(x,vertices1[j][1],z);
 			}
 		}
-		glEnd();	
+		glEnd();
 
 		for (int j= 1; j<3;j++)
 		{   // Primer poligono
@@ -207,7 +207,7 @@ void bicep(){
 }
 
 void antebrazo(){
-	glRotatef(90,0,0,1);  
+	glRotatef(90,0,0,1);
 
 	GLdouble vertices1 [ ] [3]= {
 																{0.1,	-0.25,	0},
@@ -215,7 +215,7 @@ void antebrazo(){
 																{0.1,	 0.25,	0},
 																{0.1,	 0.25,	0}
 															};
-	
+
 	for (int i= 0; i<slice;i++)
 	{
 		glBegin(GL_POLYGON);
@@ -234,7 +234,7 @@ void antebrazo(){
 				glVertex3d(x,vertices1[j][1],z);
 			}
 		}
-		glEnd();	
+		glEnd();
 
 		for (int j= 1; j<3;j++)
 		{   // Primer poligono
@@ -263,7 +263,7 @@ void quadricep(){
 																{0.12,	 0.4,	0},
 																{0.12,	 0.4,	0}
 															};
-	
+
 	for (int i= 0; i<slice;i++)
 	{
 		glBegin(GL_POLYGON);
@@ -282,7 +282,7 @@ void quadricep(){
 				glVertex3d(x,vertices1[j][1],z);
 			}
 		}
-		glEnd();	
+		glEnd();
 
 		for (int j= 1; j<3;j++)
 		{   // Primer poligono
@@ -302,15 +302,15 @@ void chamorro(){
 	GLfloat pi180=3.14159265358979323846/180;                  // Factor de conversión de grados a radianes
 	GLdouble angulo = 1*pi180;
 	GLfloat angx, angz, slice = 360;               // Variables para manejo de rotaciones y cantidad de "rebanadas" de la copa
-	GLdouble x,z;                              // Variables auxiliares para la generación de las x's y z's 
+	GLdouble x,z;                              // Variables auxiliares para la generación de las x's y z's
 																							// Las y's permanecen constantes puesto que el eje de rotación es y
 	GLdouble vertices1 [ ] [3]= {
 																{0.12,	-0.4,	0},
 																{0.12,	-0.4,	0},
 																{0.12,	 0.4,	0},
 																{0.12,	 0.4,	0}
-															};	
-	
+															};
+
 	for (int i= 0; i<slice;i++)
 	{
 		glBegin(GL_POLYGON);
@@ -329,7 +329,7 @@ void chamorro(){
 				glVertex3d(x,vertices1[j][1],z);
 			}
 		}
-		glEnd();	
+		glEnd();
 
 		for (int j= 1; j<3;j++)
 		{   // Primer poligono
@@ -357,54 +357,60 @@ void cabeza(){
 	glTranslatef(-0.25, -0.2, -0.25);
 
 	// glutSolidCube(0.5);
-
+	//Perfil derecho
+    glBindTexture(GL_TEXTURE_2D,texture[0]);
 	glBegin( GL_QUADS ); // frontal
 	glTexCoord2f(1.0f,1.0f); glVertex3f( 0.5, 0, 0)    ;
 	glTexCoord2f(1.0f,0.0f); glVertex3f( 0.5, 0.5, 0)  ;
 	glTexCoord2f(0.0f,0.0f); glVertex3f( 0.5, 0.5, 0.5);
 	glTexCoord2f(0.0f,1.0f); glVertex3f( 0.5, 0, 0.5)  ;
-	glEnd();                 
-                           
-	glBindTexture(GL_TEXTURE_2D,texture[1]); // Se mapea la textura actual
+	glEnd();
+
+    //Cara de arriba
+	glBindTexture(GL_TEXTURE_2D,NULL); // Se mapea la textura actual
 	glBegin( GL_QUADS ); // lateral derecha
 	glTexCoord2f(1.0f,1.0f); glVertex3f( 0.5, 0.5, 0)  ;
 	glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 0.5, 0)    ;
 	glTexCoord2f(0.0f,0.0f); glVertex3f( 0, 0.5, 0.5)  ;
 	glTexCoord2f(0.0f,1.0f); glVertex3f( 0.5, 0.5, 0.5);
-	glEnd();                 
-                           
-  glBindTexture(GL_TEXTURE_2D,NULL); // Se mapea la textura actual
+	glEnd();
+
+    //Cara frontal
+    //glBindTexture(GL_TEXTURE_2D,NULL); // Se mapea la textura actual
 	glBegin( GL_QUADS ); // superior
 	glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 0.5)    ;
 	glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 0.5, 0.5)  ;
 	glTexCoord2f(0.0f,0.0f); glVertex3f( 0.5, 0.5, 0.5);
 	glTexCoord2f(0.0f,1.0f); glVertex3f( 0.5, 0, 0.5)  ;
-	glEnd();                 
-                           
-  glBindTexture(GL_TEXTURE_2D,NULL); // Se mapea la textura actual
+	glEnd();
+
+    //Perfil izquierdo
+    glBindTexture(GL_TEXTURE_2D,texture[1]); // Se mapea la textura actual
 	glBegin( GL_QUADS ); // trasera
 	glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 0.5)    ;
 	glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 0.5, 0.5)  ;
 	glTexCoord2f(0.0f,0.0f); glVertex3f( 0, 0.5, 0)    ;
 	glTexCoord2f(0.0f,1.0f); glVertex3f( 0, 0, 0)      ;
-	glEnd();                 
-                           
+	glEnd();
+
+    //Cara de abajo
 	glBindTexture(GL_TEXTURE_2D,NULL); // Se mapea la textura actual
 	glBegin( GL_QUADS ); // lateral izquiera
 	glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 0.5)    ;
 	glTexCoord2f(1.0f,0.0f); glVertex3f( 0.5, 0, 0.5)  ;
 	glTexCoord2f(0.0f,0.0f); glVertex3f( 0.5, 0, 0)    ;
 	glTexCoord2f(0.0f,1.0f); glVertex3f( 0, 0, 0)      ;
-	glEnd();                 
-                           
-  glBindTexture(GL_TEXTURE_2D,texture[0]); // Se mapea la textura actual
+	glEnd();
+
+    //Cara trasera
+  glBindTexture(GL_TEXTURE_2D,NULL); // Se mapea la textura actual
 	glBegin( GL_QUADS ); // inferior
 	glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 0)      ;
 	glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 0.5, 0)    ;
 	glTexCoord2f(0.0f,0.0f); glVertex3f( 0.5, 0.5, 0)  ;
 	glTexCoord2f(0.0f,1.0f); glVertex3f( 0.5, 0, 0)    ;
 	glEnd();
-	
+
 	glRotatef(-15,1,0,0);
 	glScalef(1.0, 1.0 , 0.4);
 }
@@ -450,7 +456,7 @@ void leerarch(){
 		    elementos[i].child = NULL;
 			else
 		    elementos[i].child = &elementos[i+1];
-		
+
 	    if (i == 1 || i == 6 || i == 11 || i == 16)
 	        elementos[i].sibling = &elementos[i+5];
 	    else
@@ -485,11 +491,11 @@ void traverse (nodo *node)
 	//glLightfv(GL_LIGHT0, GL_DIFFUSE, specular);
    //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mcolor);
 	glColor3f(node->r, node->g, node->b);
-	
+
 	glRotatef(node->rotX, 1, 0, 0);
 	glRotatef(node->rotY, 0, 1, 0);
 	glRotatef(node->rotZ, 0, 0, 1);
-	
+
 	// dibujar el nodo
 	node->f();
 
@@ -559,31 +565,31 @@ void flechas(int key, int x, int y)
 				anguloX += DELTA;
 			}else if(hombro_derecho){
 				elementos[1].rotZ += DELTA;
-				
+
 			}else if(codo_derecho){
 				elementos[3].rotZ += DELTA;
-				
+
 			}else if(hombro_izquierdo){
 				elementos[6].rotZ -= DELTA;
-				
+
 			}else if(codo_izquierdo){
 				elementos[8].rotZ -= DELTA;
-				
+
 			}else if(cadera_derecha){
 				elementos[11].rotX -= DELTA;
-				
+
 			}else if(rodilla_derecha){
 				elementos[13].rotX -= DELTA;
-				
+
 			}else if(cadera_izquierda){
 				elementos[16].rotX -= DELTA;
-				
+
 			}else if(rodilla_izquierda){
 				elementos[18].rotX -= DELTA;
-				
+
 			}else{
 				elementos[22].rotX -= DELTA;
-				
+
 			}
 			break;
 		case GLUT_KEY_DOWN:
@@ -591,31 +597,31 @@ void flechas(int key, int x, int y)
 				anguloX -= DELTA;
 			}else if(hombro_derecho){
 				elementos[1].rotZ -= DELTA;
-				
+
 			}else if(codo_derecho){
 				elementos[3].rotZ -= DELTA;
-				
+
 			}else if(hombro_izquierdo){
 				elementos[6].rotZ += DELTA;
-				
+
 			}else if(codo_izquierdo){
 				elementos[8].rotZ += DELTA;
-				
+
 			}else if(cadera_derecha){
 				elementos[11].rotX += DELTA;
-				
+
 			}else if(rodilla_derecha){
 				elementos[13].rotX +=DELTA;
-				
+
 			}else if(cadera_izquierda){
 				elementos[16].rotX += DELTA;
-				
+
 			}else if(rodilla_izquierda){
 				elementos[18].rotX += DELTA;
-				
+
 			}else{
 				elementos[22].rotX += DELTA;
-				
+
 			}
 			break;
 		case GLUT_KEY_LEFT:
@@ -623,37 +629,37 @@ void flechas(int key, int x, int y)
 				anguloY -= DELTA;
 			}else if(hombro_derecho){
 				elementos[1].rotY -= DELTA;
-				
+
 			}else if(codo_derecho){
 				elementos[3].rotY -= DELTA;
-				
+
 			}else if(hombro_izquierdo){
 				elementos[6].rotY += DELTA;
-				
+
 			}else if(codo_izquierdo){
 				elementos[8].rotY += DELTA;
-				
+
 			}else{
 				elementos[22].rotY -= DELTA;
-				
+
 			}
 			break;
-			
+
 		case GLUT_KEY_RIGHT:
 		    if (vista){
 		        anguloY += DELTA;
 		    }else if(hombro_derecho){
 		        elementos[1].rotY += DELTA;
-				
+
 		    }else if(codo_derecho){
 		        elementos[3].rotY += DELTA;
-				
+
 		    }else if(hombro_izquierdo){
 		        elementos[6].rotY -= DELTA;
-				
+
 		    }else if(codo_izquierdo){
 		        elementos[8].rotY -= DELTA;
-				
+
 		    }else{
 				elementos[22].rotY += DELTA;
 			}
@@ -686,7 +692,7 @@ void indicaMetodos()
 void cargaImagenes(){
   //Lectura y Carga de Imagenes en el Arreglo
      texture[0] = LoadTexture("horse.tga");
-     texture[1] = LoadTexture("horse1.tga");
+     texture[1] = LoadTexture("horse2.tga");
 		 texture[2] = NULL;
      texture[3] = NULL;
      texture[4] = NULL;
@@ -724,3 +730,4 @@ int main(int argc, char **argv)
 	glutMainLoop();
 	return 0;
 }
+
