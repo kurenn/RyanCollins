@@ -40,6 +40,7 @@ using namespace std;
 #include <assert.h> // libreria para verificar la existencia de un archivo
 #include <iostream> // libreria para el manejo de cin y cout
 #include <string.h> // libreria para el manejo de strcmp
+#include "Render.h"
 
 //Declaracion
 #define VISTA 1
@@ -87,6 +88,8 @@ GLfloat pi180=3.14159265358979323846/180;
 GLdouble angulo = 1*pi180;
 GLfloat angx, angz, slice = 360;
 GLdouble x,z;                   
+
+GLuint	texture[6];
 
 float mcolor[] = { 1.0f, 0.0f, 0.0f, 1.0f };
 float light0[] = { 0.32f, 0.32f, 0.32f, 1.0f  };
@@ -349,9 +352,59 @@ void pie(){
 }
 
 void cabeza(){
-    glRotatef(15,1,0,0);
-    glScalef(1.0, 1.0, 2.5);
-	glutSolidCube(0.5);
+  glRotatef(15,1,0,0);
+  glScalef(1.0, 1.0, 2.5);
+	glTranslatef(-0.25, -0.2, -0.25);
+
+	// glutSolidCube(0.5);
+
+	glBegin( GL_QUADS ); // frontal
+	glTexCoord2f(1.0f,1.0f); glVertex3f( 0.5, 0, 0)    ;
+	glTexCoord2f(1.0f,0.0f); glVertex3f( 0.5, 0.5, 0)  ;
+	glTexCoord2f(0.0f,0.0f); glVertex3f( 0.5, 0.5, 0.5);
+	glTexCoord2f(0.0f,1.0f); glVertex3f( 0.5, 0, 0.5)  ;
+	glEnd();                 
+                           
+	glBindTexture(GL_TEXTURE_2D,texture[1]); // Se mapea la textura actual
+	glBegin( GL_QUADS ); // lateral derecha
+	glTexCoord2f(1.0f,1.0f); glVertex3f( 0.5, 0.5, 0)  ;
+	glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 0.5, 0)    ;
+	glTexCoord2f(0.0f,0.0f); glVertex3f( 0, 0.5, 0.5)  ;
+	glTexCoord2f(0.0f,1.0f); glVertex3f( 0.5, 0.5, 0.5);
+	glEnd();                 
+                           
+  glBindTexture(GL_TEXTURE_2D,NULL); // Se mapea la textura actual
+	glBegin( GL_QUADS ); // superior
+	glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 0.5)    ;
+	glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 0.5, 0.5)  ;
+	glTexCoord2f(0.0f,0.0f); glVertex3f( 0.5, 0.5, 0.5);
+	glTexCoord2f(0.0f,1.0f); glVertex3f( 0.5, 0, 0.5)  ;
+	glEnd();                 
+                           
+  glBindTexture(GL_TEXTURE_2D,NULL); // Se mapea la textura actual
+	glBegin( GL_QUADS ); // trasera
+	glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 0.5)    ;
+	glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 0.5, 0.5)  ;
+	glTexCoord2f(0.0f,0.0f); glVertex3f( 0, 0.5, 0)    ;
+	glTexCoord2f(0.0f,1.0f); glVertex3f( 0, 0, 0)      ;
+	glEnd();                 
+                           
+	glBindTexture(GL_TEXTURE_2D,NULL); // Se mapea la textura actual
+	glBegin( GL_QUADS ); // lateral izquiera
+	glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 0.5)    ;
+	glTexCoord2f(1.0f,0.0f); glVertex3f( 0.5, 0, 0.5)  ;
+	glTexCoord2f(0.0f,0.0f); glVertex3f( 0.5, 0, 0)    ;
+	glTexCoord2f(0.0f,1.0f); glVertex3f( 0, 0, 0)      ;
+	glEnd();                 
+                           
+  glBindTexture(GL_TEXTURE_2D,texture[0]); // Se mapea la textura actual
+	glBegin( GL_QUADS ); // inferior
+	glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 0)      ;
+	glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 0.5, 0)    ;
+	glTexCoord2f(0.0f,0.0f); glVertex3f( 0.5, 0.5, 0)  ;
+	glTexCoord2f(0.0f,1.0f); glVertex3f( 0.5, 0, 0)    ;
+	glEnd();
+	
 	glRotatef(-15,1,0,0);
 	glScalef(1.0, 1.0 , 0.4);
 }
@@ -630,6 +683,16 @@ void indicaMetodos()
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
+void cargaImagenes(){
+  //Lectura y Carga de Imagenes en el Arreglo
+     texture[0] = LoadTexture("horse.tga");
+     texture[1] = LoadTexture("horse1.tga");
+		 texture[2] = NULL;
+     texture[3] = NULL;
+     texture[4] = NULL;
+     texture[5] = NULL;
+}
+
 // Método de inicialización de las características de la ventana, del cursor y de OPENGL
 void inicializa()
 {
@@ -644,7 +707,7 @@ void inicializa()
 	glEnable(GL_LIGHT0);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light0 );
 	glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
-	
+	glEnable(GL_TEXTURE_2D);
 	//glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 }
 
@@ -653,6 +716,7 @@ int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
 	inicializa();
+	cargaImagenes();
 	leerarch();
   	indicaMetodos();
 	inicializaElementos();
