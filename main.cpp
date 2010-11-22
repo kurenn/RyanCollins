@@ -55,6 +55,7 @@ using namespace std;
 #define CABEZA 10
 #define PARTES 23 //constante para partes del cuerpo
 #define DATOS 6 //constante para partes del cuerpo
+#define LIMITE 18 //limite de movimiento en elementos
 
 typedef struct nodo
 { float m[16];          // para guardar la matriz de transformación local
@@ -83,6 +84,17 @@ int rodilla_derecha = 0;
 int cadera_izquierda = 0;
 int rodilla_izquierda = 0;
 int cabeza_rot = 0;
+
+//Limites para los movimientos (grados de libertad)
+int limite_hombro_derecho = 0;
+int limite_codo_derecho = 0;
+int limite_hombro_izquierdo = 0;
+int limite_codo_izquierdo = 0;
+int limite_cadera_derecha = 0;
+int limite_rodilla_derecha = 0;
+int limite_cadera_izquierda = 0;
+int limite_rodilla_izquierda = 0;
+int limite_cabeza = 0;
 
 GLfloat pi180=3.14159265358979323846/180;
 GLdouble angulo = 1*pi180;
@@ -563,64 +575,82 @@ void flechas(int key, int x, int y)
 		case GLUT_KEY_UP:
 			if(vista){
 				anguloX += DELTA;
-			}else if(hombro_derecho){
+			}else if(hombro_derecho && limite_hombro_derecho < LIMITE){
 				elementos[1].rotZ += DELTA;
+				limite_hombro_derecho++;
 
-			}else if(codo_derecho){
+			}else if(codo_derecho && limite_codo_derecho < (LIMITE-LIMITE)){
 				elementos[3].rotZ += DELTA;
+				limite_codo_derecho++;
 
-			}else if(hombro_izquierdo){
+			}else if(hombro_izquierdo && limite_hombro_izquierdo < LIMITE){
 				elementos[6].rotZ -= DELTA;
+				limite_hombro_izquierdo++;
 
-			}else if(codo_izquierdo){
+			}else if(codo_izquierdo && limite_codo_izquierdo < (LIMITE-LIMITE)){
 				elementos[8].rotZ -= DELTA;
+				limite_codo_izquierdo++;
 
-			}else if(cadera_derecha){
+			}else if(cadera_derecha && limite_cadera_derecha < LIMITE){
 				elementos[11].rotX -= DELTA;
+				limite_cadera_derecha++;
 
-			}else if(rodilla_derecha){
+			}else if(rodilla_derecha && limite_rodilla_derecha < (LIMITE-LIMITE)) {
 				elementos[13].rotX -= DELTA;
+				limite_rodilla_derecha++;
 
-			}else if(cadera_izquierda){
+			}else if(cadera_izquierda && limite_cadera_izquierda < LIMITE){
 				elementos[16].rotX -= DELTA;
+				limite_cadera_izquierda++;
 
-			}else if(rodilla_izquierda){
+			}else if(rodilla_izquierda && limite_rodilla_izquierda < (LIMITE-LIMITE)){
 				elementos[18].rotX -= DELTA;
-
-			}else{
+				limite_rodilla_izquierda++;
+            //Cabeza
+			}else if(cabeza_rot && limite_cabeza < LIMITE){
 				elementos[22].rotX -= DELTA;
+				limite_cabeza++;
 
 			}
 			break;
 		case GLUT_KEY_DOWN:
 			if (vista){
 				anguloX -= DELTA;
-			}else if(hombro_derecho){
+			}else if(hombro_derecho && limite_hombro_derecho > -LIMITE){
 				elementos[1].rotZ -= DELTA;
+				limite_hombro_derecho--;
 
-			}else if(codo_derecho){
+			}else if(codo_derecho && limite_codo_derecho > -(LIMITE+10)){
 				elementos[3].rotZ -= DELTA;
+				limite_codo_derecho--;
 
-			}else if(hombro_izquierdo){
+			}else if(hombro_izquierdo && limite_hombro_izquierdo > -LIMITE){
 				elementos[6].rotZ += DELTA;
+				limite_hombro_izquierdo--;
 
-			}else if(codo_izquierdo){
+			}else if(codo_izquierdo && limite_codo_izquierdo > -(LIMITE+10)){
 				elementos[8].rotZ += DELTA;
+				limite_codo_izquierdo--;
 
-			}else if(cadera_derecha){
+			}else if(cadera_derecha && limite_cadera_derecha > -LIMITE){
 				elementos[11].rotX += DELTA;
+				limite_cadera_derecha--;
 
-			}else if(rodilla_derecha){
+			}else if(rodilla_derecha && limite_rodilla_derecha > -(LIMITE+10)){
 				elementos[13].rotX +=DELTA;
+				limite_rodilla_derecha--;
 
-			}else if(cadera_izquierda){
+			}else if(cadera_izquierda && limite_cadera_izquierda >-LIMITE){
 				elementos[16].rotX += DELTA;
+				limite_cadera_izquierda--;
 
-			}else if(rodilla_izquierda){
+			}else if(rodilla_izquierda && limite_rodilla_izquierda > -(LIMITE+10)){
 				elementos[18].rotX += DELTA;
+				limite_rodilla_izquierda--;
 
-			}else{
+			}else if(cabeza_rot && limite_cabeza > -LIMITE){
 				elementos[22].rotX += DELTA;
+				limite_cabeza--;
 
 			}
 			break;
