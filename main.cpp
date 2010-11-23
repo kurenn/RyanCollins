@@ -71,120 +71,121 @@ typedef struct nodo
 	const float DELTA = 5;    // Valor para el incremento/decremento del ángulo
 
 // Sección de declaración de variables globales
-<<<<<<< HEAD
-float anguloX = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en X;
-float anguloY = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en Y;
-float anguloZ = 0.0;		//Variable para manjer el angulo de rotacion a aplicar en Z;
-nodo elementos[24];
-int vista = 1;
-int hombro_derecho = 0;
-int codo_derecho = 0;
-int hombro_izquierdo = 0;
-int codo_izquierdo = 0;
-int cadera_derecha = 0;
-int rodilla_derecha = 0;
-int cadera_izquierda = 0;
-int rodilla_izquierda = 0;
-int cabeza_rot = 0;
+	float anguloX = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en X;
+	float anguloY = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en Y;
+	float anguloZ = 0.0;		//Variable para manjer el angulo de rotacion a aplicar en Z;
+	nodo elementos[24];
+	int vista = 1;
+	int hombro_derecho = 0;
+	int codo_derecho = 0;
+	int hombro_izquierdo = 0;
+	int codo_izquierdo = 0;
+	int cadera_derecha = 0;
+	int rodilla_derecha = 0;
+	int cadera_izquierda = 0;
+	int rodilla_izquierda = 0;
+	int cabeza_rot = 0;
 
 //Limites para los movimientos (grados de libertad)
-int limiteUpDo_hombro_derecho = 0;
-int limiteUpDo_codo_derecho = 0;
-int limiteUpDo_hombro_izquierdo = 0;
-int limiteUpDo_codo_izquierdo = 0;
-int limiteUpDo_cadera_derecha = 0;
-int limiteUpDo_rodilla_derecha = 0;
-int limiteUpDo_cadera_izquierda = 0;
-int limiteUpDo_rodilla_izquierda = 0;
-int limiteUpDo_cabeza = 0;
+	int limiteUpDo_hombro_derecho = 0;
+	int limiteUpDo_codo_derecho = 0;
+	int limiteUpDo_hombro_izquierdo = 0;
+	int limiteUpDo_codo_izquierdo = 0;
+	int limiteUpDo_cadera_derecha = 0;
+	int limiteUpDo_rodilla_derecha = 0;
+	int limiteUpDo_cadera_izquierda = 0;
+	int limiteUpDo_rodilla_izquierda = 0;
+	int limiteUpDo_cabeza = 0;
 
-int limiteLeRi_hombro_derecho = 0;
-int limiteLeRi_codo_derecho = 0;
-int limiteLeRi_hombro_izquierdo = 0;
-int limiteLeRi_codo_izquierdo = 0;
-int limiteLeRi_cadera_derecha = 0;
-int limiteLeRi_rodilla_derecha = 0;
-int limiteLeRi_cadera_izquierda = 0;
-int limiteLeRi_rodilla_izquierda = 0;
-int limiteLeRi_cabeza = 0;
+	int limiteLeRi_hombro_derecho = 0;
+	int limiteLeRi_codo_derecho = 0;
+	int limiteLeRi_hombro_izquierdo = 0;
+	int limiteLeRi_codo_izquierdo = 0;
+	int limiteLeRi_cadera_derecha = 0;
+	int limiteLeRi_rodilla_derecha = 0;
+	int limiteLeRi_cadera_izquierda = 0;
+	int limiteLeRi_rodilla_izquierda = 0;
+	int limiteLeRi_cabeza = 0;
 
-GLfloat pi180=3.14159265358979323846/180;
-GLdouble angulo = 1*pi180;
-GLfloat angx, angz, slice = 360;
+	GLfloat pi180=3.14159265358979323846/180;
+	GLdouble angulo = 1*pi180;
+	GLfloat angx, angz, slice = 360;
 
-GLuint	texture[6];
-GLdouble x,z;      
+	GLuint	texture[6];
+	GLdouble x,z;      
 #define DEGREES_TO_RADIANS 3.14159/180.0
 
-double ang_x, ang_y, ang_z; 
-GLfloat	 light0Pos[] = { 10, 5.0, -5.0, 0.0f };
-float mcolor[] = { 1.0f, 0.0f, 0.0f, 1.0f };
-float light0[] = { 0.32f, 0.32f, 0.32f, 1.0f  };
-float light0_pos[] = { 100.0f, 100.0f,0.0f, 1.0f };
-static float ypoz = 0, zpoz = 0;
+	double ang_x, ang_y, ang_z; 
+	GLfloat	 light0Pos[] = { 10, 5.0, -5.0, 0.0f };
+	float mcolor[] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	float light0[] = { 0.32f, 0.32f, 0.32f, 1.0f  };
+	float light0_pos[] = { 100.0f, 100.0f,0.0f, 1.0f };
+	static float ypoz = 0, zpoz = 0;
 
 // Empieza la declaración de métodos y funciones
 
-void animationTimer(int valor){
+// funcion para el manejo de la animacion a traves de timer
+	void animationTimer(int valor){
 
 		anguloY += DELTA;
-	    anguloX += DELTA;
-	    glutTimerFunc(1500/24,animationTimer,1);
-		
+		anguloX += DELTA;
+		glutTimerFunc(1500/24,animationTimer,1);
+
 	/* obligar a dibujar */
-	glutPostRedisplay();
-}
+		glutPostRedisplay();
+	}
 
-void processMenuEvents(int opcion){
-	switch (opcion){
-		case 1:
-		vista = 1;
-		hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
-		break;
-		case 2:
-		hombro_derecho = 1;
-		vista = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cabeza_rot = cadera_izquierda = rodilla_izquierda = 0;
-		break;
-		case 3:
-		codo_derecho = 1;
-		hombro_derecho = vista = hombro_izquierdo = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
-		break;
+	void processMenuEvents(int opcion){
+		switch (opcion){
+			case 1:
+			vista = 1;
+			hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			break;
+			case 2:
+			hombro_derecho = 1;
+			vista = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cabeza_rot = cadera_izquierda = rodilla_izquierda = 0;
+			break;
+			case 3:
+			codo_derecho = 1;
+			hombro_derecho = vista = hombro_izquierdo = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			break;
 
-		case 4:
-		hombro_izquierdo = 1;
-		hombro_derecho = codo_derecho = vista = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
-		break;
+			case 4:
+			hombro_izquierdo = 1;
+			hombro_derecho = codo_derecho = vista = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			break;
 
-		case 5:
-		codo_izquierdo = 1;
-		hombro_derecho = codo_derecho = hombro_izquierdo = vista = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
-		break;
+			case 5:
+			codo_izquierdo = 1;
+			hombro_derecho = codo_derecho = hombro_izquierdo = vista = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			break;
 
-		case 6:
-		cadera_derecha = 1;
-		hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = vista = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
-		break;
+			case 6:
+			cadera_derecha = 1;
+			hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = vista = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			break;
 
-		case 7:
-		rodilla_derecha = 1;
-		hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cabeza_rot = cadera_derecha = vista = cadera_izquierda = rodilla_izquierda = 0;
-		break;
+			case 7:
+			rodilla_derecha = 1;
+			hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cabeza_rot = cadera_derecha = vista = cadera_izquierda = rodilla_izquierda = 0;
+			break;
 
-		case 8:
-		cadera_izquierda = 1;
-		hombro_derecho = codo_derecho = hombro_izquierdo = cabeza_rot = codo_izquierdo = cadera_derecha = rodilla_derecha = vista = rodilla_izquierda = 0;
-		break;
+			case 8:
+			cadera_izquierda = 1;
+			hombro_derecho = codo_derecho = hombro_izquierdo = cabeza_rot = codo_izquierdo = cadera_derecha = rodilla_derecha = vista = rodilla_izquierda = 0;
+			break;
 
-		case 9:
-		rodilla_izquierda = 1;
-		hombro_derecho = codo_derecho = hombro_izquierdo = cabeza_rot = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = vista = 0;
-		break;
+			case 9:
+			rodilla_izquierda = 1;
+			hombro_derecho = codo_derecho = hombro_izquierdo = cabeza_rot = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = vista = 0;
+			break;
 
-		case 10:
-		cabeza_rot = 1;
-		hombro_derecho = codo_derecho = rodilla_izquierda = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = vista = 0;
-		break;
+			case 10:
+			cabeza_rot = 1;
+			hombro_derecho = codo_derecho = rodilla_izquierda = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = vista = 0;
+			break;
 
+		}
 	}
 
 	void fondo(){
@@ -196,7 +197,7 @@ void processMenuEvents(int opcion){
 		glTexCoord2f(0.0f,0.0f); glVertex3f( 30, 30, 30);
 		glTexCoord2f(0.0f,1.0f); glVertex3f( 30, 0, 30 );
 		glEnd();    
-                
+
 		glBindTexture(GL_TEXTURE_2D,texture[3]); // Se mapea la textura actual
 		glBegin( GL_QUADS )   ;
 		glTexCoord2f(1.0f,1.0f); glVertex3f( 30, 30, 0 );
@@ -204,7 +205,7 @@ void processMenuEvents(int opcion){
 		glTexCoord2f(0.0f,0.0f); glVertex3f( 0, 30, 30 );
 		glTexCoord2f(0.0f,1.0f); glVertex3f( 30, 30, 30);
 		glEnd();    
-                
+
 		glBindTexture(GL_TEXTURE_2D,texture[2]); // Se mapea la textura actual
 		glBegin( GL_QUADS )   ;
 		glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 30  );
@@ -212,7 +213,7 @@ void processMenuEvents(int opcion){
 		glTexCoord2f(0.0f,0.0f); glVertex3f( 30, 30, 30);
 		glTexCoord2f(0.0f,1.0f); glVertex3f( 30, 0, 30 );
 		glEnd();    
-                
+
 		glBindTexture(GL_TEXTURE_2D,texture[2]); // Se mapea la textura actual
 		glBegin( GL_QUADS )   ;
 		glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 30  );
@@ -220,7 +221,7 @@ void processMenuEvents(int opcion){
 		glTexCoord2f(0.0f,0.0f); glVertex3f( 0, 30, 0  );
 		glTexCoord2f(0.0f,1.0f); glVertex3f( 0, 0, 0   );
 		glEnd();    
-                
+
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glBindTexture(GL_TEXTURE_2D,texture[4]); // Se mapea la textura actual
 		glBegin( GL_QUADS )   ;
@@ -229,7 +230,7 @@ void processMenuEvents(int opcion){
 		glTexCoord2f(0.0f,0.0f); glVertex3f( 30, 0, 0  );
 		glTexCoord2f(0.0f,1.0f); glVertex3f( 0, 0, 0   );
 		glEnd();    
-                
+
 		glBindTexture(GL_TEXTURE_2D,texture[2]); // Se mapea la textura actual
 		glBegin( GL_QUADS )   ;
 		glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 0   );
@@ -237,7 +238,6 @@ void processMenuEvents(int opcion){
 		glTexCoord2f(0.0f,0.0f); glVertex3f( 30, 30, 0 );
 		glTexCoord2f(0.0f,1.0f); glVertex3f( 30, 0, 0  );
 		glEnd();
-		
 	}
 
 	void tronco(){
@@ -551,21 +551,6 @@ void processMenuEvents(int opcion){
 		entrada.close();
 	}
 
-<<<<<<< HEAD
-=======
-	void animate()
-	{
-
-		// We increment the rotation angle for the triangle, and if it went over 360 we wrap it back to 0
-		ypoz+=0.5;
-		if (ypoz>360) ypoz=0;
-
-		// Normally openGL doesn't continuously draw frames. It puts one in place and waits for you to tell him what to do next.
-		// Calling glutPostRedisplay() forces a redraw with the new angle
-		glutPostRedisplay();
-
-	}
->>>>>>> dcc580dbee4814d739422805088cf4d088033ba0
 
 // recorrido a profundidad: primero los hijos, luego los hermanos
 	void traverse (nodo *node)
@@ -601,40 +586,21 @@ void processMenuEvents(int opcion){
 
 
 // Método de desplegado
-<<<<<<< HEAD
-void myDisplay()
-{
-    glClearColor(1.0, 1.0, 1.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glEnable( GL_DEPTH_TEST ); // Importante para que se vean bien las caras, probar que pasa si lo quito
-	glLoadIdentity();
-	glTranslatef(0, 0, -18);
-	glRotatef(anguloX, 1, 0, 0);
-	glRotatef(anguloY, 0, 1, 0);
-	glRotatef(anguloZ, 0, 0, 1);
-    traverse(elementos);
-	glFlush();
-	glutSwapBuffers();
-}
-
-void inicializaElementos()
-{
-=======
 	void myDisplay()
-	{		
+	{
 		glClearColor(1.0, 1.0, 1.0, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable( GL_DEPTH_TEST ); // Importante para que se vean bien las caras, probar que pasa si lo quito
 		glLoadIdentity();
-		glTranslatef(0, 0, -15);
+		glTranslatef(0, 0, -18);
 		glRotatef(anguloX, 1, 0, 0);
 		glRotatef(anguloY, 0, 1, 0);
+		glRotatef(anguloZ, 0, 0, 1);
 		traverse(elementos);
 		fondo();
 		glFlush();
 		glutSwapBuffers();
 	}
->>>>>>> dcc580dbee4814d739422805088cf4d088033ba0
 
 	void inicializaElementos()
 	{
@@ -676,7 +642,7 @@ void inicializaElementos()
 			}else if(hombro_derecho && limiteUpDo_hombro_derecho < LIMITE){
 				elementos[1].rotZ += DELTA;
 				limiteUpDo_hombro_derecho++;
-				
+
 			}else if(hombro_izquierdo && limiteUpDo_hombro_izquierdo < LIMITE){
 				elementos[6].rotZ -= DELTA;
 				limiteUpDo_hombro_izquierdo++;
@@ -823,22 +789,6 @@ void inicializaElementos()
 	}
 
 // Método de inicialización de las características de la ventana, del cursor y de OPENGL
-<<<<<<< HEAD
-void inicializa()
-{
-	glutInitWindowSize( 700, 700 );
-	glutInitWindowPosition( 100, 100 );
-    glutCreateWindow( "" );
-	glutSetWindowTitle( "HorseMan" );
-	glutInitDisplayMode (GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_COLOR_MATERIAL);
-	glShadeModel(GL_SMOOTH);
-	glEnable(GL_LIGHT0);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, light0);
-	glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
-	glEnable(GL_TEXTURE_2D);
-=======
 	void inicializa()
 	{
 		glutInitWindowSize( 700, 700 );
@@ -850,28 +800,15 @@ void inicializa()
 		glEnable(GL_COLOR_MATERIAL);
 		glShadeModel(GL_SMOOTH);
 		glEnable(GL_LIGHT0);
-		glLightfv(GL_LIGHT0, GL_AMBIENT, light0 );
+		glLightfv(GL_LIGHT0, GL_AMBIENT, light0);
 		glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
 		glEnable(GL_TEXTURE_2D);
->>>>>>> dcc580dbee4814d739422805088cf4d088033ba0
+
 	//glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	}
 
 // Método inicial, aquí empieza la ejecución del programa
-<<<<<<< HEAD
-int main(int argc, char **argv)
-{
-	glutInit(&argc, argv);
-	inicializa();
-	cargaImagenes();
-	leerarch();
-  	indicaMetodos();
-	inicializaElementos();
-	glutTimerFunc(1500/24,animationTimer,1); 
-	glutMainLoop();
-	return 0;
-}
-=======
+
 	int main(int argc, char **argv)
 	{
 		glutInit(&argc, argv);
@@ -880,9 +817,7 @@ int main(int argc, char **argv)
 		leerarch();
 		indicaMetodos();
 		inicializaElementos();
-		glutIdleFunc(animate);
+		glutTimerFunc(1500/24,animationTimer,1); 
 		glutMainLoop();
 		return 0;
 	}
->>>>>>> dcc580dbee4814d739422805088cf4d088033ba0
-
