@@ -1,26 +1,3 @@
-// prueba1.cpp : main project file.
-
-/*******************************************************************************************************
-*  Programa ejemplo de manejo de OPENGL y GLUT                                                        *
-*  Basado en el material desarrollado por el Dr. Rudomín y su equipo de trabajo                       *
-*  Despliega un cubo y tres esferas                                                                   *
-*  Utiliza un árbol jerárquico para desplegarlos                                                      *
-*  Selecciona el cursor con figura de reloj                                                           *
-*  Termina el programa si se presiona la tecla F1                                                     *
-*  Rota el cubo en cuatro direcciones diferentes, dependiendo si se presiona la tecla de flecha       *
-*  hacia arriba o flecha hacia abajo o flecha izquierda o flecha derecha                              *
-*  No incluye comentarios de las funciones, métodos y constantes de OPENGL y GLUT                     *
-*  pues se espera que los alumnos analicen su funcionamiento consultando los APIs correspondientes    *
-*  API OPENGL : http://www.opengl.org/sdk/docs/man/                                                   *
-*  API GLUT: http://www.opengl.org/resources/libraries/glut/glut-3.spec.pdf                           *
-*                                                                                                     *
-*******************************************************************************************************
-*  Autor: Olivia M. Barrón Cano                                                                       *
-*  Fecha de creación:  Enero 2, 2010                                                                  *
-*  Fecha de última actualización: Octubre 12, 2010                                                    *
-*                                                                                                     *
-*******************************************************************************************************/
-
 using namespace std;
 
 // Sección de inclusión de librerías
@@ -508,6 +485,9 @@ typedef struct nodo
 		}
 	}
 
+	/*
+	*
+	*/
 	void cuello(){
 		glutSolidSphere(0.25,30,30);
 	}
@@ -693,6 +673,7 @@ typedef struct nodo
 			glTranslatef(elementos[i].x, elementos[i].y, elementos[i].z);
 			glGetFloatv(GL_MODELVIEW_MATRIX, elementos[i].m);
 		}
+		glColor3f(0.54,0.27,0.074);
 	}
 
 
