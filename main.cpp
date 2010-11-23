@@ -491,25 +491,38 @@ typedef struct nodo
 		}
 	}
 
-	/*
-	*
-	*/
+	/**
+	* Nombre - cuello
+	* Params - 
+	* Descripcion - Despliega una esfera que servira como cuello para la cabeza
+	**/
 	void cuello(){
 		glutSolidSphere(0.25,30,30);
 	}
 
+	/**
+	* Nombre - pie
+	* Params - 
+	* Descripcion - Despliega un cubo que representa un pie del personaje
+	**/
 	void pie(){
 		glScalef(1.0, 0.5, 2.5);
 		glutSolidCube(0.25);
 		glScalef(1.0, 2.0 , 0.4);
 	}
-
+	
+	/**
+	* Nombre - cabeza
+	* Params - 
+	* Descripcion - Despliega un peralepipedo que representa la cabeza del personaje.
+	* 							Esta tiene una textura de la cara del caballo de cada lado de la cabeza
+	**/
 	void cabeza(){
 		glRotatef(15,1,0,0);
 		glScalef(1.0, 1.0, 2.5);
 		glTranslatef(-0.25, -0.2, -0.25);
 
-	//Perfil derecho
+		//Perfil derecho
 		glBindTexture(GL_TEXTURE_2D,texture[0]);
 		glBegin( GL_QUADS );
 		glTexCoord2f(0.8f,1.0f); glVertex3f( 0.5, 0, 0);
@@ -518,8 +531,8 @@ typedef struct nodo
 		glTexCoord2f(-0.15f,0.9f); glVertex3f( 0.5, 0, 0.5);
 		glEnd();
 
-			//Cara de arriba
-		glBegin( GL_QUADS ); // lateral derecha
+		//Cara de arriba
+		glBegin( GL_QUADS );
 		glVertex3f( 0.5, 0.5, 0);
 		glVertex3f( 0, 0.5, 0);
 		glVertex3f( 0, 0.5, 0.5);
@@ -535,7 +548,7 @@ typedef struct nodo
 		glEnd();
 
 		//Perfil izquierdo
-		glBindTexture(GL_TEXTURE_2D,texture[1]); // Se mapea la textura actual
+		glBindTexture(GL_TEXTURE_2D,texture[1]);
 		glBegin( GL_QUADS );
 		glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 0.5);
 		glTexCoord2f(0.9f,0.0f); glVertex3f( 0, 0.5, 0.5);
@@ -544,7 +557,7 @@ typedef struct nodo
 		glEnd();
 
 		//Cara de abajo
-		glBegin( GL_QUADS ); // lateral izquiera
+		glBegin( GL_QUADS );
 		glVertex3f( 0, 0, 0.5);
 		glVertex3f( 0.5, 0, 0.5);
 		glVertex3f( 0.5, 0, 0);
@@ -552,7 +565,7 @@ typedef struct nodo
 		glEnd();
 
 			//Cara trasera
-		glBegin( GL_QUADS ); // inferior
+		glBegin( GL_QUADS );
 		glVertex3f( 0, 0, 0);
 		glVertex3f( 0, 0.5, 0);
 		glVertex3f( 0.5, 0.5, 0);
@@ -564,7 +577,12 @@ typedef struct nodo
 		glScalef(1.0, 1.0 , 0.4);
 	}
 
-//Metodo para leer archivo
+	/**
+	* Nombre - leearch
+	* Params - 
+	* Descripcion - lee el archivo de texto donde se almacenan las partes del cuerpo que representaran
+	*								al personaje.
+	**/
 	void leerarch(){
 		ifstream entrada;
 
@@ -615,40 +633,46 @@ typedef struct nodo
 	}
 
 
-// recorrido a profundidad: primero los hijos, luego los hermanos
+	/**
+	* Nombre - traverse
+	* Params - nodo: nodo sobre el cual se hara el recorrido
+	* Descripcion - realiza un recorrido en profundidad para desplegar los elementos del personaje
+	**/
 	void traverse (nodo *node)
 	{
-	// guardar la matriz actual porque las transformaciones a realizarse
-	// sólo deben afectarle a él y a sus hijos
+		// guardar la matriz actual porque las transformaciones a realizarse
+		// sólo deben afectarle a él y a sus hijos
 		glPushMatrix();
 
-	// transformar relativo a su padre
+		// transformar relativo a su padre
 		glMultMatrixf(node->m);
 
-	//glLightfv(GL_LIGHT0, GL_DIFFUSE, specular);
-	//glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mcolor);
 		glColor3f(node->r, node->g, node->b);
 
 		glRotatef(node->rotX, 1, 0, 0);
 		glRotatef(node->rotY, 0, 1, 0);
 		glRotatef(node->rotZ, 0, 0, 1);
 
-	// dibujar el nodo
+		// dibujar el nodo
 		node->f();
 
-	// primer recorrer los hijos (si hay)
+		// primer recorrer los hijos (si hay)
 		if (node->child != NULL)
 			traverse(node->child);
 
 		glPopMatrix();
-	// después recorrer los hermanos (si hay)
+		
+		// después recorrer los hermanos (si hay)
 		if(node->sibling != NULL)
 			traverse(node->sibling);
-
 	}
 
 
-// Método de desplegado
+	/**
+	* Nombre - myDisplay
+	* Params - 
+	* Descripcion - LLama a las funciones necesarias para poder desplegar al personaje y el escenario correctamente
+	**/
 	void myDisplay()
 	{
 		glClearColor(1.0, 1.0, 1.0, 1.0);
@@ -665,11 +689,15 @@ typedef struct nodo
 		glutSwapBuffers();
 	}
 
+	/**
+	* Nombre - inicializaElementos
+	* Params - 
+	* Descripcion - inicializa las partes del cuerpo del personaje asignandoles los datos
+	*								leidos del archivo
+	**/
 	void inicializaElementos()
 	{
-
-
-	//tronco
+		//tronco
 		glLoadIdentity();
 		glGetFloatv(GL_MODELVIEW_MATRIX, elementos[0].m);
 
@@ -683,7 +711,11 @@ typedef struct nodo
 	}
 
 
-// Método de actualización del tamaño de la ventana
+	/**
+	* Nombre - reshape
+	* Params - width, height: del tamañno de la ventana
+	* Descripcion - Actualiza el tamaño de la ventana
+	**/
 	void reshape(GLsizei width, GLsizei height)
 	{
 		glViewport(0,0,width,height);
@@ -695,6 +727,16 @@ typedef struct nodo
 	}
 
 // Método para el procesamiento de las teclas especiales
+	/**
+	* Nombre - flechas
+	* Params - key,x,y: La tecla que fue oprimida
+	* Descripcion - Obtiene la tecla que fue presionada para poder manejar las partes del cuerpo
+	*								tecla S: comienza la animacion del personaje
+	*								flecha hacia arriba: mueve extremidad que esta seleccionada actualmente hacia arriba
+	*								flecha hacia abajo: mueve extremidad que esta seleccionada actualmente hacia abajo
+	*								flecha derecha: mueve extremidad que esta seleccionada actualmente hacia la derecha
+	*								flecha izquierda: mueve extremidad que esta seleccionada actualmente hacia la izquierda
+	**/
 	void flechas(int key, int x, int y)
 	{
 		switch (key){
@@ -826,7 +868,11 @@ typedef struct nodo
 	}
 
 
-// Método de asignación de los callbacks
+	/**
+	* Nombre - indicaMetodos
+	* Params - 
+	* Descripcion - Asigna los callbacks que requiere GLUT para mostrar la ventana y las imagenes
+	**/
 	void indicaMetodos()
 	{
 		glutDisplayFunc(myDisplay);
@@ -845,9 +891,14 @@ typedef struct nodo
 		glutAddMenuEntry("Cabeza",CABEZA);
 		glutAttachMenu(GLUT_RIGHT_BUTTON);
 	}
-
+	
+	/**
+	* Nombre - cargaImagenes
+	* Params - 
+	* Descripcion - carga las imagenes que seran usadas como texturas para la cara y el escenario
+	**/
 	void cargaImagenes(){
-	//Lectura y Carga de Imagenes en el Arreglo
+		//Lectura y Carga de Imagenes en el Arreglo
 		texture[0] = LoadTexture("horse.tga");
 		texture[1] = LoadTexture("horse2.tga");
 		texture[2] = LoadTexture("dessert.tga");
@@ -856,7 +907,11 @@ typedef struct nodo
 		texture[5] = NULL;
 	}
 
-// Método de inicialización de las características de la ventana, del cursor y de OPENGL
+	/**
+	* Nombre - inicializa
+	* Params - 
+	* Descripcion - inicializa las caracteristicas de la ventana, y de OPENGL
+	**/
 	void inicializa()
 	{
 		glutInitWindowSize( 700, 700 );
@@ -873,11 +928,13 @@ typedef struct nodo
 		glEnable(GL_TEXTURE_2D);
 		GLfloat spotpos[]={1.0,2.0,3.0,1.0};
 		glLightfv(GL_LIGHT0,GL_SPOT_DIRECTION,spotpos);	
-
-	//glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	}
 
-// Método inicial, aquí empieza la ejecución del programa
+	/**
+	* Nombre - main
+	* Params - argc,argv
+	* Descripcion - inicia la ejecucion del programa
+	**/
 	int main(int argc, char **argv)
 	{
 		glutInit(&argc, argv);
@@ -890,4 +947,3 @@ typedef struct nodo
 		glutMainLoop();
 		return 0;
 	}
-
