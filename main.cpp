@@ -116,7 +116,7 @@ typedef struct nodo
 	int paso = 1;   //para cambiar movimiento de la animacion
 
 //Valida la ejecucion de la animacion del mono
-	int ejecuta_animacion = 1;
+	int ejecuta_animacion = -1;
 
 	GLfloat pi180=3.14159265358979323846/180;
 	GLdouble angulo = 1*pi180;
