@@ -1,0 +1,13 @@
+TODOS:
+
+* Revisar modelos de reflexion y efectos de iluminacion que tenga el mono en cada una de sus partes.
+* Definir las cadenas cinemáticas y limites de los movimientos del personaje (grados de libertad y limites)
+* Diseñar la actividad que realizará el personaje.
+* Utilizar texturas en el fondo de la animación
+* Implementar la textura en la cabeza del caballo adecuadamente
+* Extender el formato del archivo de texto para incluir:
+    - texturas
+    - descripción del medio ambiente
+    - los modelos de reflexión de cada objeto
+    - incluir la definición de una animación simple que el personaje deberá ejecutar. 
+    (Se pueden utilizar varios archivos si se cree conveniente)
