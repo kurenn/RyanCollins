@@ -190,7 +190,7 @@ typedef struct nodo
 
 	void fondo(){
 		glBindTexture(GL_TEXTURE_2D,texture[2]); // Se mapea la textura actual
-		glTranslatef(-15, -10, -15);
+		glTranslatef(-15, -15, -15);
 		glBegin( GL_QUADS );
 		glTexCoord2f(1.0f,1.0f); glVertex3f( 30, 0, 0  );
 		glTexCoord2f(1.0f,0.0f); glVertex3f( 30, 30, 0 );
@@ -592,7 +592,7 @@ typedef struct nodo
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable( GL_DEPTH_TEST ); // Importante para que se vean bien las caras, probar que pasa si lo quito
 		glLoadIdentity();
-		glTranslatef(0, 0, -18);
+		glTranslatef(0, 0, -15);
 		glRotatef(anguloX, 1, 0, 0);
 		glRotatef(anguloY, 0, 1, 0);
 		glRotatef(anguloZ, 0, 0, 1);
