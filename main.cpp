@@ -73,6 +73,7 @@ const float DELTA = 5;    // Valor para el incremento/decremento del ángulo
 // Sección de declaración de variables globales
 float anguloX = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en X;
 float anguloY = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en Y;
+float anguloZ = 0.0;		//Variable para manjer el angulo de rotacion a aplicar en Z;
 nodo elementos[24];
 int vista = 1;
 int hombro_derecho = 0;
@@ -109,16 +110,29 @@ int limiteLeRi_cabeza = 0;
 GLfloat pi180=3.14159265358979323846/180;
 GLdouble angulo = 1*pi180;
 GLfloat angx, angz, slice = 360;
-GLdouble x,z;
 
 GLuint	texture[6];
+GLdouble x,z;      
+#define DEGREES_TO_RADIANS 3.14159/180.0
 
+double ang_x, ang_y, ang_z; 
+GLfloat	 light0Pos[] = { 10, 5.0, -5.0, 0.0f };
 float mcolor[] = { 1.0f, 0.0f, 0.0f, 1.0f };
 float light0[] = { 0.32f, 0.32f, 0.32f, 1.0f  };
 float light0_pos[] = { 100.0f, 100.0f,0.0f, 1.0f };
 static float ypoz = 0, zpoz = 0;
 
 // Empieza la declaración de métodos y funciones
+
+void animationTimer(int valor){
+
+		anguloY += DELTA;
+	    anguloX += DELTA;
+	    glutTimerFunc(1500/24,animationTimer,1);
+		
+	/* obligar a dibujar */
+	glutPostRedisplay();
+}
 
 void processMenuEvents(int opcion){
 	switch (opcion){
@@ -484,18 +498,6 @@ void leerarch(){
     entrada.close();
 }
 
-void animate()
-{
-
-    // We increment the rotation angle for the triangle, and if it went over 360 we wrap it back to 0
-    ypoz+=0.5;
-    if (ypoz>360) ypoz=0;
-
-    // Normally openGL doesn't continuously draw frames. It puts one in place and waits for you to tell him what to do next.
-    // Calling glutPostRedisplay() forces a redraw with the new angle
-    glutPostRedisplay();
-
-}
 
 // recorrido a profundidad: primero los hijos, luego los hermanos
 void traverse (nodo *node)
@@ -537,9 +539,10 @@ void myDisplay()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable( GL_DEPTH_TEST ); // Importante para que se vean bien las caras, probar que pasa si lo quito
 	glLoadIdentity();
-	glTranslatef(0, 0, -8);
+	glTranslatef(0, 0, -18);
 	glRotatef(anguloX, 1, 0, 0);
 	glRotatef(anguloY, 0, 1, 0);
+	glRotatef(anguloZ, 0, 0, 1);
     traverse(elementos);
 	glFlush();
 	glutSwapBuffers();
@@ -759,7 +762,7 @@ void inicializa()
 	glEnable(GL_COLOR_MATERIAL);
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_LIGHT0);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, light0 );
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light0);
 	glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
 	glEnable(GL_TEXTURE_2D);
 	//glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
@@ -774,7 +777,7 @@ int main(int argc, char **argv)
 	leerarch();
   	indicaMetodos();
 	inicializaElementos();
-	glutIdleFunc(animate);
+	glutTimerFunc(1500/24,animationTimer,1); 
 	glutMainLoop();
 	return 0;
 }
