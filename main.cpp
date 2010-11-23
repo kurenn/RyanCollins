@@ -14,7 +14,9 @@
 
 using namespace std;
 
-// Sección de inclusión de librerías
+/**
+Inclusion de librerias necesarias de GLUT, validando el sistema operativo
+**/
 #ifdef __APPLE__
 	#include <GLUT/glut.h>
 #else
@@ -23,39 +25,46 @@ using namespace std;
 	#include <GL/glut.h>
 #endif
 
-#include <stdlib.h> // Librería necesaria para usar la función exit() que termina la ejecución del programa
-#include <time.h>
-#include <stdio.h>
-#include <math.h>
-#include <fstream>  // libreria para el manejo de archivos
-#include <assert.h> // libreria para verificar la existencia de un archivo
-#include <iostream> // libreria para el manejo de cin y cout
-#include <string.h> // libreria para el manejo de strcmp
-#include "Render.h"
 
-//Declaracion
-#define VISTA 1
-#define HOMBRO_DERECHO 2
-#define CODO_DERECHO 3
-#define HOMBRO_IZQUIERDO 4
-#define CODO_IZQUIERDO 5
-#define CADERA_DERECHA 6
-#define RODILLA_DERECHA 7
-#define CADERA_IZQUIERDA 8
-#define RODILLA_IZQUIERDA 9
-#define CABEZA 10
-#define PARTES 23 //constante para partes del cuerpo
-#define DATOS 6 //constante para partes del cuerpo
-#define LIMITE 18 //limite de movimiento en elementos
+/**
+Inclusion de librerias genericas para el manejo del tiempo, archivos, matematicas
+**/
+#include <stdlib.h> // Librería necesaria para usar la función exit() que termina la ejecución del programa
+#include <time.h>	//Libreria necesaria para la manipulacion del tiempo en la aplicacion	 
+#include <stdio.h>  //Libreria para la manipulacion de entradas y salidas de la aplicacion (debug)
+#include <math.h>	//Libreria para la manipulacion de operaciones matematicas
+#include <fstream>  //Libreria para el manejo de archivos
+#include <assert.h> //Libreria para verificar la existencia de un archivo
+#include <iostream> //Libreria para el manejo de cin y cout
+#include <string.h> //Libreria para el manejo de strcmp
+#include "Render.h"	//Libreria para el manejo de texturas dentro de la aplicacion
+
+/**
+Declaracion de constantes globales para identificar cada una de las partes del personaje
+**/
+#define VISTA 1 //Constante para la manipulacion de toda la vista de la aplicacion
+#define HOMBRO_DERECHO 2 //Constante para la manipulacion del hombro derecho
+#define CODO_DERECHO 3 //Constante para la manipulacion del codo derecho
+#define HOMBRO_IZQUIERDO 4 //Constante para la manipulacion del hombro izquierdo
+#define CODO_IZQUIERDO 5 //Constante para la manipulacion del codo izquierdo
+#define CADERA_DERECHA 6 //Constante para la manipulacion de la pierna derecha
+#define RODILLA_DERECHA 7 //Constante para la manipulacion de la rodilla derecha
+#define CADERA_IZQUIERDA 8 //Constante para la manipulacion de la pierna izquierda
+#define RODILLA_IZQUIERDA 9 //Constante para la manipulacion del rodilla izquierda
+#define CABEZA 10 //Constante para la manipulacion de la cabeza
+#define PARTES 23 //Constante para partes del cuerpo
+#define DATOS 6 //Constante para partes del cuerpo
+#define LIMITE 18 //Limite de movimiento en elementos
+#define DEGREES_TO_RADIANS 3.14159/180.0 //Constante para el manejo de grados a radianes
 
 typedef struct nodo
-{ float m[16];          // para guardar la matriz de transformación local
-	void (*f)();          // para guardar el apuntador a la función que dibuja
-	float r, g, b;       // para guardar color
-	struct nodo *sibling;  // para guardar el apuntador al primer hermano
-	struct nodo *child;    // para guardar el apuntador al primer hijo
-	float x, y, z;         //para guardar los valores de la traslacion
-	float rotX, rotY, rotZ;  //para guardar los valores de la rotacion
+{ float m[16];          //Para guardar la matriz de transformación local
+	void (*f)();          //Para guardar el apuntador a la función que dibuja
+	float r, g, b;       //Para guardar color
+	struct nodo *sibling;  //Para guardar el apuntador al primer hermano
+	struct nodo *child;    //Para guardar el apuntador al primer hijo
+	float x, y, z;         //Para guardar los valores de la traslacion
+	float rotX, rotY, rotZ;  //Para guardar los valores de la rotacion
 	} nodo;
 
 // Sección de declaración de constantes globales
@@ -65,8 +74,12 @@ typedef struct nodo
 	float anguloX = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en X;
 	float anguloY = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en Y;
 	float anguloZ = 0.0;		//Variable para manjer el angulo de rotacion a aplicar en Z;
-	nodo elementos[24];
-	int vista = 1;
+	nodo elementos[24];			//Arreglo que contiene los elementos que conforman al personaje
+	
+	/**
+	Variables para la manipulacion de las partes durante la ejecucion del programa
+	**/
+	int vista = 1;				
 	int hombro_derecho = 0;
 	int codo_derecho = 0;
 	int hombro_izquierdo = 0;
@@ -77,7 +90,10 @@ typedef struct nodo
 	int rodilla_izquierda = 0;
 	int cabeza_rot = 0;
 
-//Limites para los movimientos (grados de libertad)
+
+	/**
+	Variables para la manipulacion de los limites para cada una de las extremidades (grados de libertad)
+	**/
 	int limiteUpDo_hombro_derecho = 0;
 	int limiteUpDo_codo_derecho = 0;
 	int limiteUpDo_hombro_izquierdo = 0;
@@ -98,33 +114,36 @@ typedef struct nodo
 	int limiteLeRi_rodilla_izquierda = 0;
 	int limiteLeRi_cabeza = 0;
 
-//Limites animacion
+
+	/**
+	Variables para delimitar las partes de la animacion
+	**/
 	int piernaDerecha = 0;
 	int piernaIzquierda = 0;
 	int brazoDerecho = 0;
 	int brazoIzquierdo = 0;
 	int brazos = 0;
-	int paso = 1;   //para cambiar movimiento de la animacion
+	int paso = 1;   
+	
+	int ejecuta_animacion = -1; //Variable para manipular el alto o ejecucion de la animacion de la aplicacion
 
-//Valida la ejecucion de la animacion del mono
-	int ejecuta_animacion = -1;
 
 	GLfloat pi180=3.14159265358979323846/180;
 	GLdouble angulo = 1*pi180;
 	GLfloat angx, angz, slice = 360;
 
-	GLuint	texture[6];
+	GLuint texture[6];
 	GLdouble x,z;
-#define DEGREES_TO_RADIANS 3.14159/180.0
-
-	double ang_x, ang_y, ang_z; 
 
 	float mcolor[] = { 1.0f, 0.0f, 0.0f, 1.0f };
 	float light0[] = { 1.0f, 1.0f, 1.0f, 1.0f  };
 	float light0_pos[] = { 0.0f, 1.0f,0.0f, 1.0f };
 	static float ypoz = 0, zpoz = 0;
 
-// Empieza la declaración de métodos y funciones
+
+	
+	// Declaracion de metodos
+	
 
 	/**
 	* Nombre - aplacaBrazos
