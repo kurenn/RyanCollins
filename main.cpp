@@ -71,20 +71,20 @@ typedef struct nodo
 	const float DELTA = 5;    // Valor para el incremento/decremento del ángulo
 
 // Sección de declaración de variables globales
-float anguloX = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en X;
-float anguloY = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en Y;
-float anguloZ = 0.0;		//Variable para manjer el angulo de rotacion a aplicar en Z;
-nodo elementos[24];
-int vista = 1;
-int hombro_derecho = 0;
-int codo_derecho = 0;
-int hombro_izquierdo = 0;
-int codo_izquierdo = 0;
-int cadera_derecha = 0;
-int rodilla_derecha = 0;
-int cadera_izquierda = 0;
-int rodilla_izquierda = 0;
-int cabeza_rot = 0;
+	float anguloX = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en X;
+	float anguloY = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en Y;
+	float anguloZ = 0.0;		//Variable para manjer el angulo de rotacion a aplicar en Z;
+	nodo elementos[24];
+	int vista = 1;
+	int hombro_derecho = 0;
+	int codo_derecho = 0;
+	int hombro_izquierdo = 0;
+	int codo_izquierdo = 0;
+	int cadera_derecha = 0;
+	int rodilla_derecha = 0;
+	int cadera_izquierda = 0;
+	int rodilla_izquierda = 0;
+	int cabeza_rot = 0;
 
 //Limites para los movimientos (grados de libertad)
 int limiteUpDo_hombro_derecho = 0;
@@ -200,7 +200,7 @@ void animaHorseman() {
 }
 
 // funcion para el manejo de la animacion a traves de timer
-void animationTimer(int valor){
+	void animationTimer(int valor){
 
     if (ejecuta_animacion == 1) {
 		animaHorseman();
@@ -208,62 +208,113 @@ void animationTimer(int valor){
 	}
 
 	/* obligar a dibujar */
-	glutPostRedisplay();
-}
-
-void processMenuEvents(int opcion){
-	switch (opcion){
-		case 1:
-		vista = 1;
-		hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
-		break;
-		case 2:
-		hombro_derecho = 1;
-		vista = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cabeza_rot = cadera_izquierda = rodilla_izquierda = 0;
-		break;
-		case 3:
-		codo_derecho = 1;
-		hombro_derecho = vista = hombro_izquierdo = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
-		break;
-
-		case 4:
-		hombro_izquierdo = 1;
-		hombro_derecho = codo_derecho = vista = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
-		break;
-
-		case 5:
-		codo_izquierdo = 1;
-		hombro_derecho = codo_derecho = hombro_izquierdo = vista = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
-		break;
-
-		case 6:
-		cadera_derecha = 1;
-		hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = vista = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
-		break;
-
-		case 7:
-		rodilla_derecha = 1;
-		hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cabeza_rot = cadera_derecha = vista = cadera_izquierda = rodilla_izquierda = 0;
-		break;
-
-		case 8:
-		cadera_izquierda = 1;
-		hombro_derecho = codo_derecho = hombro_izquierdo = cabeza_rot = codo_izquierdo = cadera_derecha = rodilla_derecha = vista = rodilla_izquierda = 0;
-		break;
-
-		case 9:
-		rodilla_izquierda = 1;
-		hombro_derecho = codo_derecho = hombro_izquierdo = cabeza_rot = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = vista = 0;
-		break;
-
-		case 10:
-		cabeza_rot = 1;
-		hombro_derecho = codo_derecho = rodilla_izquierda = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = vista = 0;
-		break;
-
+		glutPostRedisplay();
 	}
 
-}
+	void processMenuEvents(int opcion){
+		switch (opcion){
+			case 1:
+			vista = 1;
+			hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			break;
+			case 2:
+			hombro_derecho = 1;
+			vista = codo_derecho = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cabeza_rot = cadera_izquierda = rodilla_izquierda = 0;
+			break;
+			case 3:
+			codo_derecho = 1;
+			hombro_derecho = vista = hombro_izquierdo = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			break;
+
+			case 4:
+			hombro_izquierdo = 1;
+			hombro_derecho = codo_derecho = vista = codo_izquierdo = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			break;
+
+			case 5:
+			codo_izquierdo = 1;
+			hombro_derecho = codo_derecho = hombro_izquierdo = vista = cadera_derecha = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			break;
+
+			case 6:
+			cadera_derecha = 1;
+			hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = vista = cabeza_rot = rodilla_derecha = cadera_izquierda = rodilla_izquierda = 0;
+			break;
+
+			case 7:
+			rodilla_derecha = 1;
+			hombro_derecho = codo_derecho = hombro_izquierdo = codo_izquierdo = cabeza_rot = cadera_derecha = vista = cadera_izquierda = rodilla_izquierda = 0;
+			break;
+
+			case 8:
+			cadera_izquierda = 1;
+			hombro_derecho = codo_derecho = hombro_izquierdo = cabeza_rot = codo_izquierdo = cadera_derecha = rodilla_derecha = vista = rodilla_izquierda = 0;
+			break;
+
+			case 9:
+			rodilla_izquierda = 1;
+			hombro_derecho = codo_derecho = hombro_izquierdo = cabeza_rot = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = vista = 0;
+			break;
+
+			case 10:
+			cabeza_rot = 1;
+			hombro_derecho = codo_derecho = rodilla_izquierda = hombro_izquierdo = codo_izquierdo = cadera_derecha = rodilla_derecha = cadera_izquierda = vista = 0;
+			break;
+
+		}
+	}
+
+	void fondo(){
+		glBindTexture(GL_TEXTURE_2D,texture[2]); // Se mapea la textura actual
+		glTranslatef(-15, -15, -15);
+		glBegin( GL_QUADS );
+		glTexCoord2f(1.0f,1.0f); glVertex3f( 30, 0, 0  );
+		glTexCoord2f(1.0f,0.0f); glVertex3f( 30, 30, 0 );
+		glTexCoord2f(0.0f,0.0f); glVertex3f( 30, 30, 30);
+		glTexCoord2f(0.0f,1.0f); glVertex3f( 30, 0, 30 );
+		glEnd();
+
+		glBindTexture(GL_TEXTURE_2D,texture[3]); // Se mapea la textura actual
+		glBegin( GL_QUADS )   ;
+		glTexCoord2f(1.0f,1.0f); glVertex3f( 30, 30, 0 );
+		glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 30, 0  );
+		glTexCoord2f(0.0f,0.0f); glVertex3f( 0, 30, 30 );
+		glTexCoord2f(0.0f,1.0f); glVertex3f( 30, 30, 30);
+		glEnd();
+
+		glBindTexture(GL_TEXTURE_2D,texture[2]); // Se mapea la textura actual
+		glBegin( GL_QUADS )   ;
+		glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 30  );
+		glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 30, 30 );
+		glTexCoord2f(0.0f,0.0f); glVertex3f( 30, 30, 30);
+		glTexCoord2f(0.0f,1.0f); glVertex3f( 30, 0, 30 );
+		glEnd();
+
+		glBindTexture(GL_TEXTURE_2D,texture[2]); // Se mapea la textura actual
+		glBegin( GL_QUADS )   ;
+		glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 30  );
+		glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 30, 30 );
+		glTexCoord2f(0.0f,0.0f); glVertex3f( 0, 30, 0  );
+		glTexCoord2f(0.0f,1.0f); glVertex3f( 0, 0, 0   );
+		glEnd();
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glBindTexture(GL_TEXTURE_2D,texture[4]); // Se mapea la textura actual
+		glBegin( GL_QUADS )   ;
+		glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 30  );
+		glTexCoord2f(1.0f,0.0f); glVertex3f( 30, 0, 30 );
+		glTexCoord2f(0.0f,0.0f); glVertex3f( 30, 0, 0  );
+		glTexCoord2f(0.0f,1.0f); glVertex3f( 0, 0, 0   );
+		glEnd();
+
+		glBindTexture(GL_TEXTURE_2D,texture[2]); // Se mapea la textura actual
+		glBegin( GL_QUADS )   ;
+		glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 0   );
+		glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 30, 0  );
+		glTexCoord2f(0.0f,0.0f); glVertex3f( 30, 30, 0 );
+		glTexCoord2f(0.0f,1.0f); glVertex3f( 30, 0, 0  );
+		glEnd();
+	}
 
 	void tronco(){
 		glScalef(1.0, 2.0, 0.5);
@@ -611,22 +662,21 @@ void processMenuEvents(int opcion){
 
 
 // Método de desplegado
-void myDisplay()
-{
-    glClearColor(1.0, 1.0, 1.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glEnable( GL_DEPTH_TEST ); // Importante para que se vean bien las caras, probar que pasa si lo quito
-	glLoadIdentity();
-	glTranslatef(0, 0, -18);
-	glRotatef(anguloX, 1, 0, 0);
-	glRotatef(anguloY, 0, 1, 0);
-	glRotatef(anguloZ, 0, 0, 1);
-    traverse(elementos);
-	glFlush();
-	glutSwapBuffers();
-}
-
-
+	void myDisplay()
+	{
+		glClearColor(1.0, 1.0, 1.0, 1.0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable( GL_DEPTH_TEST ); // Importante para que se vean bien las caras, probar que pasa si lo quito
+		glLoadIdentity();
+		glTranslatef(0, 0, -15);
+		glRotatef(anguloX, 1, 0, 0);
+		glRotatef(anguloY, 0, 1, 0);
+		glRotatef(anguloZ, 0, 0, 1);
+		traverse(elementos);
+		fondo();
+		glFlush();
+		glutSwapBuffers();
+	}
 
 	void inicializaElementos()
 	{
@@ -651,7 +701,7 @@ void myDisplay()
 		glViewport(0,0,width,height);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		gluPerspective(45,(GLfloat)width/(GLfloat)height,  0.01, 20);
+		gluPerspective(45,(GLfloat)width/(GLfloat)height,  0.01, 100);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 	}
@@ -672,17 +722,9 @@ void myDisplay()
 				elementos[1].rotZ += DELTA;
 				limiteUpDo_hombro_derecho++;
 
-//			}else if(codo_derecho && limiteUpDo_codo_derecho < (LIMITE-LIMITE)){
-//				elementos[3].rotZ += DELTA;
-//				limiteUpDo_codo_derecho++;
-
 			}else if(hombro_izquierdo && limiteUpDo_hombro_izquierdo < LIMITE){
 				elementos[6].rotZ -= DELTA;
 				limiteUpDo_hombro_izquierdo++;
-
-//			}else if(codo_izquierdo && limiteUpDo_codo_izquierdo < (LIMITE-LIMITE)){
-//				elementos[8].rotZ -= DELTA;
-//				limiteUpDo_codo_izquierdo++;
 
 			}else if(cadera_derecha && limiteUpDo_cadera_derecha < LIMITE){
 				elementos[11].rotX -= DELTA;
@@ -713,17 +755,9 @@ void myDisplay()
 				elementos[1].rotZ -= DELTA;
 				limiteUpDo_hombro_derecho--;
 
-//			}else if(codo_derecho && limiteUpDo_codo_derecho > -(LIMITE+10)){
-//				elementos[3].rotZ -= DELTA;
-//				limiteUpDo_codo_derecho--;
-
 			}else if(hombro_izquierdo && limiteUpDo_hombro_izquierdo > -LIMITE){
 				elementos[6].rotZ += DELTA;
 				limiteUpDo_hombro_izquierdo--;
-
-//			}else if(codo_izquierdo && limiteUpDo_codo_izquierdo > -(LIMITE+10)){
-//				elementos[8].rotZ += DELTA;
-//				limiteUpDo_codo_izquierdo--;
 
 			}else if(cadera_derecha && limiteUpDo_cadera_derecha > -LIMITE){
 				elementos[11].rotX += DELTA;
@@ -827,33 +861,32 @@ void myDisplay()
 	//Lectura y Carga de Imagenes en el Arreglo
 		texture[0] = LoadTexture("horse.tga");
 		texture[1] = LoadTexture("horse2.tga");
-		texture[2] = NULL;
-		texture[3] = NULL;
-		texture[4] = NULL;
+		texture[2] = LoadTexture("dessert.tga");
+		texture[3] = LoadTexture("sky.tga");
+		texture[4] = LoadTexture("ground.tga");
 		texture[5] = NULL;
 	}
 
 // Método de inicialización de las características de la ventana, del cursor y de OPENGL
-void inicializa()
-{
-	glutInitWindowSize( 700, 700 );
-	glutInitWindowPosition( 100, 100 );
-    glutCreateWindow( "" );
-	glutSetWindowTitle( "HorseMan" );
-	glutInitDisplayMode (GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_COLOR_MATERIAL);
-	glShadeModel(GL_SMOOTH);
-	glEnable(GL_LIGHT0);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, light0);
-	glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
-	glEnable(GL_TEXTURE_2D);
+	void inicializa()
+	{
+		glutInitWindowSize( 700, 700 );
+		glutInitWindowPosition( 100, 100 );
+		glutCreateWindow( "" );
+		glutSetWindowTitle( "HorseMan" );
+		glutInitDisplayMode (GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
+		glEnable(GL_LIGHTING);
+		glEnable(GL_COLOR_MATERIAL);
+		glShadeModel(GL_SMOOTH);
+		glEnable(GL_LIGHT0);
+		glLightfv(GL_LIGHT0, GL_AMBIENT, light0);
+		glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
+		glEnable(GL_TEXTURE_2D);
 
 	//glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	}
 
 // Método inicial, aquí empieza la ejecución del programa
-
 int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
