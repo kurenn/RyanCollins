@@ -205,6 +205,8 @@ void animaHorseman() {
     if (ejecuta_animacion == 1) {
 		animaHorseman();
 	    glutTimerFunc(1500/24,animationTimer,1);
+	}else{
+		 glutTimerFunc(1500/24,animationTimer,1);
 	}
 
 	/* obligar a dibujar */
@@ -712,9 +714,9 @@ void animaHorseman() {
 		switch (key){
 			case GLUT_KEY_F1: exit(0);               // Cuando se presiona F1, termina el programa
 			break;
-			case GLUT_KEY_F3:
-			    ejecuta_animacion = ejecuta_animacion * -1;
-			    break;
+			case 's':
+				ejecuta_animacion = ejecuta_animacion * -1;
+				break;
 			case GLUT_KEY_UP:
 			if(vista){
 				anguloX += DELTA;
