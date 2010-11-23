@@ -71,7 +71,6 @@ typedef struct nodo
 	const float DELTA = 5;    // Valor para el incremento/decremento del ángulo
 
 // Sección de declaración de variables globales
-<<<<<<< HEAD
 float anguloX = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en X;
 float anguloY = 0.0;        // Variable para manejar el ángulo de rotación a aplicar en Y;
 float anguloZ = 0.0;		//Variable para manjer el angulo de rotacion a aplicar en Z;
@@ -125,6 +124,7 @@ static float ypoz = 0, zpoz = 0;
 
 // Empieza la declaración de métodos y funciones
 
+// funcion para el manejo de la animacion a traves de timer
 void animationTimer(int valor){
 
 		anguloY += DELTA;
@@ -187,6 +187,7 @@ void processMenuEvents(int opcion){
 
 	}
 
+}
 
 	void tronco(){
 		glScalef(1.0, 2.0, 0.5);
@@ -499,21 +500,6 @@ void processMenuEvents(int opcion){
 		entrada.close();
 	}
 
-<<<<<<< HEAD
-=======
-	void animate()
-	{
-
-		// We increment the rotation angle for the triangle, and if it went over 360 we wrap it back to 0
-		ypoz+=0.5;
-		if (ypoz>360) ypoz=0;
-
-		// Normally openGL doesn't continuously draw frames. It puts one in place and waits for you to tell him what to do next.
-		// Calling glutPostRedisplay() forces a redraw with the new angle
-		glutPostRedisplay();
-
-	}
->>>>>>> dcc580dbee4814d739422805088cf4d088033ba0
 
 // recorrido a profundidad: primero los hijos, luego los hermanos
 	void traverse (nodo *node)
@@ -549,7 +535,6 @@ void processMenuEvents(int opcion){
 
 
 // Método de desplegado
-<<<<<<< HEAD
 void myDisplay()
 {
     glClearColor(1.0, 1.0, 1.0, 1.0);
@@ -565,23 +550,7 @@ void myDisplay()
 	glutSwapBuffers();
 }
 
-void inicializaElementos()
-{
-=======
-	void myDisplay()
-	{
-		glClearColor(1.0, 1.0, 1.0, 1.0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glEnable( GL_DEPTH_TEST ); // Importante para que se vean bien las caras, probar que pasa si lo quito
-		glLoadIdentity();
-		glTranslatef(0, 0, -8);
-		glRotatef(anguloX, 1, 0, 0);
-		glRotatef(anguloY, 0, 1, 0);
-		traverse(elementos);
-		glFlush();
-		glutSwapBuffers();
-	}
->>>>>>> dcc580dbee4814d739422805088cf4d088033ba0
+
 
 	void inicializaElementos()
 	{
@@ -786,7 +755,6 @@ void inicializaElementos()
 	}
 
 // Método de inicialización de las características de la ventana, del cursor y de OPENGL
-<<<<<<< HEAD
 void inicializa()
 {
 	glutInitWindowSize( 700, 700 );
@@ -801,27 +769,12 @@ void inicializa()
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light0);
 	glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
 	glEnable(GL_TEXTURE_2D);
-=======
-	void inicializa()
-	{
-		glutInitWindowSize( 700, 700 );
-		glutInitWindowPosition( 100, 100 );
-		glutCreateWindow( "" );
-		glutSetWindowTitle( "HorseMan" );
-		glutInitDisplayMode (GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-		glEnable(GL_LIGHTING);
-		glEnable(GL_COLOR_MATERIAL);
-		glShadeModel(GL_SMOOTH);
-		glEnable(GL_LIGHT0);
-		glLightfv(GL_LIGHT0, GL_AMBIENT, light0 );
-		glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
-		glEnable(GL_TEXTURE_2D);
->>>>>>> dcc580dbee4814d739422805088cf4d088033ba0
+
 	//glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	}
 
 // Método inicial, aquí empieza la ejecución del programa
-<<<<<<< HEAD
+
 int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
@@ -834,18 +787,3 @@ int main(int argc, char **argv)
 	glutMainLoop();
 	return 0;
 }
-=======
-	int main(int argc, char **argv)
-	{
-		glutInit(&argc, argv);
-		inicializa();
-		cargaImagenes();
-		leerarch();
-		indicaMetodos();
-		inicializaElementos();
-		glutIdleFunc(animate);
-		glutMainLoop();
-		return 0;
-	}
->>>>>>> dcc580dbee4814d739422805088cf4d088033ba0
-
