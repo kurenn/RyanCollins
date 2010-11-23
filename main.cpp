@@ -172,6 +172,58 @@ typedef struct nodo
 		}
 	}
 
+	void fondo(){
+		glBindTexture(GL_TEXTURE_2D,texture[2]); // Se mapea la textura actual
+		glTranslatef(-15, -10, -15);
+		glBegin( GL_QUADS );
+		glTexCoord2f(1.0f,1.0f); glVertex3f( 30, 0, 0  );
+		glTexCoord2f(1.0f,0.0f); glVertex3f( 30, 30, 0 );
+		glTexCoord2f(0.0f,0.0f); glVertex3f( 30, 30, 30);
+		glTexCoord2f(0.0f,1.0f); glVertex3f( 30, 0, 30 );
+		glEnd();    
+                
+		glBindTexture(GL_TEXTURE_2D,texture[3]); // Se mapea la textura actual
+		glBegin( GL_QUADS )   ;
+		glTexCoord2f(1.0f,1.0f); glVertex3f( 30, 30, 0 );
+		glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 30, 0  );
+		glTexCoord2f(0.0f,0.0f); glVertex3f( 0, 30, 30 );
+		glTexCoord2f(0.0f,1.0f); glVertex3f( 30, 30, 30);
+		glEnd();    
+                
+		glBindTexture(GL_TEXTURE_2D,texture[2]); // Se mapea la textura actual
+		glBegin( GL_QUADS )   ;
+		glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 30  );
+		glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 30, 30 );
+		glTexCoord2f(0.0f,0.0f); glVertex3f( 30, 30, 30);
+		glTexCoord2f(0.0f,1.0f); glVertex3f( 30, 0, 30 );
+		glEnd();    
+                
+		glBindTexture(GL_TEXTURE_2D,texture[2]); // Se mapea la textura actual
+		glBegin( GL_QUADS )   ;
+		glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 30  );
+		glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 30, 30 );
+		glTexCoord2f(0.0f,0.0f); glVertex3f( 0, 30, 0  );
+		glTexCoord2f(0.0f,1.0f); glVertex3f( 0, 0, 0   );
+		glEnd();    
+                
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glBindTexture(GL_TEXTURE_2D,texture[4]); // Se mapea la textura actual
+		glBegin( GL_QUADS )   ;
+		glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 30  );
+		glTexCoord2f(1.0f,0.0f); glVertex3f( 30, 0, 30 );
+		glTexCoord2f(0.0f,0.0f); glVertex3f( 30, 0, 0  );
+		glTexCoord2f(0.0f,1.0f); glVertex3f( 0, 0, 0   );
+		glEnd();    
+                
+		glBindTexture(GL_TEXTURE_2D,texture[2]); // Se mapea la textura actual
+		glBegin( GL_QUADS )   ;
+		glTexCoord2f(1.0f,1.0f); glVertex3f( 0, 0, 0   );
+		glTexCoord2f(1.0f,0.0f); glVertex3f( 0, 30, 0  );
+		glTexCoord2f(0.0f,0.0f); glVertex3f( 30, 30, 0 );
+		glTexCoord2f(0.0f,1.0f); glVertex3f( 30, 0, 0  );
+		glEnd();
+		
+	}
 
 	void tronco(){
 		glScalef(1.0, 2.0, 0.5);
@@ -532,15 +584,16 @@ typedef struct nodo
 
 // Método de desplegado
 	void myDisplay()
-	{
+	{		
 		glClearColor(1.0, 1.0, 1.0, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable( GL_DEPTH_TEST ); // Importante para que se vean bien las caras, probar que pasa si lo quito
 		glLoadIdentity();
-		glTranslatef(0, 0, -8);
+		glTranslatef(0, 0, -15);
 		glRotatef(anguloX, 1, 0, 0);
 		glRotatef(anguloY, 0, 1, 0);
 		traverse(elementos);
+		fondo();
 		glFlush();
 		glutSwapBuffers();
 	}
@@ -568,7 +621,7 @@ typedef struct nodo
 		glViewport(0,0,width,height);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		gluPerspective(45,(GLfloat)width/(GLfloat)height,  0.01, 20);
+		gluPerspective(45,(GLfloat)width/(GLfloat)height,  0.01, 100);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 	}
@@ -585,18 +638,10 @@ typedef struct nodo
 			}else if(hombro_derecho && limiteUpDo_hombro_derecho < LIMITE){
 				elementos[1].rotZ += DELTA;
 				limiteUpDo_hombro_derecho++;
-
-//			}else if(codo_derecho && limiteUpDo_codo_derecho < (LIMITE-LIMITE)){
-//				elementos[3].rotZ += DELTA;
-//				limiteUpDo_codo_derecho++;
-
+				
 			}else if(hombro_izquierdo && limiteUpDo_hombro_izquierdo < LIMITE){
 				elementos[6].rotZ -= DELTA;
 				limiteUpDo_hombro_izquierdo++;
-
-//			}else if(codo_izquierdo && limiteUpDo_codo_izquierdo < (LIMITE-LIMITE)){
-//				elementos[8].rotZ -= DELTA;
-//				limiteUpDo_codo_izquierdo++;
 
 			}else if(cadera_derecha && limiteUpDo_cadera_derecha < LIMITE){
 				elementos[11].rotX -= DELTA;
@@ -627,17 +672,9 @@ typedef struct nodo
 				elementos[1].rotZ -= DELTA;
 				limiteUpDo_hombro_derecho--;
 
-//			}else if(codo_derecho && limiteUpDo_codo_derecho > -(LIMITE+10)){
-//				elementos[3].rotZ -= DELTA;
-//				limiteUpDo_codo_derecho--;
-
 			}else if(hombro_izquierdo && limiteUpDo_hombro_izquierdo > -LIMITE){
 				elementos[6].rotZ += DELTA;
 				limiteUpDo_hombro_izquierdo--;
-
-//			}else if(codo_izquierdo && limiteUpDo_codo_izquierdo > -(LIMITE+10)){
-//				elementos[8].rotZ += DELTA;
-//				limiteUpDo_codo_izquierdo--;
 
 			}else if(cadera_derecha && limiteUpDo_cadera_derecha > -LIMITE){
 				elementos[11].rotX += DELTA;
@@ -741,9 +778,9 @@ typedef struct nodo
 	//Lectura y Carga de Imagenes en el Arreglo
 		texture[0] = LoadTexture("horse.tga");
 		texture[1] = LoadTexture("horse2.tga");
-		texture[2] = NULL;
-		texture[3] = NULL;
-		texture[4] = NULL;
+		texture[2] = LoadTexture("dessert.tga");
+		texture[3] = LoadTexture("sky.tga");
+		texture[4] = LoadTexture("ground.tga");
 		texture[5] = NULL;
 	}
 
