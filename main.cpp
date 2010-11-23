@@ -23,7 +23,7 @@ using namespace std;
 	#include <GL/glut.h>
 #endif
 
-#include <stdlib.h>       // Librería necesaria para usar la función exit() que termina la ejecución del programa
+#include <stdlib.h> // Librería necesaria para usar la función exit() que termina la ejecución del programa
 #include <time.h>
 #include <stdio.h>
 #include <math.h>
@@ -221,7 +221,7 @@ typedef struct nodo
 	* Nombre - processMenuEvents
 	* Params - opcion
 	* Descripcion - Metodo que de acuerdo a la opcion seleccionada por un menu desplegado realiza
-	 				los movimientos de cada una de las partes del personaje
+	*								los movimientos de cada una de las partes del personaje
 	**/
 	void processMenuEvents(int opcion){
 		switch (opcion){
@@ -280,7 +280,7 @@ typedef struct nodo
 	* Nombre - fondo
 	* Params - 
 	* Descripcion - Establece la textura para el fondo de pantalla, en este caso  el "landscape" donde
-					se ubica el personaje
+	*								se ubica el personaje
 	**/
 	void fondo(){
 		glBindTexture(GL_TEXTURE_2D,texture[2]); // Se mapea la textura actual
@@ -516,11 +516,20 @@ typedef struct nodo
 			}
 		}
 	}
-
+	/**
+	* Nombre - rodilla
+	* Params - 
+	* Descripcion - Dibuja las rodillas del personaje
+	**/
 	void rodilla(){
 		glutSolidSphere(0.2, 30,30);
 	}
 
+	/**
+	* Nombre - chamorro
+	* Params - 
+	* Descripcion - Dibuja los chamorros del personaje
+	**/
 	void chamorro(){
 		GLfloat pi180=3.14159265358979323846/180;                  // Factor de conversión de grados a radianes
 		GLdouble angulo = 1*pi180;
@@ -567,7 +576,7 @@ typedef struct nodo
 	/**
 	* Nombre - cuello
 	* Params - 
-	* Descripcion - Despliega una esfera que servira como cuello para la cabeza
+	* Descripcion - Dibuja el cuello del personaje
 	**/
 	void cuello(){
 		glutSolidSphere(0.25,30,30);
@@ -576,7 +585,7 @@ typedef struct nodo
 	/**
 	* Nombre - pie
 	* Params - 
-	* Descripcion - Despliega un cubo que representa un pie del personaje
+	* Descripcion - Dibuja los pies del personaje
 	**/
 	void pie(){
 		glScalef(1.0, 0.5, 2.5);
@@ -587,7 +596,7 @@ typedef struct nodo
 	/**
 	* Nombre - cabeza
 	* Params - 
-	* Descripcion - Despliega un peralepipedo que representa la cabeza del personaje.
+	* Descripcion - Dibuja la cabeza del personaje.
 	* 							Esta tiene una textura de la cara del caballo de cada lado de la cabeza
 	**/
 	void cabeza(){
