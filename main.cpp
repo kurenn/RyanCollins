@@ -107,15 +107,26 @@ int limiteLeRi_cadera_izquierda = 0;
 int limiteLeRi_rodilla_izquierda = 0;
 int limiteLeRi_cabeza = 0;
 
+//Limites animacion
+int piernaDerecha = 0;
+int piernaIzquierda = 0;
+int brazoDerecho = 0;
+int brazoIzquierdo = 0;
+int brazos = 0;
+int paso = 1;   //para cambiar movimiento de la animacion
+
+//Valida la ejecucion de la animacion del mono
+int ejecuta_animacion = 1;
+
 GLfloat pi180=3.14159265358979323846/180;
 GLdouble angulo = 1*pi180;
 GLfloat angx, angz, slice = 360;
 
 GLuint	texture[6];
-GLdouble x,z;      
+GLdouble x,z;
 #define DEGREES_TO_RADIANS 3.14159/180.0
 
-double ang_x, ang_y, ang_z; 
+double ang_x, ang_y, ang_z;
 GLfloat	 light0Pos[] = { 10, 5.0, -5.0, 0.0f };
 float mcolor[] = { 1.0f, 0.0f, 0.0f, 1.0f };
 float light0[] = { 0.32f, 0.32f, 0.32f, 1.0f  };
@@ -124,13 +135,78 @@ static float ypoz = 0, zpoz = 0;
 
 // Empieza la declaración de métodos y funciones
 
+void aplacaBrazos() {
+    elementos[1].rotZ -= DELTA;
+    elementos[6].rotZ += DELTA;
+    brazos++;
+}
+
+//Administra el movimiento del caballo
+void animaHorseman() {
+
+    if (brazos < LIMITE) {
+        aplacaBrazos();
+    }
+
+    else {
+
+        //movimiento de las piernas
+	    if(piernaDerecha > -(LIMITE-8) && paso == -1) {
+				    elementos[11].rotX += DELTA;
+				    piernaDerecha--;
+        }
+        else if(piernaDerecha < (LIMITE-8) && paso == 1) {
+				    elementos[11].rotX -= DELTA;
+				    piernaDerecha++;
+        }
+
+        if(piernaIzquierda < (LIMITE-8) && paso == -1) {
+				    elementos[16].rotX -= DELTA;
+				    piernaIzquierda++;
+        }
+
+        else if(piernaIzquierda > -(LIMITE-8) && paso == 1) {
+				    elementos[16].rotX += DELTA;
+				    piernaIzquierda--;
+        }
+
+        //Delimita el cambio de movimiento en los pies
+        if (piernaDerecha == (LIMITE-8))
+	        paso = -1;
+
+        else if (piernaIzquierda == (LIMITE-8))
+	        paso = 1;
+
+	    //movimiento de los brazos
+	    if(brazoDerecho > -(LIMITE-8) && paso == -1) {
+				    elementos[1].rotX -= DELTA;
+				    brazoDerecho--;
+        }
+        else if(brazoDerecho < (LIMITE-8) && paso == 1) {
+				    elementos[1].rotX += DELTA;
+				    brazoDerecho++;
+        }
+
+        if(brazoIzquierdo < (LIMITE-8) && paso == -1) {
+				    elementos[6].rotX += DELTA;
+				    brazoIzquierdo++;
+        }
+
+        else if(brazoIzquierdo > -(LIMITE-8) && paso == 1) {
+				    elementos[6].rotX -= DELTA;
+				    brazoIzquierdo--;
+        }
+	 }
+}
+
 // funcion para el manejo de la animacion a traves de timer
 void animationTimer(int valor){
 
-		anguloY += DELTA;
-	    anguloX += DELTA;
+    if (ejecuta_animacion == 1) {
+		animaHorseman();
 	    glutTimerFunc(1500/24,animationTimer,1);
-		
+	}
+
 	/* obligar a dibujar */
 	glutPostRedisplay();
 }
@@ -586,6 +662,9 @@ void myDisplay()
 		switch (key){
 			case GLUT_KEY_F1: exit(0);               // Cuando se presiona F1, termina el programa
 			break;
+			case GLUT_KEY_F3:
+			    ejecuta_animacion = ejecuta_animacion * -1;
+			    break;
 			case GLUT_KEY_UP:
 			if(vista){
 				anguloX += DELTA;
@@ -783,7 +862,8 @@ int main(int argc, char **argv)
 	leerarch();
   	indicaMetodos();
 	inicializaElementos();
-	glutTimerFunc(1500/24,animationTimer,1); 
+	glutTimerFunc(1500/24,animationTimer,1);
 	glutMainLoop();
 	return 0;
 }
+
