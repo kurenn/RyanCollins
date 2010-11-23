@@ -1,8 +1,16 @@
-/**
-* Nombre - 
-* Params - 
-* Descripcion - 
-**/
+/****************************************************************
+*
+*@Application - main.cpp
+*
+*@author - Eduardo Lopez de Leon 619167
+*@author - Adrian Gonzalez Francke 801029
+*@author - Abraham Kuri Vargas 618787
+*
+*@LastUpdateDate - 23 / 11 / 2010
+*
+*
+*
+******************************************************************/
 
 using namespace std;
 
@@ -118,13 +126,22 @@ typedef struct nodo
 
 // Empieza la declaración de métodos y funciones
 
+	/**
+	* Nombre - aplacaBrazos
+	* Params - 
+	* Descripcion - Baja los brazos del personaje a nivel del torso
+	**/
 	void aplacaBrazos() {
 		elementos[1].rotZ -= DELTA;
 		elementos[6].rotZ += DELTA;
 		brazos++;
 	}
 
-//Administra el movimiento del caballo
+	/**
+	* Nombre - animaHorseman
+	* Params - 
+	* Descripcion - Manipula el movimiento del personaje a lo largo de la animacion
+	**/
 	void animaHorseman() {
 
 		if (brazos < LIMITE) {
@@ -182,7 +199,11 @@ typedef struct nodo
 		}
 	}
 
-// funcion para el manejo de la animacion a traves de timer
+	/**
+	* Nombre - animationTimer
+	* Params - valor
+	* Descripcion - Metodo para el manejo del timer de la animacion, y por consiguiente que esta se ejecute
+	**/
 	void animationTimer(int valor){
 
     if (ejecuta_animacion == 1) {
@@ -195,7 +216,13 @@ typedef struct nodo
 	/* obligar a dibujar */
 		glutPostRedisplay();
 	}
-
+	
+	/**
+	* Nombre - processMenuEvents
+	* Params - opcion
+	* Descripcion - Metodo que de acuerdo a la opcion seleccionada por un menu desplegado realiza
+	 				los movimientos de cada una de las partes del personaje
+	**/
 	void processMenuEvents(int opcion){
 		switch (opcion){
 			case 1:
@@ -249,6 +276,12 @@ typedef struct nodo
 		}
 	}
 
+	/**
+	* Nombre - fondo
+	* Params - 
+	* Descripcion - Establece la textura para el fondo de pantalla, en este caso  el "landscape" donde
+					se ubica el personaje
+	**/
 	void fondo(){
 		glBindTexture(GL_TEXTURE_2D,texture[2]); // Se mapea la textura actual
 		glTranslatef(-15, -15, -15);
@@ -300,21 +333,41 @@ typedef struct nodo
 		glTexCoord2f(0.0f,1.0f); glVertex3f( 30, 0, 0  );
 		glEnd();
 	}
-
+	
+	/**
+	* Nombre - tronco
+	* Params - 
+	* Descripcion - Dibuja el tronco del personaje
+	**/
 	void tronco(){
 		glScalef(1.0, 2.0, 0.5);
 		glutSolidCube(1);
 		glScalef(1.0, 0.5, 2.0);
 	}
-
+	
+	/**
+	* Nombre - hombro
+	* Params - 
+	* Descripcion - Dibuja los hombros del personaje
+	**/
 	void hombro(){
 		glutSolidSphere(0.2, 30,30);
 	}
-
+	
+	/**
+	* Nombre - cadera
+	* Params - 
+	* Descripcion - Dibuja la cadera del personaje
+	**/
 	void cadera(){
 		glutSolidSphere(0.2, 30,30);
 	}
 
+	/**
+	* Nombre - bicep
+	* Params - 
+	* Descripcion - Dibuja los biceps del personaje
+	**/
 	void bicep(){
 		glRotatef(90,0,0,1);
 
@@ -355,7 +408,12 @@ typedef struct nodo
 		}
 		glRotatef(-90,0,0,1);
 	}
-
+	
+	/**
+	* Nombre - antebrazo
+	* Params - 
+	* Descripcion - Dibuja los antebrazos del personaje
+	**/
 	void antebrazo(){
 		glRotatef(90,0,0,1);
 
@@ -396,15 +454,30 @@ typedef struct nodo
 		}
 		glRotatef(-90,0,0,1);
 	}
-
+	
+	/**
+	* Nombre - codo
+	* Params - 
+	* Descripcion - Dibuja los codos del personaje
+	**/
 	void codo(){
 		glutSolidSphere(0.2, 30,30);
 	}
 
+	/**
+	* Nombre - mano
+	* Params - 
+	* Descripcion - Dibuja las manos del personaje
+	**/
 	void mano(){
 		glutSolidSphere(0.2, 30,30);
 	}
 
+	/**
+	* Nombre - quadricep
+	* Params - 
+	* Descripcion - Dibuja los quadriceps del personaje
+	**/
 	void quadricep(){
 
 		GLdouble vertices1 [ ] [3]= {
